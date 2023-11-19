@@ -32,6 +32,10 @@ export default class AdminActions {
     return Admin.query().where('identifier', identifier).first()
   }
 
+  public static async getAdminByEmailAddress(emailAddress: string): Promise<Admin | null> {
+    return Admin.query().where('email', emailAddress).first()
+  }
+
   public static async getAdminRecord(
     adminRecordIdentifierOptions: AdminRecordIdentifierOptions
   ): Promise<Admin | null> {
@@ -40,6 +44,7 @@ export default class AdminActions {
     const GetAdminRecord: Record<string, Function> = {
       id: async () => await this.getAdminById(Number(identifier)),
       identifier: async () => await this.getAdminByIdentifier(String(identifier)),
+      email: async () => await this.getAdminByEmailAddress(String(identifier)),
     }
 
     return GetAdminRecord[identifierType]()

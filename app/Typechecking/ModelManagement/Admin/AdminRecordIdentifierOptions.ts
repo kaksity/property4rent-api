@@ -1,6 +1,6 @@
 type AdminRecordIdentifierOptions =
   | {
-      identifierType: 'identifier'
+      identifierType: 'identifier' | 'email'
       identifier: string
     }
   | {

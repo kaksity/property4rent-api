@@ -3,7 +3,7 @@ import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
 import Admin from 'App/Models/Admin'
 
 export default class extends BaseSeeder {
-  public async run () {
+  public async run() {
     const password = 'password123'
     const admins = [
       {
@@ -40,13 +40,12 @@ export default class extends BaseSeeder {
         phoneNumber: '09123456789',
         email: 'davidlee@example.com',
         password,
-      }
-    ];
+      },
+    ]
 
     Database.raw('SET FOREIGN_KEY_CHECKS = 0;')
     await Admin.truncate(true)
     await Admin.createMany(admins)
     Database.raw('SET FOREIGN_KEY_CHECKS = 1;')
-
   }
 }

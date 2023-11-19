@@ -1,9 +1,9 @@
 import Database from '@ioc:Adonis/Lucid/Database'
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
-import Landlord from 'App/Models/Landlord';
+import Landlord from 'App/Models/Landlord'
 
 export default class extends BaseSeeder {
-  public async run () {
+  public async run() {
     const password = 'password123'
     const landlords = [
       {
@@ -40,13 +40,12 @@ export default class extends BaseSeeder {
         phoneNumber: '09123456789',
         email: 'kunle.adams@example.com',
         password,
-      }
-    ];
+      },
+    ]
 
     Database.raw('SET FOREIGN_KEY_CHECKS = 0;')
     await Landlord.truncate(true)
     await Landlord.createMany(landlords)
     Database.raw('SET FOREIGN_KEY_CHECKS = 1;')
-
   }
 }
