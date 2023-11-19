@@ -1,12 +1,11 @@
 type ListRecordsGeneric<RecordFilterOptions> = {
+  filterRecordOptions?: RecordFilterOptions
 
-    filterRecordOptions?: RecordFilterOptions,
+  paginationOptions?: {
+    page: number
 
-    paginationOptions?: {
-        page: number
-
-        limit: number
-    }
+    limit: number
+  }
 }
 
 export default ListRecordsGeneric

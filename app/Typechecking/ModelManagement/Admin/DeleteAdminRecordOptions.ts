@@ -1,0 +1,6 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import AdminRecordIdentifierOptions from 'App/Typechecking/ModelManagement/Admin/AdminRecordIdentifierOptions'
+
+type DeleteAdminRecordOptions = DeleteRecordGeneric<AdminRecordIdentifierOptions>
+
+export default DeleteAdminRecordOptions

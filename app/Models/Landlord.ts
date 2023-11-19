@@ -22,7 +22,7 @@ export default class Landlord extends AbstractModel {
   public rememberMeToken: string | null
 
   @beforeSave()
-  public static async hashPassword (landlord: Landlord) {
+  public static async hashPassword(landlord: Landlord) {
     if (landlord.$dirty.password) {
       landlord.password = await Hash.make(landlord.password)
     }
