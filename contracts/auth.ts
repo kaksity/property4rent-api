@@ -5,6 +5,8 @@
  * file.
  */
 
+import Admin from 'App/Models/Admin'
+import Landlord from 'App/Models/Landlord'
 import User from 'App/Models/User'
 
 declare module '@ioc:Adonis/Addons/Auth' {
@@ -37,6 +39,14 @@ declare module '@ioc:Adonis/Addons/Auth' {
       implementation: LucidProviderContract<typeof User>
       config: LucidProviderConfig<typeof User>
     }
+    admin: {
+      implementation: LucidProviderContract<typeof Admin>
+      config: LucidProviderConfig<typeof Admin>
+    }
+    landlord: {
+      implementation: LucidProviderContract<typeof Landlord>
+      config: LucidProviderConfig<typeof Landlord>
+    }
   }
 
   /*
@@ -68,6 +78,16 @@ declare module '@ioc:Adonis/Addons/Auth' {
       implementation: OATGuardContract<'user', 'api'>
       config: OATGuardConfig<'user'>
       client: OATClientContract<'user'>
+    }
+    admin: {
+      implementation: OATGuardContract<'admin', 'api'>
+      config: OATGuardConfig<'admin'>
+      client: OATClientContract<'admin'>
+    }
+    landlord: {
+      implementation: OATGuardContract<'landlord', 'api'>
+      config: OATGuardConfig<'landlord'>
+      client: OATClientContract<'landlord'>
     }
   }
 }
