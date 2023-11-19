@@ -1,8 +1,8 @@
 import Hash from '@ioc:Adonis/Core/Hash'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import AdminActions from 'App/Actions/AdminActions'
+import LandlordActions from 'App/Actions/LandlordActions'
 import {
-  ADMIN_AUTHENTICATION_SUCCESSFUL,
+  LANDLORD_AUTHENTICATION_SUCCESSFUL,
   ERROR,
   INVALID_CREDENTIALS,
   SOMETHING_WENT_WRONG,
@@ -10,10 +10,10 @@ import {
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import AdminLoginValidator from 'App/Validators/Admin/V1/Authentication/AdminLoginValidator'
+import LandlordLoginValidator from 'App/Validators/Landlord/V1/Authentication/LandlordLoginValidator'
 import businessConfig from 'Config/businessConfig'
 
-export default class AdminLoginController {
+export default class LandlordLoginController {
   private badRequest = HttpStatusCodeEnum.BAD_REQUEST
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
@@ -22,7 +22,7 @@ export default class AdminLoginController {
   public async handle({ request, response, auth }: HttpContextContract) {
     try {
       try {
-        await request.validate(AdminLoginValidator)
+        await request.validate(LandlordLoginValidator)
       } catch (validationError) {
         return response.unprocessableEntity({
           status: ERROR,
@@ -34,14 +34,14 @@ export default class AdminLoginController {
 
       const { email, password } = request.body()
 
-      const admin = await AdminActions.getAdminRecord({
+      const landlord = await LandlordActions.getLandlordRecord({
         identifierType: 'email',
         identifier: email,
       })
 
-      const isAdminPasswordValid = await Hash.verify(admin!.password, password)
+      const isLandlordPasswordValid = await Hash.verify(landlord!.password, password)
 
-      if (isAdminPasswordValid === false) {
+      if (isLandlordPasswordValid === false) {
         return response.badRequest({
           status: ERROR,
           status_code: this.badRequest,
@@ -49,30 +49,30 @@ export default class AdminLoginController {
         })
       }
 
-      await auth.use('admin').revoke()
+      await auth.use('landlord').revoke()
 
-      const accessToken = await auth.use('admin').attempt(email, password, {
+      const accessToken = await auth.use('landlord').attempt(email, password, {
         expiresIn: `${businessConfig.accessTokenExpirationTimeFrameInMinutes} minutes`,
       })
 
       const mutatedAdminPayload = {
-        identifier: admin!.identifier,
-        first_name: admin!.firstName,
-        last_name: admin!.lastName,
-        email: admin!.email,
-        phone_number: admin!.phoneNumber,
+        identifier: landlord!.identifier,
+        first_name: landlord!.firstName,
+        last_name: landlord!.lastName,
+        email: landlord!.email,
+        phone_number: landlord!.phoneNumber,
         access_credentials: accessToken,
-        created_at: admin!.createdAt,
+        created_at: landlord!.createdAt,
       }
 
       return response.ok({
         status_code: this.ok,
         status: SUCCESS,
-        message: ADMIN_AUTHENTICATION_SUCCESSFUL,
+        message: LANDLORD_AUTHENTICATION_SUCCESSFUL,
         results: mutatedAdminPayload,
       })
-    } catch (AdminLoginControllerError) {
-      console.log('AdminLoginController.handle => ', AdminLoginControllerError)
+    } catch (LandlordLoginControllerError) {
+      console.log('LandlordLoginController.handle =>', LandlordLoginControllerError)
       return response.internalServerError({
         status: ERROR,
         status_code: this.internalServerError,

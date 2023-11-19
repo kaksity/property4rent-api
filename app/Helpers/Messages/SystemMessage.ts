@@ -5,3 +5,4 @@ export const SOMETHING_WENT_WRONG = 'Something went wrong. Try again'
 export const INVALID_CREDENTIALS = 'Invalid Credentials'
 
 export const ADMIN_AUTHENTICATION_SUCCESSFUL = 'Admin authentication successful'
+export const LANDLORD_AUTHENTICATION_SUCCESSFUL = 'Landlord authentication successful'
