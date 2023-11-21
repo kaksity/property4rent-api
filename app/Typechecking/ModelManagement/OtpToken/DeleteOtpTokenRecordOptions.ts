@@ -1,0 +1,6 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import OtpTokenRecordIdentifierOptions from 'App/Typechecking/ModelManagement/OtpToken/OtpTokenRecordIdentifierOptions'
+
+type DeleteOtpTokenRecordOptions = DeleteRecordGeneric<OtpTokenRecordIdentifierOptions>
+
+export default DeleteOtpTokenRecordOptions

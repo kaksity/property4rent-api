@@ -22,7 +22,8 @@ export default Env.rules({
   DRIVE_DISK: Env.schema.enum(['local'] as const),
   NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
 
-  ACCESS_TOKEN_EXPIRATION_TIME_FRAME_IN_MINUTES: Env.schema.string(),
+  OTP_TOKEN_EXPIRATION_TIME_FRAME_IN_MINUTES: Env.schema.number(),
+  ACCESS_TOKEN_EXPIRATION_TIME_FRAME_IN_MINUTES: Env.schema.number(),
 
   DB_CONNECTION: Env.schema.string(),
   MYSQL_HOST: Env.schema.string(),
