@@ -106,15 +106,15 @@ export default class LandlordLoginController {
       await LandlordActions.updateLandlordRecord({
         identifierOptions: {
           identifierType: 'id',
-          identifier: landlord!.id
+          identifier: landlord!.id,
         },
         updatePayload: {
-          lastLoginDate: businessConfig.currentDateTime
+          lastLoginDate: businessConfig.currentDateTime,
         },
         dbTransactionOptions: {
           useTransaction: true,
-          dbTransaction
-        }
+          dbTransaction,
+        },
       })
 
       const accessToken = await auth.use('landlord').attempt(email, password, {
@@ -128,14 +128,14 @@ export default class LandlordLoginController {
         email: landlord!.email,
         phone_number: landlord!.phoneNumber,
         access_credentials: accessToken,
-        
+
         meta: {
           created_at: landlord!.createdAt,
           last_login_date: landlord!.lastLoginDate,
           has_activated_account: landlord!.hasActivatedAccount === true ? 'Yes' : 'No',
           is_account_verified: landlord!.isAccountVerified === true ? 'Yes' : 'No',
-          is_account_locked: landlord!.isAccountLocked === true ? 'Yes': 'No'
-        }
+          is_account_locked: landlord!.isAccountLocked === true ? 'Yes' : 'No',
+        },
       }
 
       await dbTransaction.commit()
