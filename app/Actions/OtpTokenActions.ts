@@ -3,7 +3,6 @@ import OtpTokenRecordIdentifierOptions from 'App/Typechecking/ModelManagement/Ot
 import CreateOtpTokenRecordOptions from 'App/Typechecking/ModelManagement/OtpToken/CreateOtpTokenRecordOptions'
 import DeleteOtpTokenRecordOptions from 'App/Typechecking/ModelManagement/OtpToken/DeleteOtpTokenRecordOptions'
 import UpdateOtpTokenRecordOptions from 'App/Typechecking/ModelManagement/OtpToken/UpdateOtpTokenRecordOptions'
-import businessConfig from 'Config/businessConfig'
 
 export default class OtpTokenActions {
   public static async createOtpTokenRecord(
