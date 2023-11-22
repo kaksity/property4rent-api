@@ -15,6 +15,9 @@ export default class Landlord extends AbstractModel {
   @column()
   public email: string
 
+  @column()
+  public hasActivatedAccount: boolean
+
   @column({ serializeAs: null })
   public password: string
 

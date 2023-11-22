@@ -38,7 +38,7 @@ export default class RequestPasswordResetOtpTokenController {
         identifier: email,
       })
 
-      await OtpTokenActions.revokeOtpToken(admin!.id)
+      await OtpTokenActions.revokeOtpTokens(admin!.id)
 
       const token = generateRandomString({
         charset: 'numeric',

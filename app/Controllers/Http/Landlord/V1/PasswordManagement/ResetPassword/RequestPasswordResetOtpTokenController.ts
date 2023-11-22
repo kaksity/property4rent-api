@@ -38,7 +38,7 @@ export default class RequestPasswordResetOtpTokenController {
         identifier: email,
       })
 
-      await OtpTokenActions.revokeOtpToken(landlord!.id)
+      await OtpTokenActions.revokeOtpTokens(landlord!.id)
 
       const token = generateRandomString({
         charset: 'numeric',

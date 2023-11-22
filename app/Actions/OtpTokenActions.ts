@@ -95,7 +95,7 @@ export default class OtpTokenActions {
     await otpToken.softDelete()
   }
 
-  public static async revokeOtpToken(authorId: number) {
+  public static async revokeOtpTokens(authorId: number) {
     await OtpToken.query().where('author_id', authorId).delete()
   }
 }

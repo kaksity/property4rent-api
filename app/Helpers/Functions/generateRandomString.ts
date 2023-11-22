@@ -3,9 +3,9 @@ import randomstring from 'randomstring'
 type RandomStringGeneratorOptionsType = {
   length: number
 
-  charset: 'alphanumeric' | 'alphabetic' | 'numeric'
+  charset?: 'alphanumeric' | 'alphabetic' | 'numeric'
 
-  isCapitalized: boolean
+  isCapitalized?: boolean
 }
 export default function generateRandomString(
   randomStringGeneratorOptionsType: RandomStringGeneratorOptionsType
