@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
-import AdminActions from 'App/Actions/AdminActions'
+import LandlordActions from 'App/Actions/LandlordActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import {
   ERROR,
@@ -9,13 +9,13 @@ import {
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
-  VERIFY_RESET_PASSWORD_SUCCESSFUL,
+  VERIFY_ACCOUNT_ACTIVATION_SUCCESSFUL,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import VerifyPasswordResetOtpTokenValidator from 'App/Validators/Admin/V1/PasswordManagement/ResetPassword/VerifyPasswordResetOtpTokenValidator'
+import VerifyAccountActivationOtpTokenValidator from 'App/Validators/Landlord/V1/Onboarding/VerifyAccountActivationOtpTokenValidator'
 import businessConfig from 'Config/businessConfig'
 
-export default class VerifyPasswordResetOtpTokenController {
+export default class VerifyAccountVerificationOtpTokenController {
   private badRequest = HttpStatusCodeEnum.BAD_REQUEST
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
@@ -25,7 +25,7 @@ export default class VerifyPasswordResetOtpTokenController {
     const dbTransaction = await Database.transaction()
     try {
       try {
-        await request.validate(VerifyPasswordResetOtpTokenValidator)
+        await request.validate(VerifyAccountActivationOtpTokenValidator)
       } catch (validationError) {
         await dbTransaction.rollback()
         return response.unprocessableEntity({
@@ -36,9 +36,9 @@ export default class VerifyPasswordResetOtpTokenController {
         })
       }
 
-      const { email, token, password } = request.body()
+      const { email, token } = request.body()
 
-      const admin = await AdminActions.getAdminRecord({
+      const landlord = await LandlordActions.getLandlordRecord({
         identifierType: 'email',
         identifier: email,
       })
@@ -48,7 +48,7 @@ export default class VerifyPasswordResetOtpTokenController {
         identifier: token,
       })
 
-      if (otpToken?.authorId !== admin?.id) {
+      if (otpToken?.authorId !== landlord?.id) {
         await dbTransaction.rollback()
         return response.badRequest({
           status: ERROR,
@@ -57,7 +57,7 @@ export default class VerifyPasswordResetOtpTokenController {
         })
       }
 
-      if (otpToken?.purpose !== 'reset-password') {
+      if (otpToken?.purpose !== 'account-activation') {
         await dbTransaction.rollback()
         return response.badRequest({
           status: ERROR,
@@ -90,13 +90,13 @@ export default class VerifyPasswordResetOtpTokenController {
         },
       })
 
-      await AdminActions.updateAdminRecord({
+      await LandlordActions.updateLandlordRecord({
         identifierOptions: {
           identifierType: 'id',
-          identifier: admin!.id,
+          identifier: landlord!.id,
         },
         updatePayload: {
-          password,
+          hasActivatedAccount: true,
         },
         dbTransactionOptions: {
           useTransaction: true,
@@ -108,13 +108,13 @@ export default class VerifyPasswordResetOtpTokenController {
       return response.ok({
         status_code: this.ok,
         status: SUCCESS,
-        message: VERIFY_RESET_PASSWORD_SUCCESSFUL,
+        message: VERIFY_ACCOUNT_ACTIVATION_SUCCESSFUL,
       })
-    } catch (VerifyPasswordResetOtpTokenControllerError) {
+    } catch (VerifyAccountVerificationOtpTokenControllerError) {
       await dbTransaction.rollback()
       console.log(
-        'VerifyPasswordResetOtpTokenController.handle => ',
-        VerifyPasswordResetOtpTokenControllerError
+        'VerifyAccountVerificationOtpTokenController.handle => ',
+        VerifyAccountVerificationOtpTokenControllerError
       )
       return response.internalServerError({
         status: ERROR,

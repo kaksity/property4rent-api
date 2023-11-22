@@ -11,4 +11,6 @@ export const REQUEST_RESET_PASSWORD_SUCCESSFUL = 'Request reset password was suc
 export const VERIFY_RESET_PASSWORD_SUCCESSFUL = 'Verify reset password was successful'
 export const LANDLORD_AUTHENTICATION_SUCCESSFUL = 'Landlord authentication successful'
 export const LANDLORD_CREATED_SUCCESSFULLY = 'Landlord creation was successful'
+export const REQUEST_ACCOUNT_ACTIVATION_SUCCESSFUL = 'Request account activation was successful'
+export const VERIFY_ACCOUNT_ACTIVATION_SUCCESSFUL = 'Verify account activation was successful'
 export const ACCOUNT_VERIFICATION_IS_REQUIRED = 'Account verification is required'

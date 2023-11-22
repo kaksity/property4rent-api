@@ -11,6 +11,8 @@ interface LandlordInterface {
 
   phoneNumber: string
 
+  hasActivatedAccount: boolean
+
   email: string
 
   password: string

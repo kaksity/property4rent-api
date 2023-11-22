@@ -22,7 +22,6 @@ export default class VerifyPasswordResetOtpTokenController {
   private ok = HttpStatusCodeEnum.OK
 
   public async handle({ request, response }: HttpContextContract) {
-    console.log('Hey')
     const dbTransaction = await Database.transaction()
     try {
       try {
@@ -58,17 +57,6 @@ export default class VerifyPasswordResetOtpTokenController {
         })
       }
 
-      await OtpTokenActions.deleteOtpTokenRecord({
-        identifierOptions: {
-          identifierType: 'id',
-          identifier: otpToken!.id,
-        },
-        dbTransactionOptions: {
-          useTransaction: true,
-          dbTransaction,
-        },
-      })
-
       if (otpToken?.purpose !== 'reset-password') {
         await dbTransaction.rollback()
         return response.badRequest({
@@ -90,6 +78,17 @@ export default class VerifyPasswordResetOtpTokenController {
           message: OTP_TOKEN_SUPPLIED_HAS_EXPIRED,
         })
       }
+
+      await OtpTokenActions.deleteOtpTokenRecord({
+        identifierOptions: {
+          identifierType: 'id',
+          identifier: otpToken.id,
+        },
+        dbTransactionOptions: {
+          useTransaction: true,
+          dbTransaction,
+        },
+      })
 
       await LandlordActions.updateLandlordRecord({
         identifierOptions: {
