@@ -1,0 +1,12 @@
+import UpdateRecordGeneric from 'App/Typechecking/GeneralPurpose/UpdateRecordGeneric'
+import ShopInformationInterface from 'App/Typechecking/ModelManagement/ShopInformation/ShopInformationInterface'
+import ShopInformationRecordIdentifierOptions from 'App/Typechecking/ModelManagement/ShopInformation/ShopInformationRecordIdentifierOptions'
+
+type UpdateShopInformationPayloadOptions = Partial<ShopInformationInterface>
+
+type UpdateShopInformationRecordOptions = UpdateRecordGeneric<
+  UpdateShopInformationPayloadOptions,
+  ShopInformationRecordIdentifierOptions
+>
+
+export default UpdateShopInformationRecordOptions

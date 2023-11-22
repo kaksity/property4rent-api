@@ -1,0 +1,7 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import ShopInformationRecordIdentifierOptions from 'App/Typechecking/ModelManagement/ShopInformation/ShopInformationRecordIdentifierOptions'
+
+type DeleteShopInformationRecordOptions =
+  DeleteRecordGeneric<ShopInformationRecordIdentifierOptions>
+
+export default DeleteShopInformationRecordOptions
