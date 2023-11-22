@@ -17,3 +17,6 @@ export const VERIFY_ACCOUNT_ACTIVATION_SUCCESSFUL = 'Verify account activation w
 export const ACCOUNT_VERIFICATION_IS_REQUIRED = 'Account verification is required'
 export const ACCOUNT_IS_LOCKED = 'Account is locked'
 export const LANDLORD_ACCOUNT_LIST_SUCCESSFUL = 'Landlord accounts retrieved successfully'
+export const LANDLORD_ACCOUNT_NOT_FOUND = 'Landlord account does not exist'
+export const LANDLORD_ACCOUNT_FETCHED_SUCCESSFUL = 'Landlord account fetched successfully'
+export const LANDLORD_ACCOUNT_UPDATE_SUCCESSFUL = 'Landlord account updated successfully'
