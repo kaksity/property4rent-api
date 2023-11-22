@@ -92,7 +92,7 @@ export default class OtpTokenActions {
       otpToken.useTransaction(dbTransactionOptions.dbTransaction)
     }
 
-    await otpToken.softDelete()
+    await otpToken.delete()
   }
 
   public static async revokeOtpTokens(authorId: number) {

@@ -8,6 +8,7 @@ import {
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
+  ACCOUNT_ALREADY_ACTIVATED,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import RequestAccountActivationOtpTokenValidator from 'App/Validators/Landlord/V1/Onboarding/RequestAccountActivationOtpTokenValidator'
@@ -16,6 +17,7 @@ import businessConfig from 'Config/businessConfig'
 export default class RequestAccountActivationOtpTokenController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
+  private ok = HttpStatusCodeEnum.OK
   private created = HttpStatusCodeEnum.CREATED
 
   public async handle({ request, response }: HttpContextContract) {
@@ -37,6 +39,14 @@ export default class RequestAccountActivationOtpTokenController {
         identifierType: 'email',
         identifier: email,
       })
+
+      if (landlord!.hasActivatedAccount) {
+        return response.ok({
+          status: SUCCESS,
+          status_code: this.ok,
+          message: ACCOUNT_ALREADY_ACTIVATED,
+        })
+      }
 
       await OtpTokenActions.revokeOtpTokens(landlord!.id)
 
