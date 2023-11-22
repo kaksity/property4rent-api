@@ -4,6 +4,7 @@ import {
   ERROR,
   LANDLORD_ACCOUNT_NOT_FOUND,
   LANDLORD_ACCOUNT_UPDATE_SUCCESSFUL,
+  NULL_OBJECT,
   SOMETHING_WENT_WRONG,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
@@ -15,14 +16,14 @@ export default class VerifyLandlordAccountController {
 
   public async handle({ request, response }: HttpContextContract) {
     try {
-      const { landlordIdentifier } = request.body()
+      const { landlordIdentifier } = request.params()
 
       const landlord = await LandlordActions.getLandlordRecord({
         identifierType: 'identifier',
         identifier: landlordIdentifier,
       })
 
-      if (landlord === null) {
+      if (landlord === NULL_OBJECT) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,
@@ -36,7 +37,7 @@ export default class VerifyLandlordAccountController {
           identifier: landlord.id,
         },
         updatePayload: {
-          isAccountVerified: false,
+          isAccountVerified: true,
         },
         dbTransactionOptions: {
           useTransaction: false,

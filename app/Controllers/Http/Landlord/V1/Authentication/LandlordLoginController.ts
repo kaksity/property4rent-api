@@ -13,6 +13,7 @@ import {
   VALIDATION_ERROR,
   ACCOUNT_VERIFICATION_IS_REQUIRED,
   ACCOUNT_IS_LOCKED,
+  NOT_APPLICABLE,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import LandlordLoginValidator from 'App/Validators/Landlord/V1/Authentication/LandlordLoginValidator'
@@ -131,10 +132,10 @@ export default class LandlordLoginController {
 
         meta: {
           created_at: landlord!.createdAt,
-          last_login_date: landlord!.lastLoginDate,
-          has_activated_account: landlord!.hasActivatedAccount === true ? 'Yes' : 'No',
-          is_account_verified: landlord!.isAccountVerified === true ? 'Yes' : 'No',
-          is_account_locked: landlord!.isAccountLocked === true ? 'Yes' : 'No',
+          last_login_date: landlord!.lastLoginDate ?? NOT_APPLICABLE,
+          has_activated_account: landlord!.hasActivatedAccount,
+          is_account_verified: landlord!.isAccountVerified,
+          is_account_locked: landlord!.isAccountLocked,
         },
       }
 

@@ -4,6 +4,8 @@ import {
   ERROR,
   LANDLORD_ACCOUNT_FETCHED_SUCCESSFUL,
   LANDLORD_ACCOUNT_NOT_FOUND,
+  NOT_APPLICABLE,
+  NULL_OBJECT,
   SOMETHING_WENT_WRONG,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
@@ -14,14 +16,14 @@ export default class FetchSingleLandlordAccountController {
 
   public async handle({ request, response }: HttpContextContract) {
     try {
-      const { landlordIdentifier } = request.body()
+      const { landlordIdentifier } = request.params()
 
       const landlord = await LandlordActions.getLandlordRecord({
         identifierType: 'identifier',
         identifier: landlordIdentifier,
       })
 
-      if (landlord === null) {
+      if (landlord === NULL_OBJECT) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,
@@ -36,10 +38,10 @@ export default class FetchSingleLandlordAccountController {
         email: landlord.email,
         phone_number: landlord.phoneNumber,
         meta: {
-          last_login_date: landlord.lastLoginDate,
-          has_activated_account: landlord.hasActivatedAccount === true ? 'Yes' : 'No',
-          is_account_verified: landlord.isAccountVerified === true ? 'Yes' : 'No',
-          is_account_locked: landlord.isAccountLocked === true ? 'Yes' : 'No',
+          last_login_date: landlord.lastLoginDate ?? NOT_APPLICABLE,
+          has_activated_account: landlord.hasActivatedAccount,
+          is_account_verified: landlord.isAccountVerified,
+          is_account_locked: landlord.isAccountLocked,
         },
       }
 

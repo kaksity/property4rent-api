@@ -3,6 +3,7 @@ import LandlordActions from 'App/Actions/LandlordActions'
 import {
   ERROR,
   LANDLORD_ACCOUNT_LIST_SUCCESSFUL,
+  NOT_APPLICABLE,
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
@@ -37,10 +38,10 @@ export default class ListLandlordAccountsController {
           email: landlord.email,
           phone_number: landlord.phoneNumber,
           meta: {
-            last_login_date: landlord.lastLoginDate,
-            has_activated_account: landlord.hasActivatedAccount === true ? 'Yes' : 'No',
-            is_account_verified: landlord.isAccountVerified === true ? 'Yes' : 'No',
-            is_account_locked: landlord.isAccountLocked === true ? 'Yes' : 'No',
+            last_login_date: landlord.lastLoginDate ?? NOT_APPLICABLE,
+            has_activated_account: landlord.hasActivatedAccount,
+            is_account_verified: landlord.isAccountVerified,
+            is_account_locked: landlord.isAccountLocked,
           },
         }
       })

@@ -15,7 +15,7 @@ export default class UnlockLandlordAccountController {
 
   public async handle({ request, response }: HttpContextContract) {
     try {
-      const { landlordIdentifier } = request.body()
+      const { landlordIdentifier } = request.params()
 
       const landlord = await LandlordActions.getLandlordRecord({
         identifierType: 'identifier',
