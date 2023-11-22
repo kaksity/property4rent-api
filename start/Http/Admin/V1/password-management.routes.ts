@@ -10,3 +10,10 @@ Route.group(function () {
 })
   .prefix('api/v1/admin/password-management/reset-password')
   .namespace('App/Controllers/Http/Admin/V1/PasswordManagement/ResetPassword')
+
+Route.group(function () {
+  Route.post('/', 'ChangePasswordController').as('admin.v1.password-management.change-password')
+})
+  .middleware('auth:admin')
+  .prefix('api/v1/admin/password-management/change-password')
+  .namespace('App/Controllers/Http/Admin/V1/PasswordManagement/ChangePassword')

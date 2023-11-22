@@ -10,3 +10,10 @@ Route.group(function () {
 })
   .prefix('api/v1/landlord/password-management/reset-password')
   .namespace('App/Controllers/Http/Landlord/V1/PasswordManagement/ResetPassword')
+
+Route.group(function () {
+  Route.post('/', 'ChangePasswordController').as('landlord.v1.password-management.change-password')
+})
+  .middleware('auth:landlord')
+  .prefix('api/v1/landlord/password-management/change-password')
+  .namespace('App/Controllers/Http/Landlord/V1/PasswordManagement/ChangePassword')
