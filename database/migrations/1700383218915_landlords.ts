@@ -13,6 +13,10 @@ export default class extends BaseSchema {
       table.string('email', 255).notNullable().unique()
       table.string('password', 180).notNullable()
       table.boolean('has_activated_account').defaultTo(false)
+      table.boolean('is_account_locked').defaultTo(false)
+      table.boolean('is_account_verified').defaultTo(false)
+      table.timestamp('last_login_date', { useTz: true }).nullable()
+      
       table.string('remember_me_token').nullable()
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL

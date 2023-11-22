@@ -13,6 +13,12 @@ interface LandlordInterface {
 
   hasActivatedAccount: boolean
 
+  isAccountLocked: boolean
+
+  isAccountVerified: boolean
+
+  lastLoginDate: DateTime
+
   email: string
 
   password: string

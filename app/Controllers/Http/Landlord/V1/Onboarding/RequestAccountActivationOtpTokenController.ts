@@ -40,7 +40,7 @@ export default class RequestAccountActivationOtpTokenController {
         identifier: email,
       })
 
-      if (landlord!.hasActivatedAccount) {
+      if (landlord!.hasActivatedAccount === 'Yes') {
         return response.ok({
           status: SUCCESS,
           status_code: this.ok,

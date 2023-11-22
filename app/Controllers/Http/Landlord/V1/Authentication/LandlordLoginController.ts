@@ -12,6 +12,7 @@ import {
   SUCCESS,
   VALIDATION_ERROR,
   ACCOUNT_VERIFICATION_IS_REQUIRED,
+  ACCOUNT_IS_LOCKED,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import LandlordLoginValidator from 'App/Validators/Landlord/V1/Authentication/LandlordLoginValidator'
@@ -58,7 +59,7 @@ export default class LandlordLoginController {
         })
       }
 
-      if (!landlord!.hasActivatedAccount) {
+      if (landlord!.hasActivatedAccount === 'No') {
         await OtpTokenActions.revokeOtpTokens(landlord!.id)
 
         const token = generateRandomString({
@@ -91,7 +92,30 @@ export default class LandlordLoginController {
         })
       }
 
+      if (landlord!.isAccountLocked === 'No') {
+        await dbTransaction.commit()
+        return response.status(this.unauthorized).json({
+          status: ERROR,
+          status_code: this.unauthorized,
+          message: ACCOUNT_IS_LOCKED,
+        })
+      }
+
       await auth.use('landlord').revoke()
+
+      await LandlordActions.updateLandlordRecord({
+        identifierOptions: {
+          identifierType: 'id',
+          identifier: landlord!.id
+        },
+        updatePayload: {
+          lastLoginDate: businessConfig.currentDateTime
+        },
+        dbTransactionOptions: {
+          useTransaction: true,
+          dbTransaction
+        }
+      })
 
       const accessToken = await auth.use('landlord').attempt(email, password, {
         expiresIn: `${businessConfig.accessTokenExpirationTimeFrameInMinutes} minutes`,
@@ -104,7 +128,14 @@ export default class LandlordLoginController {
         email: landlord!.email,
         phone_number: landlord!.phoneNumber,
         access_credentials: accessToken,
-        created_at: landlord!.createdAt,
+        
+        meta: {
+          created_at: landlord!.createdAt,
+          last_login_date: landlord!.lastLoginDate,
+          has_activated_account: landlord!.hasActivatedAccount === true ? 'Yes' : 'No',
+          is_account_verified: landlord!.isAccountVerified === true ? 'Yes' : 'No',
+          is_account_locked: landlord!.isAccountLocked === true ? 'Yes': 'No'
+        }
       }
 
       await dbTransaction.commit()

@@ -1,6 +1,7 @@
 import { beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import AbstractModel from 'App/Models/AbstractModel'
 import Hash from '@ioc:Adonis/Core/Hash'
+import { DateTime } from 'luxon'
 
 export default class Landlord extends AbstractModel {
   @column()
@@ -15,8 +16,24 @@ export default class Landlord extends AbstractModel {
   @column()
   public email: string
 
-  @column()
-  public hasActivatedAccount: boolean
+  @column({
+    consume: (value) => value === 1 ? 'Yes' : 'No' 
+  })
+  public hasActivatedAccount: boolean | string
+
+  @column({
+    consume: (value) => value === 1 ? 'Yes' : 'No' 
+  })
+  public isAccountLocked: boolean | string
+
+  @column({
+    consume: (value) => value === 1 ? 'Yes' : 'No' 
+  })
+  public isAccountVerified: boolean | string
+
+  @column.dateTime()
+  public lastLoginDate: DateTime
+
 
   @column({ serializeAs: null })
   public password: string
