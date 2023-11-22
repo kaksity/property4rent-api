@@ -6,6 +6,7 @@ export const INVALID_CREDENTIALS = 'Invalid Credentials'
 
 export const ADMIN_AUTHENTICATION_SUCCESSFUL = 'Admin authentication successful'
 export const OTP_TOKEN_SUPPLIED_IS_NOT_VALID = 'Otp token is not valid'
+export const OTP_TOKEN_SUPPLIED_HAS_EXPIRED = 'Otp token has expired'
 export const REQUEST_RESET_PASSWORD_SUCCESSFUL = 'Request reset password was successful'
 export const VERIFY_RESET_PASSWORD_SUCCESSFUL = 'Verify reset password was successful'
 export const LANDLORD_AUTHENTICATION_SUCCESSFUL = 'Landlord authentication successful'

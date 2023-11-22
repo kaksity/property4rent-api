@@ -16,15 +16,16 @@ export default function generateRandomString(
     isCapitalized = 'lowercase',
   } = randomStringGeneratorOptionsType
 
-  if (charset === 'alphabetic') {
+  if (charset === 'numeric') {
     return randomstring.generate({
       length,
       charset,
-      capitalization: isCapitalized === true ? 'uppercase' : 'lowercase',
     })
   }
 
   return randomstring.generate({
     length,
+    charset,
+    capitalization: isCapitalized === true ? 'uppercase' : 'lowercase',
   })
 }

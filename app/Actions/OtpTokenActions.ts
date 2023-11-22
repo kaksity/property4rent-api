@@ -3,6 +3,7 @@ import OtpTokenRecordIdentifierOptions from 'App/Typechecking/ModelManagement/Ot
 import CreateOtpTokenRecordOptions from 'App/Typechecking/ModelManagement/OtpToken/CreateOtpTokenRecordOptions'
 import DeleteOtpTokenRecordOptions from 'App/Typechecking/ModelManagement/OtpToken/DeleteOtpTokenRecordOptions'
 import UpdateOtpTokenRecordOptions from 'App/Typechecking/ModelManagement/OtpToken/UpdateOtpTokenRecordOptions'
+import businessConfig from 'Config/businessConfig'
 
 export default class OtpTokenActions {
   public static async createOtpTokenRecord(
@@ -92,5 +93,9 @@ export default class OtpTokenActions {
     }
 
     await otpToken.softDelete()
+  }
+
+  public static async revokeOtpToken(authorId: number) {
+    await OtpToken.query().where('author_id', authorId).delete()
   }
 }

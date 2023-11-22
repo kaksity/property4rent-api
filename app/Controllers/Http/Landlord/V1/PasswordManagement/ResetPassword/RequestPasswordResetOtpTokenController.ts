@@ -1,5 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import AdminActions from 'App/Actions/AdminActions'
+import LandlordActions from 'App/Actions/LandlordActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import generateRandomString from 'App/Helpers/Functions/generateRandomString'
 import {
@@ -10,7 +10,7 @@ import {
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import RequestPasswordResetOtpTokenValidator from 'App/Validators/Admin/V1/PasswordManagement/ResetPassword/RequestPasswordResetOtpTokenValidator'
+import RequestPasswordResetOtpTokenValidator from 'App/Validators/Landlord/V1/PasswordManagement/ResetPassword/RequestPasswordResetOtpTokenValidator'
 import businessConfig from 'Config/businessConfig'
 
 export default class RequestPasswordResetOtpTokenController {
@@ -33,12 +33,12 @@ export default class RequestPasswordResetOtpTokenController {
 
       const { email } = request.body()
 
-      const admin = await AdminActions.getAdminRecord({
+      const landlord = await LandlordActions.getLandlordRecord({
         identifierType: 'email',
         identifier: email,
       })
 
-      await OtpTokenActions.revokeOtpToken(admin!.id)
+      await OtpTokenActions.revokeOtpToken(landlord!.id)
 
       const token = generateRandomString({
         charset: 'numeric',
@@ -48,7 +48,7 @@ export default class RequestPasswordResetOtpTokenController {
 
       await OtpTokenActions.createOtpTokenRecord({
         createPayload: {
-          authorId: admin!.id,
+          authorId: landlord!.id,
           purpose: 'reset-password',
           expiresAt: businessConfig.currentDateTime.plus({
             minutes: businessConfig.otpTokenExpirationTimeFrameInMinutes,

@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
-import AdminActions from 'App/Actions/AdminActions'
+import LandlordActions from 'App/Actions/LandlordActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import {
   ERROR,
@@ -12,7 +12,7 @@ import {
   VERIFY_RESET_PASSWORD_SUCCESSFUL,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import VerifyPasswordResetOtpTokenValidator from 'App/Validators/Admin/V1/PasswordManagement/ResetPassword/VerifyPasswordResetOtpTokenValidator'
+import VerifyPasswordResetOtpTokenValidator from 'App/Validators/Landlord/V1/PasswordManagement/ResetPassword/VerifyPasswordResetOtpTokenValidator'
 import businessConfig from 'Config/businessConfig'
 
 export default class VerifyPasswordResetOtpTokenController {
@@ -22,6 +22,7 @@ export default class VerifyPasswordResetOtpTokenController {
   private ok = HttpStatusCodeEnum.OK
 
   public async handle({ request, response }: HttpContextContract) {
+    console.log('Hey')
     const dbTransaction = await Database.transaction()
     try {
       try {
@@ -38,7 +39,7 @@ export default class VerifyPasswordResetOtpTokenController {
 
       const { email, token, password } = request.body()
 
-      const admin = await AdminActions.getAdminRecord({
+      const landlord = await LandlordActions.getLandlordRecord({
         identifierType: 'email',
         identifier: email,
       })
@@ -48,7 +49,7 @@ export default class VerifyPasswordResetOtpTokenController {
         identifier: token,
       })
 
-      if (otpToken?.authorId !== admin?.id) {
+      if (otpToken?.authorId !== landlord?.id) {
         await dbTransaction.rollback()
         return response.badRequest({
           status: ERROR,
@@ -90,10 +91,10 @@ export default class VerifyPasswordResetOtpTokenController {
         })
       }
 
-      await AdminActions.updateAdminRecord({
+      await LandlordActions.updateLandlordRecord({
         identifierOptions: {
           identifierType: 'id',
-          identifier: admin!.id,
+          identifier: landlord!.id,
         },
         updatePayload: {
           password,

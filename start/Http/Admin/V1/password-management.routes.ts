@@ -1,10 +1,10 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(function () {
-  Route.post('request-otp-token', 'AdminLoginController').as(
+  Route.post('request-otp-token', 'RequestPasswordResetOtpTokenController').as(
     'admin.v1.password-management.reset-password.request-otp-token'
   )
-  Route.post('verify-otp-token', 'AdminLoginController').as(
+  Route.post('verify-otp-token', 'VerifyPasswordResetOtpTokenController').as(
     'admin.v1.password-management.reset-password.verify-otp-token'
   )
 })
