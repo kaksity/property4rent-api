@@ -1,0 +1,6 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import SettingsStateRecordIdentifierOptions from 'App/Typechecking/ModelManagement/SettingsState/SettingsStateRecordIdentifierOptions'
+
+type DeleteSettingsStateRecordOptions = DeleteRecordGeneric<SettingsStateRecordIdentifierOptions>
+
+export default DeleteSettingsStateRecordOptions

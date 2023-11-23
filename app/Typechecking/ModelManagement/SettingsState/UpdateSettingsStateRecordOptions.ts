@@ -1,0 +1,12 @@
+import UpdateRecordGeneric from 'App/Typechecking/GeneralPurpose/UpdateRecordGeneric'
+import SettingsStateIdentifierOptions from 'App/Typechecking/ModelManagement/SettingsState/SettingsStateRecordIdentifierOptions'
+import SettingsStateInterface from 'App/Typechecking/ModelManagement/SettingsState/SettingsStateInterface'
+
+type UpdateSettingsStateRecordPayload = Partial<SettingsStateInterface>
+
+type UpdateSettingsStateRecordOptions = UpdateRecordGeneric<
+  UpdateSettingsStateRecordPayload,
+  SettingsStateIdentifierOptions
+>
+
+export default UpdateSettingsStateRecordOptions

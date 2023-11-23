@@ -1,0 +1,6 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import SettingsLgaRecordIdentifierOptions from 'App/Typechecking/ModelManagement/SettingsLga/SettingsLgaRecordIdentifierOptions'
+
+type DeleteSettingsLgaRecordOptions = DeleteRecordGeneric<SettingsLgaRecordIdentifierOptions>
+
+export default DeleteSettingsLgaRecordOptions

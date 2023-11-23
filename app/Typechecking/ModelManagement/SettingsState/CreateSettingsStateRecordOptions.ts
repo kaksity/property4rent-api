@@ -1,0 +1,8 @@
+import CreateNewRecordGeneric from 'App/Typechecking/GeneralPurpose/CreateNewRecordGeneric'
+import SettingsStateInterface from 'App/Typechecking/ModelManagement/SettingsState/SettingsStateInterface'
+
+type CreateSettingsStateRecordPayload = Pick<SettingsStateInterface, 'stateLabel'>
+
+type CreateSettingsStateRecordOptions = CreateNewRecordGeneric<CreateSettingsStateRecordPayload>
+
+export default CreateSettingsStateRecordOptions
