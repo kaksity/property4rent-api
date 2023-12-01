@@ -25,15 +25,15 @@ export default class ShopActions {
   }
 
   public static async getShopById(id: number): Promise<Shop | null> {
-    return Shop.query().where('id', id).first()
+    return Shop.query().preload('information').where('id', id).first()
   }
 
   public static async getShopByIdentifier(identifier: string): Promise<Shop | null> {
-    return Shop.query().where('identifier', identifier).first()
+    return Shop.query().preload('information').where('identifier', identifier).first()
   }
 
   public static async getShopByEmailAddress(emailAddress: string): Promise<Shop | null> {
-    return Shop.query().where('email', emailAddress).first()
+    return Shop.query().preload('information').where('email', emailAddress).first()
   }
 
   public static async getShopRecord(
@@ -91,8 +91,16 @@ export default class ShopActions {
   public static async listShops(
     listShopRecordOptions: ListShopRecordOptions
   ): Promise<{ shopPayload: Shop[]; paginationMeta?: any }> {
-    const { paginationOptions } = listShopRecordOptions
-    const shopQuery = Shop.query().orderBy('created_at', 'asc')
+    const { paginationOptions, filterRecordOptions } = listShopRecordOptions
+    const shopQuery = Shop.query().preload('information').orderBy('created_at', 'asc')
+
+    if(filterRecordOptions?.canViewInPublic !== undefined && filterRecordOptions?.canViewInPublic !== null) {
+      shopQuery.where('can_view_in_public', filterRecordOptions?.canViewInPublic)
+    }
+
+    if(filterRecordOptions?.landlordId) {
+      shopQuery.where('landlord_id', filterRecordOptions.landlordId)
+    }
 
     if (paginationOptions) {
       const shops = await shopQuery.paginate(paginationOptions.page, paginationOptions.limit)

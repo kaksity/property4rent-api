@@ -5,6 +5,12 @@ interface ShopInterface {
 
   identifier: string
 
+  landlordId: number
+
+  description: string
+
+  canViewInPublic: boolean
+  
   createdAt: DateTime
 
   updatedAt: DateTime
