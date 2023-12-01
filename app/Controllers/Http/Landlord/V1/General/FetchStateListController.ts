@@ -1,5 +1,10 @@
 import SettingsStateActions from 'App/Actions/SettingsStateActions'
-import { SUCCESS, ERROR, SOMETHING_WENT_WRONG, STATE_LIST_SUCCESSFUL } from 'App/Helpers/Messages/SystemMessage'
+import {
+  SUCCESS,
+  ERROR,
+  SOMETHING_WENT_WRONG,
+  STATE_LIST_SUCCESSFUL,
+} from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 
 export default class FetchStateListController {
@@ -8,7 +13,7 @@ export default class FetchStateListController {
 
   public async handle({ response }) {
     try {
-      const {settingsStatePayload: states} = await SettingsStateActions.listSettingsStates({})
+      const { settingsStatePayload: states } = await SettingsStateActions.listSettingsStates({})
 
       const mutatedResults = states.map((state) => {
         return {

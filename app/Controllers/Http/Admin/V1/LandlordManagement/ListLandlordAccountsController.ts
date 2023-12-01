@@ -28,7 +28,14 @@ export default class ListLandlordAccountsController {
         })
       }
 
-      const { landlordPayload: landlords, paginationMeta } = await LandlordActions.listLandlords({})
+      const { per_page: limit = 100, page = 1 } = request.qs()
+
+      const { landlordPayload: landlords, paginationMeta } = await LandlordActions.listLandlords({
+        paginationOptions: {
+          page,
+          limit,
+        },
+      })
 
       const mutatedResults = landlords.map((landlord) => {
         return {

@@ -1,6 +1,6 @@
 import Database from '@ioc:Adonis/Lucid/Database'
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
-import SettingsLga from 'App/Systems/Settings/Location/Models/SettingsLga'
+import SettingsLga from 'App/Models/SettingsLga'
 
 export default class LgaSeeder extends BaseSeeder {
   public async run() {
