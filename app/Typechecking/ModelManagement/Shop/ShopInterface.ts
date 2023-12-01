@@ -10,7 +10,7 @@ interface ShopInterface {
   description: string
 
   canViewInPublic: boolean
-  
+
   createdAt: DateTime
 
   updatedAt: DateTime
