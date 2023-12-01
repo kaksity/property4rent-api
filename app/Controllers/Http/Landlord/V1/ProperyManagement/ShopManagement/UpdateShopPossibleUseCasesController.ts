@@ -65,7 +65,7 @@ export default class UpdateShopPossibleUseCasesController {
           identifier: shop.id,
         },
         updatePayload: {
-          possibleUseCases: JSON.stringify(possibleUseCases)
+          possibleUseCases: JSON.stringify(possibleUseCases),
         },
         dbTransactionOptions: {
           useTransaction: false,
@@ -78,7 +78,10 @@ export default class UpdateShopPossibleUseCasesController {
         message: SHOP_UPDATE_SUCCESSFUL,
       })
     } catch (UpdateShopPossibleUseCasesControllerError) {
-      console.log('UpdateShopPossibleUseCasesControllerError.handle', UpdateShopPossibleUseCasesControllerError)
+      console.log(
+        'UpdateShopPossibleUseCasesControllerError.handle',
+        UpdateShopPossibleUseCasesControllerError
+      )
 
       return response.internalServerError({
         status: ERROR,
