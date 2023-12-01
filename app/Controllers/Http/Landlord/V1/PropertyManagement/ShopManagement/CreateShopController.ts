@@ -1,8 +1,10 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Database from '@ioc:Adonis/Lucid/Database'
 import ShopActions from 'App/Actions/ShopActions'
+import ShopInformationActions from 'App/Actions/ShopInformationActions'
 import {
   ERROR,
-  SHOP_LIST_FETCH_SUCCESSFUL,
+  SHOP_CREATE_SUCCESSFUL,
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
@@ -16,10 +18,12 @@ export default class CreateShopController {
   private created = HttpStatusCodeEnum.CREATED
 
   public async handle({ request, auth, response }: HttpContextContract) {
+    const dbTransaction = await Database.transaction()
     try {
       try {
         await request.validate(CreateShopValidator)
       } catch (validationError) {
+        await dbTransaction.rollback()
         return response.unprocessableEntity({
           status: ERROR,
           status_code: this.unprocessableEntity,
@@ -38,9 +42,22 @@ export default class CreateShopController {
           landlordId: landlord.id,
         },
         dbTransactionOptions: {
-          useTransaction: false,
+          useTransaction: true,
+          dbTransaction
         },
       })
+
+      await ShopInformationActions.createShopInformationRecord({
+        createPayload: {
+          shopId: shop.id
+        },
+        dbTransactionOptions: {
+          useTransaction: true,
+          dbTransaction
+        }
+      })
+
+      await dbTransaction.commit()
 
       const mutatedResults = {
         identifier: shop.identifier,
@@ -50,12 +67,12 @@ export default class CreateShopController {
       return response.created({
         status: SUCCESS,
         status_code: this.created,
-        message: SHOP_LIST_FETCH_SUCCESSFUL,
+        message: SHOP_CREATE_SUCCESSFUL,
         results: mutatedResults,
       })
     } catch (CreateShopControllerError) {
       console.log('CreateShopControllerError.handle', CreateShopControllerError)
-
+      await dbTransaction.rollback()
       return response.internalServerError({
         status: ERROR,
         status_code: this.internalServerError,

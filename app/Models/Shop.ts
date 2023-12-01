@@ -18,6 +18,8 @@ export default class Shop extends AbstractModel {
   @belongsTo(() => Landlord)
   public landlord: BelongsTo<typeof Landlord>
 
-  @hasOne(() => ShopInformation)
+  @hasOne(() => ShopInformation, {
+    foreignKey: 'shopId'
+  })
   public information: HasOne<typeof ShopInformation>
 }

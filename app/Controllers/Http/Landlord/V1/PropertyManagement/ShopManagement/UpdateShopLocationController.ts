@@ -77,8 +77,8 @@ export default class UpdateShopLocationController {
           identifier: shop.id,
         },
         updatePayload: {
-          stateId: lga?.stateId,
-          lgaId: lga?.id,
+          stateId: lga!.stateId,
+          lgaId: lga!.id,
           area,
           nearestLandmark,
           longitude,

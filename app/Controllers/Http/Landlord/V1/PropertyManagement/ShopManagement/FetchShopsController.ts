@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ShopActions from 'App/Actions/ShopActions'
 import {
   ERROR,
+  NOT_APPLICABLE,
   SHOP_LIST_FETCH_SUCCESSFUL,
   SOMETHING_WENT_WRONG,
   SUCCESS,
@@ -49,15 +50,15 @@ export default class FetchShopsController {
           description: shop.description,
           location: {
             state: {
-              identifier: shop.information.state.identifier,
-              label: shop.information.state.stateLabel,
+              identifier: shop.information.state?.identifier || NOT_APPLICABLE,
+              label: shop.information.state?.stateLabel || NOT_APPLICABLE,
             },
             lga: {
-              identifier: shop.information.lga.identifier,
-              label: shop.information.lga.lgaLabel,
+              identifier: shop.information.lga?.identifier || NOT_APPLICABLE,
+              label: shop.information.lga?.lgaLabel || NOT_APPLICABLE,
             },
-            area: shop.information.area,
-            nearest_landmark: shop.information.nearestLandmark,
+            area: shop.information.area || NOT_APPLICABLE,
+            nearest_landmark: shop.information.nearestLandmark || NOT_APPLICABLE,
           },
           rent_amount: {
             base_amount: shop.information.baseAmount,

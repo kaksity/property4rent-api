@@ -1,6 +1,5 @@
 import Hash from '@ioc:Adonis/Core/Hash'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Database from '@ioc:Adonis/Lucid/Database'
 import LandlordActions from 'App/Actions/LandlordActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import generateRandomString from 'App/Helpers/Functions/generateRandomString'
@@ -27,13 +26,11 @@ export default class LandlordLoginController {
   private ok = HttpStatusCodeEnum.OK
 
   public async handle({ request, response, auth }: HttpContextContract) {
-    const dbTransaction = await Database.transaction()
 
     try {
       try {
         await request.validate(LandlordLoginValidator)
       } catch (validationError) {
-        await dbTransaction.rollback()
         return response.unprocessableEntity({
           status: ERROR,
           message: VALIDATION_ERROR,
@@ -78,14 +75,12 @@ export default class LandlordLoginController {
             }),
           },
           dbTransactionOptions: {
-            useTransaction: true,
-            dbTransaction,
+            useTransaction: false,
           },
         })
 
         // Send an email notification
 
-        await dbTransaction.commit()
         return response.status(this.unauthorized).json({
           status: ERROR,
           status_code: this.unauthorized,
@@ -93,8 +88,7 @@ export default class LandlordLoginController {
         })
       }
 
-      if (landlord!.isAccountLocked === 'No') {
-        await dbTransaction.commit()
+      if (landlord!.isAccountLocked === 'Yes') {
         return response.status(this.unauthorized).json({
           status: ERROR,
           status_code: this.unauthorized,
@@ -113,8 +107,7 @@ export default class LandlordLoginController {
           lastLoginDate: businessConfig.currentDateTime,
         },
         dbTransactionOptions: {
-          useTransaction: true,
-          dbTransaction,
+          useTransaction: false,
         },
       })
 
@@ -139,7 +132,6 @@ export default class LandlordLoginController {
         },
       }
 
-      await dbTransaction.commit()
       return response.ok({
         status_code: this.ok,
         status: SUCCESS,
@@ -147,7 +139,6 @@ export default class LandlordLoginController {
         results: mutatedLandlordPayload,
       })
     } catch (LandlordLoginControllerError) {
-      await dbTransaction.rollback()
       console.log('LandlordLoginController.handle =>', LandlordLoginControllerError)
       return response.internalServerError({
         status: ERROR,

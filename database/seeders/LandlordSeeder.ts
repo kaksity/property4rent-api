@@ -11,7 +11,7 @@ export default class extends BaseSeeder {
         lastName: 'Okoro',
         phoneNumber: '08012345678',
         email: 'chinedu.okoro@example.com',
-        hasActivatedAccount: false,
+        hasActivatedAccount: true,
         password,
       },
       {
@@ -19,7 +19,7 @@ export default class extends BaseSeeder {
         lastName: 'Abubakar',
         phoneNumber: '08123456789',
         email: 'aisha.abubakar@example.com',
-        hasActivatedAccount: false,
+        hasActivatedAccount: true,
         password,
       },
       {
@@ -27,7 +27,7 @@ export default class extends BaseSeeder {
         lastName: 'Okafor',
         phoneNumber: '09098765432',
         email: 'tunde.okafor@example.com',
-        hasActivatedAccount: false,
+        hasActivatedAccount: true,
         password,
       },
       {
@@ -35,7 +35,7 @@ export default class extends BaseSeeder {
         lastName: 'Bello',
         phoneNumber: '07087654321',
         email: 'fatima.bello@example.com',
-        hasActivatedAccount: false,
+        hasActivatedAccount: true,
         password,
       },
       {
@@ -43,7 +43,7 @@ export default class extends BaseSeeder {
         lastName: 'Adams',
         phoneNumber: '09123456789',
         email: 'kunle.adams@example.com',
-        hasActivatedAccount: false,
+        hasActivatedAccount: true,
         password,
       },
     ]

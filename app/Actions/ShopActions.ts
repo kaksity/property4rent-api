@@ -25,22 +25,14 @@ export default class ShopActions {
   }
 
   public static async getShopById(id: number): Promise<Shop | null> {
-    return Shop.query().preload('landlord').preload('information').where('id', id).first()
+    return Shop.query().preload('landlord').preload('information', (informationQuery) => informationQuery.preload('lga').preload('state')).where('id', id).first()
   }
 
   public static async getShopByIdentifier(identifier: string): Promise<Shop | null> {
     return Shop.query()
       .preload('landlord')
-      .preload('information')
+      .preload('information', (informationQuery) => informationQuery.preload('lga').preload('state'))
       .where('identifier', identifier)
-      .first()
-  }
-
-  public static async getShopByEmailAddress(emailAddress: string): Promise<Shop | null> {
-    return Shop.query()
-      .preload('landlord')
-      .preload('information')
-      .where('email', emailAddress)
       .first()
   }
 
@@ -52,7 +44,6 @@ export default class ShopActions {
     const GetShopRecord: Record<string, Function> = {
       id: async () => await this.getShopById(Number(identifier)),
       identifier: async () => await this.getShopByIdentifier(String(identifier)),
-      email: async () => await this.getShopByEmailAddress(String(identifier)),
     }
 
     return GetShopRecord[identifierType]()

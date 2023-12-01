@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ShopActions from 'App/Actions/ShopActions'
 import {
   ERROR,
+  NOT_APPLICABLE,
   NULL_OBJECT,
   SHOP_FETCH_SUCCESSFUL,
   SHOP_NOT_FOUND,
@@ -47,17 +48,17 @@ export default class FetchSingleShopController {
         description: shop.description,
         location: {
           state: {
-            identifier: shop.information.state.identifier,
-            label: shop.information.state.stateLabel,
+            identifier: shop.information.state?.identifier || NOT_APPLICABLE,
+            label: shop.information.state?.stateLabel || NOT_APPLICABLE,
           },
           lga: {
-            identifier: shop.information.lga.identifier,
-            label: shop.information.lga.lgaLabel,
+            identifier: shop.information.lga?.identifier || NOT_APPLICABLE,
+            label: shop.information.lga?.lgaLabel || NOT_APPLICABLE,
           },
-          area: shop.information.area,
-          nearest_landmark: shop.information.nearestLandmark,
-          longitude: shop.information.longitude,
-          latitude: shop.information.latitude,
+          area: shop.information.area || NOT_APPLICABLE,
+          nearest_landmark: shop.information.nearestLandmark || NOT_APPLICABLE,
+          longitude: shop.information.longitude || NOT_APPLICABLE,
+          latitude: shop.information.latitude || NOT_APPLICABLE,
         },
         size: {
           length: shop.information.length,
@@ -68,7 +69,7 @@ export default class FetchSingleShopController {
           minimum_amount: shop.information.minimumAmount,
           maximum_amount: shop.information.maximumAmount,
         },
-        possible_use_cases: JSON.parse(shop.information.possibleUseCases),
+        possible_use_cases: JSON.parse(shop.information.possibleUseCases) || [],
       }
 
       return response.ok({
