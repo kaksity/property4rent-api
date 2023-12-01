@@ -59,7 +59,7 @@ export default class FetchShopsController {
             area: shop.information.area,
             nearest_landmark: shop.information.nearestLandmark,
           },
-          budget: {
+          rent_amount: {
             base_amount: shop.information.baseAmount,
             minimum_amount: shop.information.minimumAmount,
             maximum_amount: shop.information.maximumAmount,
