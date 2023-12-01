@@ -1,6 +1,6 @@
 type SettingsLgaRecordIdentifierOptions =
   | {
-      identifierType: 'identifier' | 'email'
+      identifierType: 'identifier'
       identifier: string
     }
   | {

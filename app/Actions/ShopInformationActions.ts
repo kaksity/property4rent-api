@@ -34,10 +34,8 @@ export default class ShopInformationActions {
     return ShopInformation.query().where('identifier', identifier).first()
   }
 
-  public static async getShopInformationByEmailAddress(
-    emailAddress: string
-  ): Promise<ShopInformation | null> {
-    return ShopInformation.query().where('email', emailAddress).first()
+  public static async getShopInformationByShopId(shopId: number): Promise<ShopInformation | null> {
+    return ShopInformation.query().where('shop_id', shopId).first()
   }
 
   public static async getShopInformationRecord(
@@ -48,7 +46,7 @@ export default class ShopInformationActions {
     const GetShopInformationRecord: Record<string, Function> = {
       id: async () => await this.getShopInformationById(Number(identifier)),
       identifier: async () => await this.getShopInformationByIdentifier(String(identifier)),
-      email: async () => await this.getShopInformationByEmailAddress(String(identifier)),
+      shopId: async () => await this.getShopInformationByShopId(Number(identifier)),
     }
 
     return GetShopInformationRecord[identifierType]()

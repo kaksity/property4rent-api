@@ -4,7 +4,7 @@ type ShopInformationRecordIdentifierOptions =
       identifier: string
     }
   | {
-      identifierType: 'id'
+      identifierType: 'id' | 'shopId'
       identifier: number
     }
 

@@ -28,11 +28,7 @@ export default class FetchShopsController {
         })
       }
 
-      const {
-        per_page: limit = 100,
-        page = 1,
-        can_view_in_public: canViewInPublic,
-      } = request.body()
+      const { per_page: limit = 100, page = 1, can_view_in_public: canViewInPublic } = request.qs()
 
       const landlord = auth.use('landlord').user!
 
