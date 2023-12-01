@@ -1,45 +1,49 @@
-import HttpStatusCodeEnum from 'App/Common/Helpers/HttpStatusCodeEnum'
+import SettingsStateActions from 'App/Actions/SettingsStateActions'
+import SettingsLgaActions from 'App/Actions/SettingsLgaActions'
+import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import {
-  LGA_LIST_FETCH_FAILED,
-  LGA_LIST_FETCH_SUCCESSFUL,
-  STATE_DOES_NOT_EXIST,
   ERROR,
-  FAILURE,
-  NULL_OBJECT,
+  LGA_LIST_FETCH_SUCCESSFUL,
+  SOMETHING_WENT_WRONG,
   SUCCESS,
-} from 'App/Common/Helpers/Messages/SystemMessages'
-import SettingsStateActions from 'App/Systems/Settings/Location/Actions/SettingsStateActions'
-import SettingsLgaActions from 'App/Systems/Settings/Location/Actions/SettingsLgaActions'
+  VALIDATION_ERROR,
+} from 'App/Helpers/Messages/SystemMessage'
+import FetchLgasValidator from 'App/Validators/Landlord/V1/General/FetchLgasValidator'
 
 export default class FetchLgaListController {
   private ok = HttpStatusCodeEnum.OK
-  private notFound = HttpStatusCodeEnum.NOT_FOUND
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
+  private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
 
   public async handle({ request, response }) {
     try {
-      const { stateIdentifier } = request.params()
+      try {
+        await request.validate(FetchLgasValidator)
+      } catch (validationError) {
+        return response.unprocessableEntity({
+          status: VALIDATION_ERROR,
+          status_code: this.unprocessableEntity,
+          results: validationError.messages,
+        })
+      }
+
+      const { state_identifier: stateIdentifier } = request.qs()
 
       const state = await SettingsStateActions.getSettingsStateRecord({
         identifier: stateIdentifier,
         identifierType: 'identifier',
       })
 
-      if (state === NULL_OBJECT) {
-        return response.status(this.notFound).send({
-          status_code: this.notFound,
-          success: FAILURE,
-          message: STATE_DOES_NOT_EXIST,
-        })
-      }
-
-      const lgas = await SettingsLgaActions.listSettingsLgasByStateId(state.id)
+      const { settingsLgaPayload: lgas } = await SettingsLgaActions.listSettingsLgas({
+        filterRecordOptions: {
+          stateId: state?.id,
+        },
+      })
 
       const mutatedResults = lgas.map((lga) => {
         return {
           identifier: lga.identifier,
           lga_label: lga.lgaLabel,
-          lga_slug: lga.lgaSlug,
         }
       })
 
@@ -58,7 +62,7 @@ export default class FetchLgaListController {
       return response.status(this.internalServerError).send({
         status_code: this.internalServerError,
         status: ERROR,
-        message: LGA_LIST_FETCH_FAILED,
+        message: SOMETHING_WENT_WRONG,
       })
     }
   }
