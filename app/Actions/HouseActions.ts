@@ -97,7 +97,7 @@ export default class HouseActions {
 
   public static async listHouses(
     listHouseRecordOptions: ListHouseRecordOptions
-  ): Promise<{ HousePayload: House[]; paginationMeta?: any }> {
+  ): Promise<{ housePayload: House[]; paginationMeta?: any }> {
     const { paginationOptions, filterRecordOptions } = listHouseRecordOptions
     const houseQuery = House.query()
       .preload('landlord')
@@ -121,14 +121,14 @@ export default class HouseActions {
       const houses = await houseQuery.paginate(paginationOptions.page, paginationOptions.limit)
 
       return {
-        HousePayload: houses.all(),
+        housePayload: houses.all(),
         paginationMeta: houses.getMeta(),
       }
     }
 
     const houses = await houseQuery
     return {
-      HousePayload: houses,
+      housePayload: houses,
     }
   }
 }
