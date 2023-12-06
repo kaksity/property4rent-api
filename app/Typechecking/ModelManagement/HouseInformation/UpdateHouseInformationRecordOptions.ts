@@ -1,0 +1,12 @@
+import UpdateRecordGeneric from 'App/Typechecking/GeneralPurpose/UpdateRecordGeneric'
+import HouseInformationInterface from 'App/Typechecking/ModelManagement/HouseInformation/HouseInformationInterface'
+import HouseInformationRecordIdentifierOptions from 'App/Typechecking/ModelManagement/HouseInformation/HouseInformationRecordIdentifierOptions'
+
+type UpdateHouseInformationPayloadOptions = Partial<HouseInformationInterface>
+
+type UpdateHouseInformationRecordOptions = UpdateRecordGeneric<
+  UpdateHouseInformationPayloadOptions,
+  HouseInformationRecordIdentifierOptions
+>
+
+export default UpdateHouseInformationRecordOptions

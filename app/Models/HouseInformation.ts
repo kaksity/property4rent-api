@@ -1,12 +1,12 @@
-import { BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
 import AbstractModel from 'App/Models/AbstractModel'
-import SettingsState from 'App/Models/SettingsState'
 import SettingsLga from 'App/Models/SettingsLga'
-import Shop from 'App/Models/Shop'
+import SettingsState from 'App/Models/SettingsState'
+import House from 'App/Models/House'
 
-export default class ShopInformation extends AbstractModel {
+export default class HouseInformation extends AbstractModel {
   @column()
-  public shopId: number
+  public houseId: number
 
   @column()
   public stateId: number
@@ -54,6 +54,6 @@ export default class ShopInformation extends AbstractModel {
   })
   public lga: BelongsTo<typeof SettingsLga>
 
-  @belongsTo(() => Shop)
-  public shop: BelongsTo<typeof Shop>
+  @belongsTo(() => House)
+  public house: BelongsTo<typeof House>
 }

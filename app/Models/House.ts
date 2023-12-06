@@ -1,9 +1,9 @@
-import { BelongsTo, HasOne, belongsTo, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { column, belongsTo, BelongsTo, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
 import AbstractModel from 'App/Models/AbstractModel'
-import ShopInformation from 'App/Models/ShopInformation'
 import Landlord from 'App/Models/Landlord'
+import HouseInformation from 'App/Models/HouseInformation'
 
-export default class Shop extends AbstractModel {
+export default class House extends AbstractModel {
   @column()
   public landlordId: number
 
@@ -18,8 +18,8 @@ export default class Shop extends AbstractModel {
   @belongsTo(() => Landlord)
   public landlord: BelongsTo<typeof Landlord>
 
-  @hasOne(() => ShopInformation, {
+  @hasOne(() => HouseInformation, {
     foreignKey: 'shopId',
   })
-  public information: HasOne<typeof ShopInformation>
+  public information: HasOne<typeof HouseInformation>
 }

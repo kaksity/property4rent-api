@@ -26,7 +26,6 @@ export default class LandlordLoginController {
   private ok = HttpStatusCodeEnum.OK
 
   public async handle({ request, response, auth }: HttpContextContract) {
-
     try {
       try {
         await request.validate(LandlordLoginValidator)

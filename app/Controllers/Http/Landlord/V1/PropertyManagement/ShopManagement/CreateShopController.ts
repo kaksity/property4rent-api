@@ -43,18 +43,18 @@ export default class CreateShopController {
         },
         dbTransactionOptions: {
           useTransaction: true,
-          dbTransaction
+          dbTransaction,
         },
       })
 
       await ShopInformationActions.createShopInformationRecord({
         createPayload: {
-          shopId: shop.id
+          shopId: shop.id,
         },
         dbTransactionOptions: {
           useTransaction: true,
-          dbTransaction
-        }
+          dbTransaction,
+        },
       })
 
       await dbTransaction.commit()
