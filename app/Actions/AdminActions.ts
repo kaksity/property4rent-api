@@ -6,7 +6,6 @@ import ListAdminRecordOptions from 'App/Typechecking/ModelManagement/Admin/ListA
 import UpdateAdminRecordOptions from 'App/Typechecking/ModelManagement/Admin/UpdateAdminRecordOptions'
 
 export default class AdminActions {
-
   /**
    * @description Method to create a new admin
    * @author DP
@@ -45,15 +44,15 @@ export default class AdminActions {
     return Admin.query().where('id', id).first()
   }
 
-/**
- * @description Method to get admin by identifier
- * @author DP
- * @static
- * @param {string} identifier
- * @return {*}  {(Promise<Admin | null>)}
- * @memberof AdminActions
- */
-public static async getAdminByIdentifier(identifier: string): Promise<Admin | null> {
+  /**
+   * @description Method to get admin by identifier
+   * @author DP
+   * @static
+   * @param {string} identifier
+   * @return {*}  {(Promise<Admin | null>)}
+   * @memberof AdminActions
+   */
+  public static async getAdminByIdentifier(identifier: string): Promise<Admin | null> {
     return Admin.query().where('identifier', identifier).first()
   }
 
@@ -121,15 +120,17 @@ public static async getAdminByIdentifier(identifier: string): Promise<Admin | nu
     return admin
   }
 
-/**
- * @description Method to delete an admin record
- * @author DP
- * @static
- * @param {DeleteAdminRecordOptions} deleteAdminRecordOptions
- * @return {*} 
- * @memberof AdminActions
- */
-public static async deleteAdminRecord(deleteAdminRecordOptions: DeleteAdminRecordOptions): Promise<void> {
+  /**
+   * @description Method to delete an admin record
+   * @author DP
+   * @static
+   * @param {DeleteAdminRecordOptions} deleteAdminRecordOptions
+   * @return {*}
+   * @memberof AdminActions
+   */
+  public static async deleteAdminRecord(
+    deleteAdminRecordOptions: DeleteAdminRecordOptions
+  ): Promise<void> {
     const { identifierOptions, dbTransactionOptions } = deleteAdminRecordOptions
 
     const admin = await this.getAdminRecord(identifierOptions)
@@ -143,15 +144,15 @@ public static async deleteAdminRecord(deleteAdminRecordOptions: DeleteAdminRecor
     await admin.softDelete()
   }
 
-/**
- * @description Method to list admins
- * @author DP
- * @static
- * @param {ListAdminRecordOptions} listAdminRecordOptions
- * @return {*}  {Promise<{ adminPayload: Admin[]; paginationMeta?: any }>}
- * @memberof AdminActions
- */
-public static async listAdmins(
+  /**
+   * @description Method to list admins
+   * @author DP
+   * @static
+   * @param {ListAdminRecordOptions} listAdminRecordOptions
+   * @return {*}  {Promise<{ adminPayload: Admin[]; paginationMeta?: any }>}
+   * @memberof AdminActions
+   */
+  public static async listAdmins(
     listAdminRecordOptions: ListAdminRecordOptions
   ): Promise<{ adminPayload: Admin[]; paginationMeta?: any }> {
     const { paginationOptions } = listAdminRecordOptions

@@ -34,7 +34,7 @@ export default class UpdateShopSizeController {
 
       const { shopIdentifier } = request.params()
 
-      const landlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlord').user!
 
       const shop = await ShopActions.getShopRecord({
         identifierType: 'identifier',
@@ -49,7 +49,7 @@ export default class UpdateShopSizeController {
         })
       }
 
-      if (shop.landlord.id !== landlord.id) {
+      if (shop.landlord.id !== loggedInLandlord.id) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,

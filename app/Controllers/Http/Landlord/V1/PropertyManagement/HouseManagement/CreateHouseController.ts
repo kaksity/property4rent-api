@@ -34,12 +34,12 @@ export default class CreateHouseController {
 
       const { description } = request.body()
 
-      const landlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlord').user!
 
       const house = await HouseActions.createHouseRecord({
         createPayload: {
           description,
-          landlordId: landlord.id,
+          landlordId: loggedInLandlord.id,
         },
         dbTransactionOptions: {
           useTransaction: true,
