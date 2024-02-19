@@ -1,5 +1,6 @@
 import Hash from '@ioc:Adonis/Core/Hash'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Database from '@ioc:Adonis/Lucid/Database'
 import LandlordActions from 'App/Actions/LandlordActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import generateRandomString from 'App/Helpers/Functions/generateRandomString'
@@ -26,6 +27,7 @@ export default class LandlordLoginController {
   private ok = HttpStatusCodeEnum.OK
 
   public async handle({ request, response, auth }: HttpContextContract) {
+    const dbTransaction = await Database.transaction()
     try {
       try {
         await request.validate(LandlordLoginValidator)

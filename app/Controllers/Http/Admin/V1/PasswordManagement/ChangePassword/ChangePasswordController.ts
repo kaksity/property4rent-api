@@ -32,9 +32,9 @@ export default class ChangePasswordController {
 
       const { old_password: oldPassword, new_password: newPassword } = request.body()
 
-      const landlord = auth.user!
+      const loggedInLandlord = auth.use('landlord').user!
 
-      const isOldPasswordSuppliedCorrect = await Hash.verify(landlord.password, oldPassword)
+      const isOldPasswordSuppliedCorrect = await Hash.verify(loggedInLandlord.password, oldPassword)
       if (isOldPasswordSuppliedCorrect === false) {
         return response.badRequest({
           status: ERROR,
@@ -46,7 +46,7 @@ export default class ChangePasswordController {
       await AdminActions.updateAdminRecord({
         identifierOptions: {
           identifierType: 'id',
-          identifier: landlord.id,
+          identifier: loggedInLandlord.id,
         },
         updatePayload: {
           password: newPassword,

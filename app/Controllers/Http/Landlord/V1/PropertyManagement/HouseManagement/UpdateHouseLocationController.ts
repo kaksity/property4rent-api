@@ -35,7 +35,7 @@ export default class UpdateHouseLocationController {
 
       const { houseIdentifier } = request.params()
 
-      const landlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlord').user!
 
       const house = await HouseActions.getHouseRecord({
         identifierType: 'identifier',
@@ -50,7 +50,7 @@ export default class UpdateHouseLocationController {
         })
       }
 
-      if (house.landlord.id !== landlord.id) {
+      if (house.landlord.id !== loggedInLandlord.id) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,

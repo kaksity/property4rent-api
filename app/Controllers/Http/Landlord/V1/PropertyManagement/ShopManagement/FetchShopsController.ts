@@ -31,12 +31,12 @@ export default class FetchShopsController {
 
       const { per_page: limit = 100, page = 1, can_view_in_public: canViewInPublic } = request.qs()
 
-      const landlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlord').user!
 
       const { shopPayload: shops, paginationMeta } = await ShopActions.listShops({
         filterRecordOptions: {
           canViewInPublic: canViewInPublic ? (canViewInPublic === 'Yes' ? true : false) : undefined,
-          landlordId: landlord.id,
+          landlordId: loggedInLandlord.id,
         },
         paginationOptions: {
           page,
