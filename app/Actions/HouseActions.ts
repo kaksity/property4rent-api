@@ -6,6 +6,15 @@ import ListHouseRecordOptions from 'App/Typechecking/ModelManagement/House/ListH
 import UpdateHouseRecordOptions from 'App/Typechecking/ModelManagement/House/UpdateHouseRecordOptions'
 
 export default class HouseActions {
+
+  /**
+   * @description Method to create a house record
+   * @author DP
+   * @static
+   * @param {CreateHouseRecordOptions} createHouseRecordOptions
+   * @return {*}  {Promise<House>}
+   * @memberof HouseActions
+   */
   public static async createHouseRecord(
     createHouseRecordOptions: CreateHouseRecordOptions
   ): Promise<House> {
@@ -24,6 +33,14 @@ export default class HouseActions {
     return house
   }
 
+  /**
+   * @description Method to get a house by id
+   * @author DP
+   * @static
+   * @param {number} id
+   * @return {*}  {(Promise<House | null>)}
+   * @memberof HouseActions
+   */
   public static async getHouseById(id: number): Promise<House | null> {
     return House.query()
       .preload('landlord')
@@ -34,6 +51,14 @@ export default class HouseActions {
       .first()
   }
 
+  /**
+   * @description Method to get house by an identifier
+   * @author DP
+   * @static
+   * @param {string} identifier
+   * @return {*}  {(Promise<House | null>)}
+   * @memberof HouseActions
+   */
   public static async getHouseByIdentifier(identifier: string): Promise<House | null> {
     return House.query()
       .preload('landlord')
@@ -44,6 +69,14 @@ export default class HouseActions {
       .first()
   }
 
+  /**
+   * @description Method to get a house record
+   * @author DP
+   * @static
+   * @param {HouseRecordIdentifierOptions} HouseRecordIdentifierOptions
+   * @return {*}  {(Promise<House | null>)}
+   * @memberof HouseActions
+   */
   public static async getHouseRecord(
     HouseRecordIdentifierOptions: HouseRecordIdentifierOptions
   ): Promise<House | null> {
@@ -57,6 +90,14 @@ export default class HouseActions {
     return GetHouseRecord[identifierType]()
   }
 
+  /**
+   * @description Method to update a house record
+   * @author DP
+   * @static
+   * @param {UpdateHouseRecordOptions} updateHouseRecordOptions
+   * @return {*}  {(Promise<House | null>)}
+   * @memberof HouseActions
+   */
   public static async updateHouseRecord(
     updateHouseRecordOptions: UpdateHouseRecordOptions
   ): Promise<House | null> {
@@ -79,14 +120,20 @@ export default class HouseActions {
     return house
   }
 
-  public static async deleteHouseRecord(deleteHouseRecordOptions: DeleteHouseRecordOptions) {
+  /**
+   * @description Method to delete a house record
+   * @author DP
+   * @static
+   * @param {DeleteHouseRecordOptions} deleteHouseRecordOptions
+   * @return {*} 
+   * @memberof HouseActions
+   */
+  public static async deleteHouseRecord(deleteHouseRecordOptions: DeleteHouseRecordOptions): Promise<void> {
     const { identifierOptions, dbTransactionOptions } = deleteHouseRecordOptions
 
     const house = await this.getHouseRecord(identifierOptions)
 
-    if (house === null) {
-      return null
-    }
+    if (house === null) return
 
     if (dbTransactionOptions.useTransaction) {
       house.useTransaction(dbTransactionOptions.dbTransaction)
@@ -95,6 +142,14 @@ export default class HouseActions {
     await house.softDelete()
   }
 
+  /**
+   * @description Method to list houses
+   * @author DP
+   * @static
+   * @param {ListHouseRecordOptions} listHouseRecordOptions
+   * @return {*}  {Promise<{ housePayload: House[]; paginationMeta?: any }>}
+   * @memberof HouseActions
+   */
   public static async listHouses(
     listHouseRecordOptions: ListHouseRecordOptions
   ): Promise<{ housePayload: House[]; paginationMeta?: any }> {

@@ -6,6 +6,15 @@ import ListAdminRecordOptions from 'App/Typechecking/ModelManagement/Admin/ListA
 import UpdateAdminRecordOptions from 'App/Typechecking/ModelManagement/Admin/UpdateAdminRecordOptions'
 
 export default class AdminActions {
+
+  /**
+   * @description Method to create a new admin
+   * @author DP
+   * @static
+   * @param {CreateAdminRecordOptions} createAdminRecordOptions
+   * @return {*}  {Promise<Admin>}
+   * @memberof AdminActions
+   */
   public static async createAdminRecord(
     createAdminRecordOptions: CreateAdminRecordOptions
   ): Promise<Admin> {
@@ -24,18 +33,50 @@ export default class AdminActions {
     return admin
   }
 
+  /**
+   * @description Method to get an admin by id
+   * @author DP
+   * @static
+   * @param {number} id
+   * @return {*}  {(Promise<Admin | null>)}
+   * @memberof AdminActions
+   */
   public static async getAdminById(id: number): Promise<Admin | null> {
     return Admin.query().where('id', id).first()
   }
 
-  public static async getAdminByIdentifier(identifier: string): Promise<Admin | null> {
+/**
+ * @description Method to get admin by identifier
+ * @author DP
+ * @static
+ * @param {string} identifier
+ * @return {*}  {(Promise<Admin | null>)}
+ * @memberof AdminActions
+ */
+public static async getAdminByIdentifier(identifier: string): Promise<Admin | null> {
     return Admin.query().where('identifier', identifier).first()
   }
 
+  /**
+   * @description Method to get admin by email address
+   * @author DP
+   * @static
+   * @param {string} emailAddress
+   * @return {*}  {(Promise<Admin | null>)}
+   * @memberof AdminActions
+   */
   public static async getAdminByEmailAddress(emailAddress: string): Promise<Admin | null> {
     return Admin.query().where('email', emailAddress).first()
   }
 
+  /**
+   * @description Method to get an admin record
+   * @author DP
+   * @static
+   * @param {AdminRecordIdentifierOptions} adminRecordIdentifierOptions
+   * @return {*}  {(Promise<Admin | null>)}
+   * @memberof AdminActions
+   */
   public static async getAdminRecord(
     adminRecordIdentifierOptions: AdminRecordIdentifierOptions
   ): Promise<Admin | null> {
@@ -50,6 +91,14 @@ export default class AdminActions {
     return GetAdminRecord[identifierType]()
   }
 
+  /**
+   * @description Method to update an admin record
+   * @author DP
+   * @static
+   * @param {UpdateAdminRecordOptions} updateAdminRecordOptions
+   * @return {*}  {(Promise<Admin | null>)}
+   * @memberof AdminActions
+   */
   public static async updateAdminRecord(
     updateAdminRecordOptions: UpdateAdminRecordOptions
   ): Promise<Admin | null> {
@@ -72,14 +121,20 @@ export default class AdminActions {
     return admin
   }
 
-  public static async deleteAdminRecord(deleteAdminRecordOptions: DeleteAdminRecordOptions) {
+/**
+ * @description Method to delete an admin record
+ * @author DP
+ * @static
+ * @param {DeleteAdminRecordOptions} deleteAdminRecordOptions
+ * @return {*} 
+ * @memberof AdminActions
+ */
+public static async deleteAdminRecord(deleteAdminRecordOptions: DeleteAdminRecordOptions): Promise<void> {
     const { identifierOptions, dbTransactionOptions } = deleteAdminRecordOptions
 
     const admin = await this.getAdminRecord(identifierOptions)
 
-    if (admin === null) {
-      return null
-    }
+    if (admin === null) return
 
     if (dbTransactionOptions.useTransaction) {
       admin.useTransaction(dbTransactionOptions.dbTransaction)
@@ -88,7 +143,15 @@ export default class AdminActions {
     await admin.softDelete()
   }
 
-  public static async listAdmins(
+/**
+ * @description Method to list admins
+ * @author DP
+ * @static
+ * @param {ListAdminRecordOptions} listAdminRecordOptions
+ * @return {*}  {Promise<{ adminPayload: Admin[]; paginationMeta?: any }>}
+ * @memberof AdminActions
+ */
+public static async listAdmins(
     listAdminRecordOptions: ListAdminRecordOptions
   ): Promise<{ adminPayload: Admin[]; paginationMeta?: any }> {
     const { paginationOptions } = listAdminRecordOptions
