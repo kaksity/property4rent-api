@@ -1,0 +1,82 @@
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import TenantActions from 'App/Actions/TenantActions'
+import OtpTokenActions from 'App/Actions/OtpTokenActions'
+import generateRandomString from 'App/Helpers/Functions/generateRandomString'
+import {
+  REQUEST_RESET_PASSWORD_SUCCESSFUL,
+  ERROR,
+  SOMETHING_WENT_WRONG,
+  SUCCESS,
+  VALIDATION_ERROR,
+} from 'App/Helpers/Messages/SystemMessage'
+import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
+import RequestPasswordResetOtpTokenValidator from 'App/Validators/Tenant/V1/PasswordManagement/ResetPassword/RequestPasswordResetOtpTokenValidator'
+import businessConfig from 'Config/businessConfig'
+
+export default class RequestPasswordResetOtpTokenController {
+  private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
+  private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
+  private created = HttpStatusCodeEnum.CREATED
+
+  public async handle({ request, response }: HttpContextContract) {
+    try {
+      try {
+        await request.validate(RequestPasswordResetOtpTokenValidator)
+      } catch (validationError) {
+        return response.unprocessableEntity({
+          status: ERROR,
+          message: VALIDATION_ERROR,
+          status_code: this.unprocessableEntity,
+          results: validationError.messages,
+        })
+      }
+
+      const { email } = request.body()
+
+      const tenant = await TenantActions.getTenantRecord({
+        identifierType: 'email',
+        identifier: email,
+      })
+
+      await OtpTokenActions.revokeOtpTokens(tenant!.id)
+
+      const token = generateRandomString({
+        charset: 'numeric',
+        length: 8,
+        isCapitalized: false,
+      })
+
+      await OtpTokenActions.createOtpTokenRecord({
+        createPayload: {
+          authorId: tenant!.id,
+          purpose: 'reset-password',
+          expiresAt: businessConfig.currentDateTime.plus({
+            minutes: businessConfig.otpTokenExpirationTimeFrameInMinutes,
+          }),
+          token,
+        },
+        dbTransactionOptions: {
+          useTransaction: false,
+        },
+      })
+
+      // Send token via email address
+
+      return response.created({
+        status_code: this.created,
+        status: SUCCESS,
+        message: REQUEST_RESET_PASSWORD_SUCCESSFUL,
+      })
+    } catch (RequestPasswordResetOtpTokenControllerError) {
+      console.log(
+        'RequestPasswordResetOtpTokenController.handle => ',
+        RequestPasswordResetOtpTokenControllerError
+      )
+      return response.internalServerError({
+        status: ERROR,
+        status_code: this.internalServerError,
+        message: SOMETHING_WENT_WRONG,
+      })
+    }
+  }
+}
