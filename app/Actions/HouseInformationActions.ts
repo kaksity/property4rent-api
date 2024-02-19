@@ -6,7 +6,6 @@ import ListHouseInformationRecordOptions from 'App/Typechecking/ModelManagement/
 import UpdateHouseInformationRecordOptions from 'App/Typechecking/ModelManagement/HouseInformation/UpdateHouseInformationRecordOptions'
 
 export default class HouseInformationActions {
-
   /**
    * @description Method to create a house information record
    * @author DP
@@ -33,27 +32,27 @@ export default class HouseInformationActions {
     return houseInformation
   }
 
-/**
- * @description Method to get house information by id
- * @author DP
- * @static
- * @param {number} id
- * @return {*}  {(Promise<HouseInformation | null>)}
- * @memberof HouseInformationActions
- */
-public static async getHouseInformationById(id: number): Promise<HouseInformation | null> {
+  /**
+   * @description Method to get house information by id
+   * @author DP
+   * @static
+   * @param {number} id
+   * @return {*}  {(Promise<HouseInformation | null>)}
+   * @memberof HouseInformationActions
+   */
+  public static async getHouseInformationById(id: number): Promise<HouseInformation | null> {
     return HouseInformation.query().where('id', id).first()
   }
 
-/**
- * @description Method to get house information by identifier
- * @author DP
- * @static
- * @param {string} identifier
- * @return {*}  {(Promise<HouseInformation | null>)}
- * @memberof HouseInformationActions
- */
-public static async getHouseInformationByIdentifier(
+  /**
+   * @description Method to get house information by identifier
+   * @author DP
+   * @static
+   * @param {string} identifier
+   * @return {*}  {(Promise<HouseInformation | null>)}
+   * @memberof HouseInformationActions
+   */
+  public static async getHouseInformationByIdentifier(
     identifier: string
   ): Promise<HouseInformation | null> {
     return HouseInformation.query().where('identifier', identifier).first()
@@ -95,15 +94,15 @@ public static async getHouseInformationByIdentifier(
     return GetHouseInformationRecord[identifierType]()
   }
 
-/**
- * @description Method to update house information
- * @author DP
- * @static
- * @param {UpdateHouseInformationRecordOptions} updateHouseInformationRecordOptions
- * @return {*}  {(Promise<HouseInformation | null>)}
- * @memberof HouseInformationActions
- */
-public static async updateHouseInformationRecord(
+  /**
+   * @description Method to update house information
+   * @author DP
+   * @static
+   * @param {UpdateHouseInformationRecordOptions} updateHouseInformationRecordOptions
+   * @return {*}  {(Promise<HouseInformation | null>)}
+   * @memberof HouseInformationActions
+   */
+  public static async updateHouseInformationRecord(
     updateHouseInformationRecordOptions: UpdateHouseInformationRecordOptions
   ): Promise<HouseInformation | null> {
     const { identifierOptions, updatePayload, dbTransactionOptions } =
@@ -126,15 +125,15 @@ public static async updateHouseInformationRecord(
     return houseInformation
   }
 
-/**
- * @description Method to delete house information
- * @author DP
- * @static
- * @param {DeleteHouseInformationRecordOptions} deleteHouseInformationRecordOptions
- * @return {*}  {Promise<void>}
- * @memberof HouseInformationActions
- */
-public static async deleteHouseInformationRecord(
+  /**
+   * @description Method to delete house information
+   * @author DP
+   * @static
+   * @param {DeleteHouseInformationRecordOptions} deleteHouseInformationRecordOptions
+   * @return {*}  {Promise<void>}
+   * @memberof HouseInformationActions
+   */
+  public static async deleteHouseInformationRecord(
     deleteHouseInformationRecordOptions: DeleteHouseInformationRecordOptions
   ): Promise<void> {
     const { identifierOptions, dbTransactionOptions } = deleteHouseInformationRecordOptions
@@ -150,15 +149,15 @@ public static async deleteHouseInformationRecord(
     await houseInformation.softDelete()
   }
 
-/**
- * @description Method to list house information
- * @author DP
- * @static
- * @param {ListHouseInformationRecordOptions} listHouseInformationRecordOptions
- * @return {*}  {Promise<{ HouseInformationPayload: HouseInformation[]; paginationMeta?: any }>}
- * @memberof HouseInformationActions
- */
-public static async listHouseInformation(
+  /**
+   * @description Method to list house information
+   * @author DP
+   * @static
+   * @param {ListHouseInformationRecordOptions} listHouseInformationRecordOptions
+   * @return {*}  {Promise<{ HouseInformationPayload: HouseInformation[]; paginationMeta?: any }>}
+   * @memberof HouseInformationActions
+   */
+  public static async listHouseInformation(
     listHouseInformationRecordOptions: ListHouseInformationRecordOptions
   ): Promise<{ HouseInformationPayload: HouseInformation[]; paginationMeta?: any }> {
     const { paginationOptions } = listHouseInformationRecordOptions

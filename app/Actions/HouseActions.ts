@@ -6,7 +6,6 @@ import ListHouseRecordOptions from 'App/Typechecking/ModelManagement/House/ListH
 import UpdateHouseRecordOptions from 'App/Typechecking/ModelManagement/House/UpdateHouseRecordOptions'
 
 export default class HouseActions {
-
   /**
    * @description Method to create a house record
    * @author DP
@@ -125,10 +124,12 @@ export default class HouseActions {
    * @author DP
    * @static
    * @param {DeleteHouseRecordOptions} deleteHouseRecordOptions
-   * @return {*} 
+   * @return {*}
    * @memberof HouseActions
    */
-  public static async deleteHouseRecord(deleteHouseRecordOptions: DeleteHouseRecordOptions): Promise<void> {
+  public static async deleteHouseRecord(
+    deleteHouseRecordOptions: DeleteHouseRecordOptions
+  ): Promise<void> {
     const { identifierOptions, dbTransactionOptions } = deleteHouseRecordOptions
 
     const house = await this.getHouseRecord(identifierOptions)

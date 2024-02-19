@@ -6,7 +6,6 @@ import ListTenantRecordOptions from 'App/Typechecking/ModelManagement/Tenant/Lis
 import UpdateTenantRecordOptions from 'App/Typechecking/ModelManagement/Tenant/UpdateTenantRecordOptions'
 
 export default class TenantActions {
-
   /**
    * @description Method to create a new tenant
    * @author DP
@@ -45,15 +44,15 @@ export default class TenantActions {
     return Tenant.query().where('id', id).first()
   }
 
-/**
- * @description Method to get tenant by identifier
- * @author DP
- * @static
- * @param {string} identifier
- * @return {*}  {(Promise<Tenant | null>)}
- * @memberof TenantActions
- */
-public static async getTenantByIdentifier(identifier: string): Promise<Tenant | null> {
+  /**
+   * @description Method to get tenant by identifier
+   * @author DP
+   * @static
+   * @param {string} identifier
+   * @return {*}  {(Promise<Tenant | null>)}
+   * @memberof TenantActions
+   */
+  public static async getTenantByIdentifier(identifier: string): Promise<Tenant | null> {
     return Tenant.query().where('identifier', identifier).first()
   }
 
@@ -121,15 +120,17 @@ public static async getTenantByIdentifier(identifier: string): Promise<Tenant | 
     return tenant
   }
 
-/**
- * @description Method to delete an tenant record
- * @author DP
- * @static
- * @param {DeleteTenantRecordOptions} deleteTenantRecordOptions
- * @return {*} 
- * @memberof TenantActions
- */
-public static async deleteTenantRecord(deleteTenantRecordOptions: DeleteTenantRecordOptions): Promise<void> {
+  /**
+   * @description Method to delete an tenant record
+   * @author DP
+   * @static
+   * @param {DeleteTenantRecordOptions} deleteTenantRecordOptions
+   * @return {*}
+   * @memberof TenantActions
+   */
+  public static async deleteTenantRecord(
+    deleteTenantRecordOptions: DeleteTenantRecordOptions
+  ): Promise<void> {
     const { identifierOptions, dbTransactionOptions } = deleteTenantRecordOptions
 
     const tenant = await this.getTenantRecord(identifierOptions)
@@ -143,15 +144,15 @@ public static async deleteTenantRecord(deleteTenantRecordOptions: DeleteTenantRe
     await tenant.softDelete()
   }
 
-/**
- * @description Method to list tenants
- * @author DP
- * @static
- * @param {ListTenantRecordOptions} listTenantRecordOptions
- * @return {*}  {Promise<{ tenantPayload: Tenant[]; paginationMeta?: any }>}
- * @memberof TenantActions
- */
-public static async listTenants(
+  /**
+   * @description Method to list tenants
+   * @author DP
+   * @static
+   * @param {ListTenantRecordOptions} listTenantRecordOptions
+   * @return {*}  {Promise<{ tenantPayload: Tenant[]; paginationMeta?: any }>}
+   * @memberof TenantActions
+   */
+  public static async listTenants(
     listTenantRecordOptions: ListTenantRecordOptions
   ): Promise<{ tenantPayload: Tenant[]; paginationMeta?: any }> {
     const { paginationOptions } = listTenantRecordOptions
