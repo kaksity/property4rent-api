@@ -7,6 +7,7 @@ import {
   NOT_APPLICABLE,
   NULL_OBJECT,
   SOMETHING_WENT_WRONG,
+  SUCCESS,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 export default class FetchSingleLandlordAccountController {
@@ -46,7 +47,7 @@ export default class FetchSingleLandlordAccountController {
       }
 
       return response.ok({
-        status: ERROR,
+        status: SUCCESS,
         status_code: this.ok,
         message: LANDLORD_ACCOUNT_FETCHED_SUCCESSFUL,
         results: mutatedResults,

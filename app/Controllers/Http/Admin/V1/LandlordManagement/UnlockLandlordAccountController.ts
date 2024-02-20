@@ -5,6 +5,7 @@ import {
   LANDLORD_ACCOUNT_NOT_FOUND,
   LANDLORD_ACCOUNT_UPDATE_SUCCESSFUL,
   SOMETHING_WENT_WRONG,
+  SUCCESS,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 
@@ -43,7 +44,7 @@ export default class UnlockLandlordAccountController {
         },
       })
       return response.ok({
-        status: ERROR,
+        status: SUCCESS,
         status_code: this.ok,
         message: LANDLORD_ACCOUNT_UPDATE_SUCCESSFUL,
       })

@@ -57,7 +57,7 @@ export default class ChangePasswordController {
       })
 
       return response.ok({
-        status: ERROR,
+        status: SUCCESS,
         message: PASSWORD_CHANGED_SUCCESSFULLY,
         status_code: this.ok,
       })
