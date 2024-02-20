@@ -5,7 +5,7 @@ import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import generateRandomString from 'App/Helpers/Functions/generateRandomString'
 import {
   ERROR,
-  LANDLORD_CREATED_SUCCESSFULLY,
+  LANDLORD_ACCOUNT_CREATED_SUCCESSFULLY,
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
@@ -95,7 +95,7 @@ export default class CreateNewLandlordController {
       return response.created({
         status: SUCCESS,
         status_code: this.created,
-        message: LANDLORD_CREATED_SUCCESSFULLY,
+        message: LANDLORD_ACCOUNT_CREATED_SUCCESSFULLY,
         results: mutatedLandlordPayload,
       })
     } catch (CreateNewLandlordControllerError) {

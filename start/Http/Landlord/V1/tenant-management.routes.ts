@@ -1,6 +1,9 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(function () {
+  Route.post('create/tenant', 'CreateNewTenantController').as(
+    'landlord.v1.tenant-management.create-tenant-account'
+  )
   Route.get('fetch/tenant/:emailAddress/email', 'GetTenantByEmailAddressController').as(
     'landlord.v1.tenant-management.get-tenant-by-email-address'
   )
