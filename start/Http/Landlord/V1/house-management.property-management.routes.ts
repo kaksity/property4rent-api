@@ -4,6 +4,7 @@ Route.group(function () {
   Route.post('create/house', 'CreateHouseController').as(
     'landlord.v1.property-management.house-management.create-house'
   )
+
   Route.get('fetch/house/:houseIdentifier', 'FetchSingleHouseController').as(
     'landlord.v1.property-management.house-management.fetch-single-house'
   )
@@ -17,11 +18,20 @@ Route.group(function () {
     'update/house/:houseIdentifier/possible-use-cases',
     'UpdateHousePossibleUseCasesController'
   ).as('landlord.v1.property-management.house-management.update-house-possible-use-cases')
+
   Route.put('update/house/:houseIdentifier/rent-amount', 'UpdateHouseRentAmountController').as(
     'landlord.v1.property-management.house-management.update-house-rent-amount'
   )
   Route.put('update/house/:houseIdentifier/size', 'UpdateHouseSizeController').as(
     'landlord.v1.property-management.house-management.update-house-size'
+  )
+
+  Route.post('create/house/:houseIdentifier/unit', 'CreateHouseUnitController').as(
+    'landlord.v1.property-management.house-management.create-house-unit'
+  )
+
+  Route.get('fetch/house/:houseIdentifier/units', 'FetchHouseUnitsController').as(
+    'landlord.v1.property-management.house-management.fetch-house-units'
   )
 })
   .prefix('api/v1/landlord/property-management/house-management')

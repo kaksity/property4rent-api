@@ -1,0 +1,6 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import HouseUnitRecordIdentifierOptions from 'App/Typechecking/ModelManagement/HouseUnit/HouseUnitRecordIdentifierOptions'
+
+type DeleteHouseUnitRecordOptions = DeleteRecordGeneric<HouseUnitRecordIdentifierOptions>
+
+export default DeleteHouseUnitRecordOptions
