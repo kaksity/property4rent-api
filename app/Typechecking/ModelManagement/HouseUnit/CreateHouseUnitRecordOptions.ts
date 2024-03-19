@@ -3,7 +3,17 @@ import HouseUnitInterface from 'App/Typechecking/ModelManagement/HouseUnit/House
 
 type CreateHouseUnitPayloadOptions = Pick<
   HouseUnitInterface,
-  'houseId' | 'houseUnitType' | 'numberOfBathrooms' | 'numberOfKitchens' | 'numberOfRooms'
+  | 'houseId'
+  | 'houseUnitType'
+  | 'numberOfBathrooms'
+  | 'numberOfKitchens'
+  | 'numberOfRooms'
+  | 'baseAmount'
+  | 'breadth'
+  | 'length'
+  | 'maximumAmount'
+  | 'minimumAmount'
+  | 'possibleSuitableTenants'
 >
 
 type CreateHouseUnitRecordOptions = CreateNewRecordGeneric<CreateHouseUnitPayloadOptions>

@@ -1,19 +1,20 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import HouseActions from 'App/Actions/HouseActions'
-import HouseInformationActions from 'App/Actions/HouseInformationActions'
+import HouseUnitActions from 'App/Actions/HouseUnitActions'
 import {
   ERROR,
   NULL_OBJECT,
-  HOUSE_UPDATE_SUCCESSFUL,
+  HOUSE_UNIT_UPDATE_SUCCESSFUL,
   HOUSE_NOT_FOUND,
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
+  HOUSE_UNIT_NOT_FOUND,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import UpdateHousePossibleUseCasesValidator from 'App/Validators/Landlord/V1/PropertyManagement/HouseManagement/UpdateHousePossibleUseCasesValidator'
+import UpdateHouseUnitSizeValidator from 'App/Validators/Landlord/V1/PropertyManagement/HouseManagement/UpdateHouseUnitSizeValidator'
 
-export default class UpdateHousePossibleUseCasesController {
+export default class UpdateHouseUnitSizeController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
   private ok = HttpStatusCodeEnum.OK
   private notFound = HttpStatusCodeEnum.NOT_FOUND
@@ -22,7 +23,7 @@ export default class UpdateHousePossibleUseCasesController {
   public async handle({ request, auth, response }: HttpContextContract) {
     try {
       try {
-        await request.validate(UpdateHousePossibleUseCasesValidator)
+        await request.validate(UpdateHouseUnitSizeValidator)
       } catch (validationError) {
         return response.unprocessableEntity({
           status: ERROR,
@@ -32,7 +33,7 @@ export default class UpdateHousePossibleUseCasesController {
         })
       }
 
-      const { houseIdentifier } = request.params()
+      const { houseIdentifier, houseUnitIdentifier } = request.params()
 
       const loggedInLandlord = auth.use('landlord').user!
 
@@ -57,15 +58,37 @@ export default class UpdateHousePossibleUseCasesController {
         })
       }
 
-      const { possible_use_cases: possibleUseCases } = request.body()
+      const houseUnit = await HouseUnitActions.getHouseUnitRecord({
+        identifier: houseUnitIdentifier,
+        identifierType: 'identifier',
+      })
 
-      await HouseInformationActions.updateHouseInformationRecord({
+      if (houseUnit === NULL_OBJECT) {
+        return response.notFound({
+          status: ERROR,
+          status_code: this.notFound,
+          message: HOUSE_UNIT_NOT_FOUND,
+        })
+      }
+
+      if (houseUnit.houseId !== house.id) {
+        return response.notFound({
+          status: ERROR,
+          status_code: this.notFound,
+          message: HOUSE_UNIT_NOT_FOUND,
+        })
+      }
+
+      const { length, breadth } = request.body()
+
+      await HouseUnitActions.updateHouseUnitRecord({
         identifierOptions: {
-          identifierType: 'houseId',
-          identifier: house.id,
+          identifierType: 'identifier',
+          identifier: houseUnit.identifier,
         },
         updatePayload: {
-          possibleUseCases: JSON.stringify(possibleUseCases),
+          length,
+          breadth,
         },
         dbTransactionOptions: {
           useTransaction: false,
@@ -75,13 +98,10 @@ export default class UpdateHousePossibleUseCasesController {
       return response.ok({
         status: SUCCESS,
         status_code: this.ok,
-        message: HOUSE_UPDATE_SUCCESSFUL,
+        message: HOUSE_UNIT_UPDATE_SUCCESSFUL,
       })
-    } catch (UpdateHousePossibleUseCasesControllerError) {
-      console.log(
-        'UpdateHousePossibleUseCasesControllerError.handle',
-        UpdateHousePossibleUseCasesControllerError
-      )
+    } catch (UpdateHouseUnitSizeControllerError) {
+      console.log('UpdateHouseUnitSizeControllerError.handle', UpdateHouseUnitSizeControllerError)
 
       return response.internalServerError({
         status: ERROR,

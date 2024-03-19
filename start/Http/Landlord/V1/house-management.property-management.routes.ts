@@ -14,17 +14,6 @@ Route.group(function () {
   Route.put('update/house/:houseIdentifier/location', 'UpdateHouseLocationController').as(
     'landlord.v1.property-management.house-management.update-house-location'
   )
-  Route.put(
-    'update/house/:houseIdentifier/possible-use-cases',
-    'UpdateHousePossibleUseCasesController'
-  ).as('landlord.v1.property-management.house-management.update-house-possible-use-cases')
-
-  Route.put('update/house/:houseIdentifier/rent-amount', 'UpdateHouseRentAmountController').as(
-    'landlord.v1.property-management.house-management.update-house-rent-amount'
-  )
-  Route.put('update/house/:houseIdentifier/size', 'UpdateHouseSizeController').as(
-    'landlord.v1.property-management.house-management.update-house-size'
-  )
 
   Route.post('create/house/:houseIdentifier/unit', 'CreateHouseUnitController').as(
     'landlord.v1.property-management.house-management.create-house-unit'
@@ -33,6 +22,22 @@ Route.group(function () {
   Route.get('fetch/house/:houseIdentifier/units', 'FetchHouseUnitsController').as(
     'landlord.v1.property-management.house-management.fetch-house-units'
   )
+
+  Route.put(
+    'update/house/:houseIdentifier/unit/:houseUnitIdentifier/possible-suitable-tenants',
+    'UpdateHouseUnitPossibleSuitableTenantsController'
+  ).as(
+    'landlord.v1.property-management.house-management.update-house-unit-possible-suitable-tenants'
+  )
+
+  Route.put(
+    'update/house/:houseIdentifier/unit/:houseUnitIdentifier/rent-amount',
+    'UpdateHouseUnitRentAmountController'
+  ).as('landlord.v1.property-management.house-management.update-house-unit-rent-amount')
+  Route.put(
+    'update/house/:houseIdentifier/unit/:houseUnitIdentifier/size',
+    'UpdateHouseUnitSizeController'
+  ).as('landlord.v1.property-management.house-management.update-house-unit-size')
 })
   .prefix('api/v1/landlord/property-management/house-management')
   .middleware('auth:landlord')

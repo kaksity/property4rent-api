@@ -59,11 +59,8 @@ export default class FetchHousesController {
             },
             area: house.information.area || NOT_APPLICABLE,
             nearest_landmark: house.information.nearestLandmark || NOT_APPLICABLE,
-          },
-          rent_amount: {
-            base_amount: house.information.baseAmount,
-            minimum_amount: house.information.minimumAmount,
-            maximum_amount: house.information.maximumAmount,
+            longitude: house.information.longitude || NOT_APPLICABLE,
+            latitude: house.information.latitude || NOT_APPLICABLE,
           },
         }
       })

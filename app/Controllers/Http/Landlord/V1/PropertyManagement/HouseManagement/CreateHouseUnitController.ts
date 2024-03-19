@@ -40,6 +40,12 @@ export default class CreateHouseUnitController {
         number_of_rooms: numberOfRooms,
         number_of_bathrooms: numberOfBathrooms,
         number_of_kitchens: numberOfKitchens,
+        possible_suitable_tenants: possibleSuitableTenants,
+        minimum_amount: minimumAmount,
+        base_amount: baseAmount,
+        maximum_amount: maximumAmount,
+        length,
+        breadth,
       } = request.body()
 
       const house = await HouseActions.getHouseRecord({
@@ -70,6 +76,12 @@ export default class CreateHouseUnitController {
           numberOfRooms,
           numberOfBathrooms,
           numberOfKitchens,
+          possibleSuitableTenants,
+          minimumAmount,
+          maximumAmount,
+          baseAmount,
+          length,
+          breadth,
         },
         dbTransactionOptions: {
           useTransaction: false,
@@ -91,6 +103,7 @@ export default class CreateHouseUnitController {
         results: mutatedResults,
       })
     } catch (CreateHouseUnitControllerError) {
+      console.log('~CreateHouseUnitController.handle => ', CreateHouseUnitControllerError)
       return response.internalServerError({
         status: ERROR,
         status_code: this.internalServerError,

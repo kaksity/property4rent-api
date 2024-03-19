@@ -11,6 +11,13 @@ export default class extends BaseSchema {
       table.integer('number_of_rooms').defaultTo(0)
       table.integer('number_of_bathrooms').defaultTo(0)
       table.integer('number_of_kitchens').defaultTo(0)
+      table.bigInteger('base_amount').defaultTo(0)
+      table.bigInteger('minimum_amount').defaultTo(0)
+      table.bigInteger('maximum_amount').defaultTo(0)
+      table.integer('length').defaultTo(0)
+      table.integer('breadth').defaultTo(0)
+      table.text('possible_suitable_tenants').nullable()
+
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

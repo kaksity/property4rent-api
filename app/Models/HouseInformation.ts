@@ -26,24 +26,6 @@ export default class HouseInformation extends AbstractModel {
   @column()
   public latitude: string
 
-  @column()
-  public length: number
-
-  @column()
-  public breadth: number
-
-  @column()
-  public baseAmount: number
-
-  @column()
-  public minimumAmount: number
-
-  @column()
-  public maximumAmount: number
-
-  @column()
-  public possibleUseCases: string
-
   @belongsTo(() => SettingsState, {
     foreignKey: 'stateId',
   })

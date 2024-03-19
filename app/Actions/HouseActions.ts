@@ -21,7 +21,7 @@ export default class HouseActions {
 
     const house = new House()
 
-    Object.assign(House, createPayload)
+    Object.assign(house, createPayload)
 
     if (dbTransactionOptions.useTransaction) {
       house.useTransaction(dbTransactionOptions.dbTransaction)

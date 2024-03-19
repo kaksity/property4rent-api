@@ -15,6 +15,18 @@ interface HouseUnitInterface {
 
   numberOfKitchens: number
 
+  length: number
+
+  breadth: number
+
+  baseAmount: number
+
+  minimumAmount: number
+
+  maximumAmount: number
+
+  possibleSuitableTenants: string
+
   createdAt: DateTime
 
   updatedAt: DateTime

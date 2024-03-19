@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import HouseActions from 'App/Actions/HouseActions'
 import HouseInformationActions from 'App/Actions/HouseInformationActions'
+import HouseUnitActions from 'App/Actions/HouseUnitActions'
 import {
   ERROR,
   NULL_OBJECT,
@@ -9,11 +10,12 @@ import {
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
+  HOUSE_UNIT_NOT_FOUND,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import UpdateHouseSizeValidator from 'App/Validators/Landlord/V1/PropertyManagement/HouseManagement/UpdateHouseSizeValidator'
+import UpdateHouseUnitPossibleSuitableTenantsValidator from 'App/Validators/Landlord/V1/PropertyManagement/HouseManagement/UpdateHouseUnitPossibleSuitableTenantsValidator'
 
-export default class UpdateHouseSizeController {
+export default class UpdateHouseUnitPossibleSuitableTenantsController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
   private ok = HttpStatusCodeEnum.OK
   private notFound = HttpStatusCodeEnum.NOT_FOUND
@@ -22,7 +24,7 @@ export default class UpdateHouseSizeController {
   public async handle({ request, auth, response }: HttpContextContract) {
     try {
       try {
-        await request.validate(UpdateHouseSizeValidator)
+        await request.validate(UpdateHouseUnitPossibleSuitableTenantsValidator)
       } catch (validationError) {
         return response.unprocessableEntity({
           status: ERROR,
@@ -32,7 +34,7 @@ export default class UpdateHouseSizeController {
         })
       }
 
-      const { houseIdentifier } = request.params()
+      const { houseIdentifier, houseUnitIdentifier } = request.params()
 
       const loggedInLandlord = auth.use('landlord').user!
 
@@ -57,16 +59,35 @@ export default class UpdateHouseSizeController {
         })
       }
 
-      const { length, breadth } = request.body()
+      const houseUnit = await HouseUnitActions.getHouseUnitRecord({
+        identifierType: 'identifier',
+        identifier: houseUnitIdentifier,
+      })
 
-      await HouseInformationActions.updateHouseInformationRecord({
+      if (houseUnit === NULL_OBJECT) {
+        return response.notFound({
+          status: ERROR,
+          status_code: this.notFound,
+          message: HOUSE_UNIT_NOT_FOUND,
+        })
+      }
+
+      if (houseUnit.houseId !== house.id) {
+        return response.notFound({
+          status: ERROR,
+          status_code: this.notFound,
+          message: HOUSE_UNIT_NOT_FOUND,
+        })
+      }
+      const { possible_suitable_tenants: possibleSuitableTenants } = request.body()
+
+      await HouseUnitActions.updateHouseUnitRecord({
         identifierOptions: {
-          identifierType: 'houseId',
-          identifier: house.id,
+          identifierType: 'identifier',
+          identifier: houseUnit.identifier,
         },
         updatePayload: {
-          length,
-          breadth,
+          possibleSuitableTenants: JSON.stringify(possibleSuitableTenants),
         },
         dbTransactionOptions: {
           useTransaction: false,
@@ -78,8 +99,11 @@ export default class UpdateHouseSizeController {
         status_code: this.ok,
         message: HOUSE_UPDATE_SUCCESSFUL,
       })
-    } catch (UpdateHouseSizeControllerError) {
-      console.log('UpdateHouseSizeControllerError.handle', UpdateHouseSizeControllerError)
+    } catch (UpdateHouseUnitPossibleSuitableTenantsControllerError) {
+      console.log(
+        'UpdateHouseUnitPossibleSuitableTenantsControllerError.handle',
+        UpdateHouseUnitPossibleSuitableTenantsControllerError
+      )
 
       return response.internalServerError({
         status: ERROR,

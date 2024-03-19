@@ -60,16 +60,6 @@ export default class FetchSingleHouseController {
           longitude: house.information.longitude || NOT_APPLICABLE,
           latitude: house.information.latitude || NOT_APPLICABLE,
         },
-        size: {
-          length: house.information.length,
-          bread: house.information.breadth,
-        },
-        rent_amount: {
-          base_amount: house.information.baseAmount,
-          minimum_amount: house.information.minimumAmount,
-          maximum_amount: house.information.maximumAmount,
-        },
-        possible_use_cases: JSON.parse(house.information.possibleUseCases) || [],
       }
 
       return response.ok({

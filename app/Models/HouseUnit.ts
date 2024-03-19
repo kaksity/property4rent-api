@@ -18,6 +18,24 @@ export default class HouseUnit extends AbstractModel {
   @column()
   public numberOfKitchens: number
 
+  @column()
+  public length: number
+
+  @column()
+  public breadth: number
+
+  @column()
+  public baseAmount: number
+
+  @column()
+  public minimumAmount: number
+
+  @column()
+  public maximumAmount: number
+
+  @column()
+  public possibleSuitableTenants: string
+
   @belongsTo(() => House)
   public house: BelongsTo<typeof House>
 }

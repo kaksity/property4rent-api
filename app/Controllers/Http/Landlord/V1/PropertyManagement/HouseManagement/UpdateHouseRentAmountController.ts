@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import HouseActions from 'App/Actions/HouseActions'
-import HouseInformationActions from 'App/Actions/HouseInformationActions'
+import HouseUnitActions from 'App/Actions/HouseUnitActions'
 import {
   ERROR,
   NULL_OBJECT,
@@ -9,9 +9,10 @@ import {
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
+  HOUSE_UNIT_NOT_FOUND,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import UpdateHouseRentAmountValidator from 'App/Validators/Landlord/V1/PropertyManagement/HouseManagement/UpdateHouseRentAmountValidator'
+import UpdateHouseUnitRentAmountValidator from 'App/Validators/Landlord/V1/PropertyManagement/HouseManagement/UpdateHouseUnitRentAmountValidator'
 
 export default class UpdateHouseRentAmountController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -22,7 +23,7 @@ export default class UpdateHouseRentAmountController {
   public async handle({ request, auth, response }: HttpContextContract) {
     try {
       try {
-        await request.validate(UpdateHouseRentAmountValidator)
+        await request.validate(UpdateHouseUnitRentAmountValidator)
       } catch (validationError) {
         return response.unprocessableEntity({
           status: ERROR,
@@ -32,7 +33,7 @@ export default class UpdateHouseRentAmountController {
         })
       }
 
-      const { houseIdentifier } = request.params()
+      const { houseIdentifier, houseUnitIdentifier } = request.params()
 
       const loggedInLandlord = auth.use('landlord').user!
 
@@ -57,16 +58,37 @@ export default class UpdateHouseRentAmountController {
         })
       }
 
+      const houseUnit = await HouseUnitActions.getHouseUnitRecord({
+        identifierType: 'identifier',
+        identifier: houseUnitIdentifier,
+      })
+
+      if (houseUnit === NULL_OBJECT) {
+        return response.notFound({
+          status: ERROR,
+          status_code: this.notFound,
+          message: HOUSE_UNIT_NOT_FOUND,
+        })
+      }
+
+      if (houseUnit.houseId === house.id) {
+        return response.notFound({
+          status: ERROR,
+          status_code: this.notFound,
+          message: HOUSE_UNIT_NOT_FOUND,
+        })
+      }
+
       const {
         minimum_amount: minimumAmount,
         base_amount: baseAmount,
         maximum_amount: maximumAmount,
       } = request.body()
 
-      await HouseInformationActions.updateHouseInformationRecord({
+      await HouseUnitActions.updateHouseUnitRecord({
         identifierOptions: {
-          identifierType: 'houseId',
-          identifier: house.id,
+          identifierType: 'identifier',
+          identifier: houseUnit.identifier,
         },
         updatePayload: {
           minimumAmount,
