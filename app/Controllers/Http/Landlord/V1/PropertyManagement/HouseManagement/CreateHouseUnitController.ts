@@ -76,7 +76,7 @@ export default class CreateHouseUnitController {
           numberOfRooms,
           numberOfBathrooms,
           numberOfKitchens,
-          possibleSuitableTenants,
+          possibleSuitableTenants: JSON.stringify(possibleSuitableTenants),
           minimumAmount,
           maximumAmount,
           baseAmount,
@@ -94,6 +94,12 @@ export default class CreateHouseUnitController {
         number_of_rooms: createdHouseUnit.numberOfRooms,
         number_of_bathrooms: createdHouseUnit.numberOfBathrooms,
         number_of_kitchens: createdHouseUnit.numberOfKitchens,
+        possible_suitable_tenants: JSON.parse(createdHouseUnit.possibleSuitableTenants),
+        minimum_amount: createdHouseUnit.minimumAmount,
+        maximum_amount: createdHouseUnit.maximumAmount,
+        base_amount: createdHouseUnit.baseAmount,
+        length: createdHouseUnit.length,
+        breadth: createdHouseUnit.breadth,
       }
 
       return response.created({

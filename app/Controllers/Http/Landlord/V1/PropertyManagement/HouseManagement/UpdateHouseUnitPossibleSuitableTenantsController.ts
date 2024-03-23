@@ -1,6 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import HouseActions from 'App/Actions/HouseActions'
-import HouseInformationActions from 'App/Actions/HouseInformationActions'
 import HouseUnitActions from 'App/Actions/HouseUnitActions'
 import {
   ERROR,

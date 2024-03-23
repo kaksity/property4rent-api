@@ -9,7 +9,7 @@ export default class AssignTenantToShopController {
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
 
-  public async handle({ request, auth, response }: HttpContextContract) {
+  public async handle({ request, response }: HttpContextContract) {
     try {
       try {
         await request.validate(AssignTenantToShopValidator)
@@ -25,12 +25,12 @@ export default class AssignTenantToShopController {
       const { shop_identifier: shopIdentifier, tenant_identifier: tenantIdentifier } =
         request.body()
 
-      const shop = await ShopActions.getShopRecord({
+      await ShopActions.getShopRecord({
         identifier: shopIdentifier,
         identifierType: 'identifier',
       })
 
-      const tenant = await TenantActions.getTenantRecord({
+      await TenantActions.getTenantRecord({
         identifierType: 'identifier',
         identifier: tenantIdentifier,
       })

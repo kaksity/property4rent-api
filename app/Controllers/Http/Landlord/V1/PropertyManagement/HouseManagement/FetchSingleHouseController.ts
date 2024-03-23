@@ -43,6 +43,22 @@ export default class FetchSingleHouseController {
         })
       }
 
+      const mutatedHouseUnits = house.units.map((houseUnit) => {
+        return {
+          identifier: houseUnit.identifier,
+          house_unit_type: houseUnit.houseUnitType,
+          number_of_rooms: houseUnit.numberOfRooms,
+          number_of_bathrooms: houseUnit.numberOfBathrooms,
+          number_of_kitchens: houseUnit.numberOfKitchens,
+          length: houseUnit.length,
+          breadth: houseUnit.breadth,
+          base_amount: houseUnit.baseAmount,
+          minimum_amount: houseUnit.minimumAmount,
+          maximum_amount: houseUnit.maximumAmount,
+          possible_suitable_tenants: JSON.parse(houseUnit.possibleSuitableTenants),
+        }
+      })
+
       const mutatedResults = {
         identifier: house.identifier,
         description: house.description,
@@ -60,6 +76,7 @@ export default class FetchSingleHouseController {
           longitude: house.information.longitude || NOT_APPLICABLE,
           latitude: house.information.latitude || NOT_APPLICABLE,
         },
+        house_units: mutatedHouseUnits,
       }
 
       return response.ok({

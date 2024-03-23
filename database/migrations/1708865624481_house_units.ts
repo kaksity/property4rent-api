@@ -6,6 +6,7 @@ export default class extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table.string('identifier').index()
       table.integer('house_id').index()
       table.enum('house_unit_type', ['Flat', 'Apartment'])
       table.integer('number_of_rooms').defaultTo(0)

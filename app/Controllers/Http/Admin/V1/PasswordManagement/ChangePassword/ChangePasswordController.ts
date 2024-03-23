@@ -4,6 +4,7 @@ import {
   OLD_PASSWORD_SUPPLIED_IS_NOT_CORRECT,
   PASSWORD_CHANGED_SUCCESSFULLY,
   SOMETHING_WENT_WRONG,
+  SUCCESS,
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
 import Hash from '@ioc:Adonis/Core/Hash'

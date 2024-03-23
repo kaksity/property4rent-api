@@ -43,6 +43,7 @@ export default class HouseActions {
   public static async getHouseById(id: number): Promise<House | null> {
     return House.query()
       .preload('landlord')
+      .preload('units')
       .preload('information', (informationQuery) =>
         informationQuery.preload('lga').preload('state')
       )
@@ -61,6 +62,7 @@ export default class HouseActions {
   public static async getHouseByIdentifier(identifier: string): Promise<House | null> {
     return House.query()
       .preload('landlord')
+      .preload('units')
       .preload('information', (informationQuery) =>
         informationQuery.preload('lga').preload('state')
       )
@@ -157,6 +159,7 @@ export default class HouseActions {
     const { paginationOptions, filterRecordOptions } = listHouseRecordOptions
     const houseQuery = House.query()
       .preload('landlord')
+      .preload('units')
       .preload('information', (informationQuery) =>
         informationQuery.preload('state').preload('lga')
       )

@@ -62,6 +62,9 @@ export default class FetchHousesController {
             longitude: house.information.longitude || NOT_APPLICABLE,
             latitude: house.information.latitude || NOT_APPLICABLE,
           },
+          house_units_metrics: {
+            total_number_of_units: house.units.length,
+          },
         }
       })
 

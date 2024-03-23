@@ -85,11 +85,6 @@ export default class FetchHouseUnitsController {
           area: house.information.area || NOT_APPLICABLE,
           nearest_landmark: house.information.nearestLandmark || NOT_APPLICABLE,
         },
-        rent_amount: {
-          base_amount: house.information.baseAmount,
-          minimum_amount: house.information.minimumAmount,
-          maximum_amount: house.information.maximumAmount,
-        },
       }
 
       const mutatedHouseUnitsResults = houseUnits.map((houseUnit) => {
@@ -99,6 +94,11 @@ export default class FetchHouseUnitsController {
           number_of_rooms: houseUnit.numberOfRooms,
           number_of_bathrooms: houseUnit.numberOfBathrooms,
           number_of_kitchens: houseUnit.numberOfKitchens,
+          base_amount: houseUnit.baseAmount,
+          minimum_amount: houseUnit.minimumAmount,
+          maximum_amount: houseUnit.maximumAmount,
+          length: houseUnit.length,
+          breadth: houseUnit.breadth,
         }
       })
 
