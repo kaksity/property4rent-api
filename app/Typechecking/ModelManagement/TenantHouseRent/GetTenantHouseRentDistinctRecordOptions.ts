@@ -1,4 +1,6 @@
 type GetTenantHouseRentDistinctRecordOptions = {
+  landlordId: number
+
   houseUnitId: number
 
   tenantId: number

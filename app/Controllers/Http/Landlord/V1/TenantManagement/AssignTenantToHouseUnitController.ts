@@ -104,6 +104,7 @@ export default class AssignTenantToHouseUnitController {
           endRentDate,
           paidRentAmount,
           rentStatus: 'active',
+          landlordId: loggedInLandlord.id,
         },
         dbTransactionOptions: {
           useTransaction: true,

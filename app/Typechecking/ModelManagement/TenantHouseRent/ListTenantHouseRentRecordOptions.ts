@@ -2,7 +2,12 @@ import ListRecordsGeneric from 'App/Typechecking/GeneralPurpose/ListRecordsGener
 
 type ListTenantHouseRentFilterPayloadOptions = {
   houseUnitId?: number
+
   tenantId?: number
+
+  landlordId?: number
+
+  rentStatus?: 'active' | 'inactive' | 'expired'
 }
 
 type ListTenantHouseRentRecordOptions = ListRecordsGeneric<ListTenantHouseRentFilterPayloadOptions>

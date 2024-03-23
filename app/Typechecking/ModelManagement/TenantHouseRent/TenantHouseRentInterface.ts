@@ -5,6 +5,8 @@ interface TenantHouseRentInterface {
 
   identifier: string
 
+  landlordId: number
+
   tenantId: number
 
   houseUnitId: number

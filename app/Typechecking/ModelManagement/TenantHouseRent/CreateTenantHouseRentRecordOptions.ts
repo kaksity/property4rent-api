@@ -10,6 +10,7 @@ type CreateTenantHouseRentPayloadOptions = Pick<
   | 'startRentDate'
   | 'tenantId'
   | 'rentStatus'
+  | 'landlordId'
 >
 
 type CreateTenantHouseRentRecordOptions =

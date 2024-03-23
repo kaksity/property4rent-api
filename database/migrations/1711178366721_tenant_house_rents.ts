@@ -7,6 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('identifier').index()
+      table.integer('landlord_id').index()
       table.integer('tenant_id').index()
       table.integer('house_unit_id').index()
       table.bigInteger('house_rent_amount').defaultTo(0)

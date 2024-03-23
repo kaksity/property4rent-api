@@ -78,6 +78,7 @@ export default class RevokeTenantFromHouseUnitController {
       const tenantHouseRent = await TenantHouseRentActions.getTenantHouseRentDistinct({
         tenantId: tenant.id,
         houseUnitId: houseUnit.id,
+        landlordId: loggedInLandlord.id,
       })
 
       if (tenantHouseRent === NULL_OBJECT) {

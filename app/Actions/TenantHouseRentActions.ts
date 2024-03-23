@@ -42,7 +42,14 @@ export default class TenantHouseRentActions {
    * @memberof TenantHouseRentActions
    */
   public static async getTenantHouseRentById(id: number): Promise<TenantHouseRent | null> {
-    return TenantHouseRent.query().where('id', id).first()
+    return TenantHouseRent.query()
+      .preload('landlord')
+      .preload('tenant')
+      .preload('houseUnit', (houseUnitQuery) => {
+        houseUnitQuery.preload('house')
+      })
+      .where('id', id)
+      .first()
   }
 
   /**
@@ -56,7 +63,14 @@ export default class TenantHouseRentActions {
   public static async getTenantHouseRentByIdentifier(
     identifier: string
   ): Promise<TenantHouseRent | null> {
-    return TenantHouseRent.query().where('identifier', identifier).first()
+    return TenantHouseRent.query()
+      .preload('landlord')
+      .preload('tenant')
+      .preload('houseUnit', (houseUnitQuery) => {
+        houseUnitQuery.preload('house')
+      })
+      .where('identifier', identifier)
+      .first()
   }
 
   /**
@@ -147,7 +161,13 @@ export default class TenantHouseRentActions {
     listTenantHouseRentRecordOptions: ListTenantHouseRentRecordOptions
   ): Promise<{ tenantHouseRentPayload: TenantHouseRent[]; paginationMeta?: any }> {
     const { filterRecordOptions, paginationOptions } = listTenantHouseRentRecordOptions
-    const tenantHouseRentQuery = TenantHouseRent.query().orderBy('created_at', 'asc')
+    const tenantHouseRentQuery = TenantHouseRent.query()
+      .preload('landlord')
+      .preload('tenant')
+      .preload('houseUnit', (houseUnitQuery) => {
+        houseUnitQuery.preload('house')
+      })
+      .orderBy('created_at', 'asc')
 
     if (filterRecordOptions?.houseUnitId) {
       tenantHouseRentQuery.where('house_unit_id', filterRecordOptions.houseUnitId)
@@ -155,6 +175,14 @@ export default class TenantHouseRentActions {
 
     if (filterRecordOptions?.tenantId) {
       tenantHouseRentQuery.where('tenant_id', filterRecordOptions.tenantId)
+    }
+
+    if (filterRecordOptions?.landlordId) {
+      tenantHouseRentQuery.where('landlord_id', filterRecordOptions.landlordId)
+    }
+
+    if (filterRecordOptions?.rentStatus) {
+      tenantHouseRentQuery.where('rent_status', filterRecordOptions.rentStatus)
     }
 
     if (paginationOptions) {
@@ -184,10 +212,11 @@ export default class TenantHouseRentActions {
   public static async getTenantHouseRentDistinct(
     getTenantHouseRentDistinctRecordOptions: GetTenantHouseRentDistinctRecordOptions
   ): Promise<TenantHouseRent | null> {
-    const { houseUnitId, tenantId } = getTenantHouseRentDistinctRecordOptions
+    const { houseUnitId, tenantId, landlordId } = getTenantHouseRentDistinctRecordOptions
     return await TenantHouseRent.query()
       .where('house_unit_id', houseUnitId)
       .where('tenant_id', tenantId)
+      .where('landlord_id', landlordId)
       .orderBy('updated_at', 'desc')
       .first()
   }
