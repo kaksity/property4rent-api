@@ -33,13 +33,13 @@ export default class ShopInformation extends AbstractModel {
   public breadth: number
 
   @column()
-  public baseAmount: number
+  public baseRentAmount: number
 
   @column()
-  public minimumAmount: number
+  public minimumRentAmount: number
 
   @column()
-  public maximumAmount: number
+  public maximumRentAmount: number
 
   @column()
   public possibleUseCases: string

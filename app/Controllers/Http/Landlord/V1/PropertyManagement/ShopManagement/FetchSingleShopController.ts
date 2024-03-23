@@ -65,9 +65,9 @@ export default class FetchSingleShopController {
           bread: shop.information.breadth,
         },
         rent_amount: {
-          base_amount: shop.information.baseAmount,
-          minimum_amount: shop.information.minimumAmount,
-          maximum_amount: shop.information.maximumAmount,
+          base_rent_amount: shop.information.baseRentAmount,
+          minimum_rent_amount: shop.information.minimumRentAmount,
+          maximum_rent_amount: shop.information.maximumRentAmount,
         },
         possible_use_cases: JSON.parse(shop.information.possibleUseCases) || [],
       }

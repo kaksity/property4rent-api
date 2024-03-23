@@ -80,9 +80,9 @@ export default class UpdateHouseUnitRentAmountController {
       }
 
       const {
-        minimum_amount: minimumAmount,
-        base_amount: baseAmount,
-        maximum_amount: maximumAmount,
+        minimum_rent_amount: minimumRentAmount,
+        base_rent_amount: baseRentAmount,
+        maximum_rent_amount: maximumRentAmount,
       } = request.body()
 
       await HouseUnitActions.updateHouseUnitRecord({
@@ -91,9 +91,9 @@ export default class UpdateHouseUnitRentAmountController {
           identifier: houseUnit.identifier,
         },
         updatePayload: {
-          minimumAmount,
-          maximumAmount,
-          baseAmount,
+          minimumRentAmount,
+          maximumRentAmount,
+          baseRentAmount,
         },
         dbTransactionOptions: {
           useTransaction: false,

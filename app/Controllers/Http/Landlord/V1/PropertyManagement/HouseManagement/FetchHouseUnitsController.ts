@@ -94,11 +94,12 @@ export default class FetchHouseUnitsController {
           number_of_rooms: houseUnit.numberOfRooms,
           number_of_bathrooms: houseUnit.numberOfBathrooms,
           number_of_kitchens: houseUnit.numberOfKitchens,
-          base_amount: houseUnit.baseAmount,
-          minimum_amount: houseUnit.minimumAmount,
-          maximum_amount: houseUnit.maximumAmount,
+          base_rent_amount: houseUnit.baseRentAmount,
+          minimum_rent_amount: houseUnit.minimumRentAmount,
+          maximum_rent_amount: houseUnit.maximumRentAmount,
           length: houseUnit.length,
           breadth: houseUnit.breadth,
+          occupation_status: houseUnit.occupationStatus,
         }
       })
 

@@ -41,7 +41,7 @@ export default class HouseUnitActions {
    * @memberof HouseUnitActions
    */
   public static async getHouseUnitById(id: number): Promise<HouseUnit | null> {
-    return HouseUnit.query().where('id', id).first()
+    return HouseUnit.query().preload('house').where('id', id).first()
   }
 
   /**
@@ -53,7 +53,7 @@ export default class HouseUnitActions {
    * @memberof HouseUnitActions
    */
   public static async getHouseUnitByIdentifier(identifier: string): Promise<HouseUnit | null> {
-    return HouseUnit.query().where('identifier', identifier).first()
+    return HouseUnit.query().preload('house').where('identifier', identifier).first()
   }
 
   /**
@@ -143,7 +143,7 @@ export default class HouseUnitActions {
     listHouseUnitRecordOptions: ListHouseUnitRecordOptions
   ): Promise<{ houseUnitPayload: HouseUnit[]; paginationMeta?: any }> {
     const { paginationOptions, filterRecordOptions } = listHouseUnitRecordOptions
-    const houseUnitQuery = HouseUnit.query().orderBy('created_at', 'asc')
+    const houseUnitQuery = HouseUnit.query().preload('house').orderBy('created_at', 'asc')
 
     if (filterRecordOptions?.houseId) {
       houseUnitQuery.where('house_id', filterRecordOptions.houseId)

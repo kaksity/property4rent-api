@@ -23,11 +23,11 @@ interface ShopInformationInterface {
 
   breadth: number
 
-  baseAmount: number
+  baseRentAmount: number
 
-  minimumAmount: number
+  minimumRentAmount: number
 
-  maximumAmount: number
+  maximumRentAmount: number
 
   possibleUseCases: string
 

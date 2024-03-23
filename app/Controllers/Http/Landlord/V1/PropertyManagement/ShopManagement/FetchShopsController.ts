@@ -61,9 +61,9 @@ export default class FetchShopsController {
             nearest_landmark: shop.information.nearestLandmark || NOT_APPLICABLE,
           },
           rent_amount: {
-            base_amount: shop.information.baseAmount,
-            minimum_amount: shop.information.minimumAmount,
-            maximum_amount: shop.information.maximumAmount,
+            base_rent_amount: shop.information.baseRentAmount,
+            minimum_rent_amount: shop.information.minimumRentAmount,
+            maximum_rent_amount: shop.information.maximumRentAmount,
           },
         }
       })

@@ -52,10 +52,11 @@ export default class FetchSingleHouseController {
           number_of_kitchens: houseUnit.numberOfKitchens,
           length: houseUnit.length,
           breadth: houseUnit.breadth,
-          base_amount: houseUnit.baseAmount,
-          minimum_amount: houseUnit.minimumAmount,
-          maximum_amount: houseUnit.maximumAmount,
+          base_rent_amount: houseUnit.baseRentAmount,
+          minimum_rent_amount: houseUnit.minimumRentAmount,
+          maximum_rent_amount: houseUnit.maximumRentAmount,
           possible_suitable_tenants: JSON.parse(houseUnit.possibleSuitableTenants),
+          occupation_status: houseUnit.occupationStatus,
         }
       })
 

@@ -16,9 +16,9 @@ export default class extends BaseSchema {
       table.string('latitude').nullable()
       table.integer('length').defaultTo(0)
       table.integer('breadth').defaultTo(0)
-      table.bigInteger('base_amount').defaultTo(0)
-      table.bigInteger('minimum_amount').defaultTo(0)
-      table.bigInteger('maximum_amount').defaultTo(0)
+      table.bigInteger('base_rent_amount').defaultTo(0)
+      table.bigInteger('minimum_rent_amount').defaultTo(0)
+      table.bigInteger('maximum_rent_amount').defaultTo(0)
       table.text('possible_use_cases').nullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

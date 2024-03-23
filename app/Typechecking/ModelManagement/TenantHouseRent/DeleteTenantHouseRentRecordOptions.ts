@@ -1,0 +1,7 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import TenantHouseRentRecordIdentifierOptions from 'App/Typechecking/ModelManagement/TenantHouseRent/TenantHouseRentRecordIdentifierOptions'
+
+type DeleteTenantHouseRentRecordOptions =
+  DeleteRecordGeneric<TenantHouseRentRecordIdentifierOptions>
+
+export default DeleteTenantHouseRentRecordOptions

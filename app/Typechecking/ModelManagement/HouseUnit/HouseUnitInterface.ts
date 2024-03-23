@@ -19,13 +19,15 @@ interface HouseUnitInterface {
 
   breadth: number
 
-  baseAmount: number
+  baseRentAmount: number
 
-  minimumAmount: number
+  minimumRentAmount: number
 
-  maximumAmount: number
+  maximumRentAmount: number
 
   possibleSuitableTenants: string
+
+  occupationStatus: 'occupied' | 'empty'
 
   createdAt: DateTime
 

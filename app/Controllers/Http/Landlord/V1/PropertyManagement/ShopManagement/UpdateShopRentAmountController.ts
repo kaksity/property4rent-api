@@ -58,9 +58,9 @@ export default class UpdateShopRentAmountController {
       }
 
       const {
-        minimum_amount: minimumAmount,
-        base_amount: baseAmount,
-        maximum_amount: maximumAmount,
+        minimum_rent_amount: minimumRentAmount,
+        base_rent_amount: baseRentAmount,
+        maximum_rent_amount: maximumRentAmount,
       } = request.body()
 
       await ShopInformationActions.updateShopInformationRecord({
@@ -69,9 +69,9 @@ export default class UpdateShopRentAmountController {
           identifier: shop.id,
         },
         updatePayload: {
-          minimumAmount,
-          maximumAmount,
-          baseAmount,
+          minimumRentAmount,
+          maximumRentAmount,
+          baseRentAmount,
         },
         dbTransactionOptions: {
           useTransaction: false,

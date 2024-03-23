@@ -8,12 +8,13 @@ type CreateHouseUnitPayloadOptions = Pick<
   | 'numberOfBathrooms'
   | 'numberOfKitchens'
   | 'numberOfRooms'
-  | 'baseAmount'
+  | 'baseRentAmount'
   | 'breadth'
   | 'length'
-  | 'maximumAmount'
-  | 'minimumAmount'
+  | 'maximumRentAmount'
+  | 'minimumRentAmount'
   | 'possibleSuitableTenants'
+  | 'occupationStatus'
 >
 
 type CreateHouseUnitRecordOptions = CreateNewRecordGeneric<CreateHouseUnitPayloadOptions>
