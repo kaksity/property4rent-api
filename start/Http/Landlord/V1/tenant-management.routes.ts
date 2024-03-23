@@ -15,6 +15,9 @@ Route.group(function () {
     'revoke/tenant/:tenantIdentifier/house-unit/:houseUnitIdentifier',
     'RevokeTenantFromHouseUnitController'
   ).as('landlord.v1.tenant-management.revoke-tenant-from-house-unit')
+  Route.post('fetch/tenants/house-units/rents', 'FetchTenantHouseUnitRentsController').as(
+    'landlord.v1.tenant-management.fetch-tenant-house-unit-rents'
+  )
 })
   .middleware('auth:landlord')
   .prefix('api/v1/landlord/tenant-management')

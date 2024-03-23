@@ -2,7 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import HouseUnitActions from 'App/Actions/HouseUnitActions'
 import TenantActions from 'App/Actions/TenantActions'
-import TenantHouseRentActions from 'App/Actions/TenantHouseRentActions'
+import TenantHouseUnitRentActions from 'App/Actions/TenantHouseUnitRentActions'
 import {
   ERROR,
   HOUSE_UNIT_ALREADY_ASSIGNED_TO_TENANT,
@@ -95,7 +95,7 @@ export default class AssignTenantToHouseUnitController {
         })
       }
 
-      await TenantHouseRentActions.createTenantHouseRentRecord({
+      await TenantHouseUnitRentActions.createTenantHouseUnitRentRecord({
         createPayload: {
           houseUnitId: houseUnit.id,
           tenantId: tenant.id,

@@ -1,0 +1,12 @@
+import UpdateRecordGeneric from 'App/Typechecking/GeneralPurpose/UpdateRecordGeneric'
+import TenantHouseUnitRentInterface from 'App/Typechecking/ModelManagement/TenantHouseUnitRent/TenantHouseUnitRentInterface'
+import TenantHouseUnitRentRecordIdentifierOptions from 'App/Typechecking/ModelManagement/TenantHouseUnitRent/TenantHouseUnitRentRecordIdentifierOptions'
+
+type UpdateTenantHouseUnitRentPayloadOptions = Partial<TenantHouseUnitRentInterface>
+
+type UpdateTenantHouseUnitRentRecordOptions = UpdateRecordGeneric<
+  UpdateTenantHouseUnitRentPayloadOptions,
+  TenantHouseUnitRentRecordIdentifierOptions
+>
+
+export default UpdateTenantHouseUnitRentRecordOptions

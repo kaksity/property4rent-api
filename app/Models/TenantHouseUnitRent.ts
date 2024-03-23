@@ -5,7 +5,7 @@ import HouseUnit from 'App/Models/HouseUnit'
 import Landlord from 'App/Models/Landlord'
 import AbstractModel from 'App/Models/AbstractModel'
 
-export default class TenantHouseRent extends AbstractModel {
+export default class TenantHouseUnitRent extends AbstractModel {
   @column()
   public landlordId: number
 

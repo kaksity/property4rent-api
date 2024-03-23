@@ -2,7 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import HouseUnitActions from 'App/Actions/HouseUnitActions'
 import TenantActions from 'App/Actions/TenantActions'
-import TenantHouseRentActions from 'App/Actions/TenantHouseRentActions'
+import TenantHouseUnitRentActions from 'App/Actions/TenantHouseUnitRentActions'
 import {
   ERROR,
   HOUSE_UNIT_ALREADY_EMPTY,
@@ -75,13 +75,13 @@ export default class RevokeTenantFromHouseUnitController {
         })
       }
 
-      const tenantHouseRent = await TenantHouseRentActions.getTenantHouseRentDistinct({
+      const tenantHouseUnitRent = await TenantHouseUnitRentActions.getTenantHouseUnitRentDistinct({
         tenantId: tenant.id,
         houseUnitId: houseUnit.id,
         landlordId: loggedInLandlord.id,
       })
 
-      if (tenantHouseRent === NULL_OBJECT) {
+      if (tenantHouseUnitRent === NULL_OBJECT) {
         await dbTransaction.rollback()
         return response.badRequest({
           status: ERROR,
@@ -90,10 +90,10 @@ export default class RevokeTenantFromHouseUnitController {
         })
       }
 
-      await TenantHouseRentActions.updateTenantHouseRentRecord({
+      await TenantHouseUnitRentActions.updateTenantHouseUnitRentRecord({
         identifierOptions: {
           identifierType: 'id',
-          identifier: tenantHouseRent.id,
+          identifier: tenantHouseUnitRent.id,
         },
         updatePayload: {
           houseUnitId: houseUnit.id,

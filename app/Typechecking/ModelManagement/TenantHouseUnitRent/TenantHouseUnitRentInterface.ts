@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 
-interface TenantHouseRentInterface {
+interface TenantHouseUnitRentInterface {
   id: number
 
   identifier: string
@@ -28,4 +28,4 @@ interface TenantHouseRentInterface {
   deletedAt: DateTime
 }
 
-export default TenantHouseRentInterface
+export default TenantHouseUnitRentInterface

@@ -1,4 +1,4 @@
-type TenantHouseRentRecordIdentifierOptions =
+type TenantHouseUnitRentRecordIdentifierOptions =
   | {
       identifierType: 'identifier'
       identifier: string
@@ -8,4 +8,4 @@ type TenantHouseRentRecordIdentifierOptions =
       identifier: number
     }
 
-export default TenantHouseRentRecordIdentifierOptions
+export default TenantHouseUnitRentRecordIdentifierOptions

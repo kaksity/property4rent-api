@@ -6,19 +6,19 @@ import {
   SUCCESS,
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
-import TenantHouseRentActions from 'App/Actions/TenantHouseRentActions'
-import FetchTenantHouseRentsValidator from 'App/Validators/Landlord/V1/TenantManagement/FetchTenantHouseRentsValidator'
+import TenantHouseUnitRentActions from 'App/Actions/TenantHouseUnitRentActions'
+import FetchTenantHouseUnitRentsValidator from 'App/Validators/Landlord/V1/TenantManagement/FetchTenantHouseUnitRentsValidator'
 import TenantActions from 'App/Actions/TenantActions'
 import HouseUnitActions from 'App/Actions/HouseUnitActions'
 
-export default class FetchTenantHouseRentsController {
+export default class FetchTenantHouseUnitRentsController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
   private ok = HttpStatusCodeEnum.OK
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
   public async handle({ request, auth, response }: HttpContextContract) {
     try {
       try {
-        await request.validate(FetchTenantHouseRentsValidator)
+        await request.validate(FetchTenantHouseUnitRentsValidator)
       } catch (validationError) {
         return response.unprocessableEntity({
           status: ERROR,
@@ -48,8 +48,8 @@ export default class FetchTenantHouseRentsController {
         identifier: houseUnitIdentifier,
       })
 
-      const { tenantHouseRentPayload, paginationMeta } =
-        await TenantHouseRentActions.listTenantHouseRents({
+      const { tenantHouseUnitRentPayload, paginationMeta } =
+        await TenantHouseUnitRentActions.listTenantHouseUnitRents({
           filterRecordOptions: {
             houseUnitId: houseUnit?.id,
             tenantId: tenant?.id,
@@ -62,36 +62,36 @@ export default class FetchTenantHouseRentsController {
           },
         })
 
-      const mutatedResults = tenantHouseRentPayload.map((tenantHouseRent) => {
+      const mutatedResults = tenantHouseUnitRentPayload.map((tenantHouseUnitRent) => {
         return {
-          identifier: tenantHouseRent.identifier,
+          identifier: tenantHouseUnitRent.identifier,
           tenant: {
-            identifier: tenantHouseRent.tenant.identifier,
-            first_name: tenantHouseRent.tenant.firstName,
-            last_name: tenantHouseRent.tenant.lastName,
+            identifier: tenantHouseUnitRent.tenant.identifier,
+            first_name: tenantHouseUnitRent.tenant.firstName,
+            last_name: tenantHouseUnitRent.tenant.lastName,
           },
           landlord: {
-            identifier: tenantHouseRent.landlord.identifier,
-            first_name: tenantHouseRent.landlord.firstName,
-            last_name: tenantHouseRent.landlord.lastName,
+            identifier: tenantHouseUnitRent.landlord.identifier,
+            first_name: tenantHouseUnitRent.landlord.firstName,
+            last_name: tenantHouseUnitRent.landlord.lastName,
           },
           house: {
-            identifier: tenantHouseRent.houseUnit.house.identifier,
-            description: tenantHouseRent.houseUnit.house.description,
-            canViewInPublic: tenantHouseRent.houseUnit.house.canViewInPublic,
+            identifier: tenantHouseUnitRent.houseUnit.house.identifier,
+            description: tenantHouseUnitRent.houseUnit.house.description,
+            canViewInPublic: tenantHouseUnitRent.houseUnit.house.canViewInPublic,
             house_unit: {
-              identifier: tenantHouseRent.houseUnit.identifier,
-              house_unit_type: tenantHouseRent.houseUnit.houseUnitType,
-              number_of_rooms: tenantHouseRent.houseUnit.numberOfRooms,
-              number_of_bathrooms: tenantHouseRent.houseUnit.numberOfBathrooms,
-              number_of_kitchens: tenantHouseRent.houseUnit.numberOfKitchens,
+              identifier: tenantHouseUnitRent.houseUnit.identifier,
+              house_unit_type: tenantHouseUnitRent.houseUnit.houseUnitType,
+              number_of_rooms: tenantHouseUnitRent.houseUnit.numberOfRooms,
+              number_of_bathrooms: tenantHouseUnitRent.houseUnit.numberOfBathrooms,
+              number_of_kitchens: tenantHouseUnitRent.houseUnit.numberOfKitchens,
             },
           },
-          rent_status: tenantHouseRent.rentStatus,
-          paid_rent_amount: tenantHouseRent.paidRentAmount,
-          house_rent_amount: tenantHouseRent.houseRentAmount,
-          start_rent_date: tenantHouseRent.startRentDate,
-          end_rent_date: tenantHouseRent.endRentDate,
+          rent_status: tenantHouseUnitRent.rentStatus,
+          paid_rent_amount: tenantHouseUnitRent.paidRentAmount,
+          house_rent_amount: tenantHouseUnitRent.houseRentAmount,
+          start_rent_date: tenantHouseUnitRent.startRentDate,
+          end_rent_date: tenantHouseUnitRent.endRentDate,
         }
       })
 
@@ -101,7 +101,7 @@ export default class FetchTenantHouseRentsController {
         results: mutatedResults,
         pagination_meta: paginationMeta,
       })
-    } catch (FetchTenantHouseRentsControllerError) {
+    } catch (FetchTenantHouseUnitRentsControllerError) {
       return response.internalServerError({
         status: ERROR,
         status_code: this.internalServerError,
