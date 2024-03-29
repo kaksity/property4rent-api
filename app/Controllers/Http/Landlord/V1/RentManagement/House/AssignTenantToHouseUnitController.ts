@@ -15,7 +15,7 @@ import {
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import AssignTenantToHouseUnitValidator from 'App/Validators/Landlord/V1/TenantManagement/AssignTenantToHouseUnitValidator'
+import AssignTenantToHouseUnitValidator from 'App/Validators/Landlord/V1/RentManagement/House/AssignTenantToHouseUnitValidator'
 
 export default class AssignTenantToHouseUnitController {
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY

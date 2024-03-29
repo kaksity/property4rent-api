@@ -53,3 +53,5 @@ export const HOUSE_UNIT_ALREADY_EMPTY = 'House unit is currently empty'
 export const TENANT_HOUSE_RENT_ASSIGNED_SUCCESSFULLY = 'Tenant House rent was assigned successfully'
 export const TENANT_HOUSE_RENT_REVOKED_SUCCESSFULLY = 'Tenant House rent was revoked successfully'
 export const HOUSE_UNIT_NOT_ASSIGNED_TO_TENANT = 'This house unit was not assigned to this tenant'
+export const TENANT_HOUSE_UNIT_RENT_LIST_FETCH_SUCCESSFUL =
+  'Tenant House rent retrieved successfully'

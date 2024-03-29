@@ -7,17 +7,6 @@ Route.group(function () {
   Route.get('fetch/tenant/:emailAddress/email', 'GetTenantByEmailAddressController').as(
     'landlord.v1.tenant-management.get-tenant-by-email-address'
   )
-  Route.post(
-    'assigned/tenant/:tenantIdentifier/house-unit/:houseUnitIdentifier',
-    'AssignTenantToHouseUnitController'
-  ).as('landlord.v1.tenant-management.assigned-tenant-to-house-unit')
-  Route.post(
-    'revoke/tenant/:tenantIdentifier/house-unit/:houseUnitIdentifier',
-    'RevokeTenantFromHouseUnitController'
-  ).as('landlord.v1.tenant-management.revoke-tenant-from-house-unit')
-  Route.post('fetch/tenants/house-units/rents', 'FetchTenantHouseUnitRentsController').as(
-    'landlord.v1.tenant-management.fetch-tenant-house-unit-rents'
-  )
 })
   .middleware('auth:landlord')
   .prefix('api/v1/landlord/tenant-management')

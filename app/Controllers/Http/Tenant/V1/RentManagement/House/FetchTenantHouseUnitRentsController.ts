@@ -4,11 +4,11 @@ import {
   ERROR,
   SOMETHING_WENT_WRONG,
   SUCCESS,
+  TENANT_HOUSE_UNIT_RENT_LIST_FETCH_SUCCESSFUL,
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
 import TenantHouseUnitRentActions from 'App/Actions/TenantHouseUnitRentActions'
-import FetchTenantHouseUnitRentsValidator from 'App/Validators/Landlord/V1/TenantManagement/FetchTenantHouseUnitRentsValidator'
-import TenantActions from 'App/Actions/TenantActions'
+import FetchTenantHouseRentsValidator from 'App/Validators/Tenant/V1/RentManagement/House/FetchTenantHouseRentsValidator'
 import HouseUnitActions from 'App/Actions/HouseUnitActions'
 
 export default class FetchTenantHouseUnitRentsController {
@@ -18,7 +18,7 @@ export default class FetchTenantHouseUnitRentsController {
   public async handle({ request, auth, response }: HttpContextContract) {
     try {
       try {
-        await request.validate(FetchTenantHouseUnitRentsValidator)
+        await request.validate(FetchTenantHouseRentsValidator)
       } catch (validationError) {
         return response.unprocessableEntity({
           status: ERROR,
@@ -28,20 +28,14 @@ export default class FetchTenantHouseUnitRentsController {
         })
       }
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInTenant = auth.use('tenant').user!
 
       const {
         per_page: limit = 100,
         page = 1,
-        tenant_identifier: tenantIdentifier,
         house_unit_identifier: houseUnitIdentifier,
         rent_status: rentStatus,
       } = request.qs()
-
-      const tenant = await TenantActions.getTenantRecord({
-        identifierType: 'identifier',
-        identifier: tenantIdentifier,
-      })
 
       const houseUnit = await HouseUnitActions.getHouseUnitRecord({
         identifierType: 'identifier',
@@ -52,9 +46,8 @@ export default class FetchTenantHouseUnitRentsController {
         await TenantHouseUnitRentActions.listTenantHouseUnitRents({
           filterRecordOptions: {
             houseUnitId: houseUnit?.id,
-            tenantId: tenant?.id,
+            tenantId: loggedInTenant.id,
             rentStatus,
-            landlordId: loggedInLandlord.id,
           },
           paginationOptions: {
             page,
@@ -99,6 +92,7 @@ export default class FetchTenantHouseUnitRentsController {
         status: SUCCESS,
         status_code: this.ok,
         results: mutatedResults,
+        message: TENANT_HOUSE_UNIT_RENT_LIST_FETCH_SUCCESSFUL,
         pagination_meta: paginationMeta,
       })
     } catch (FetchTenantHouseUnitRentsControllerError) {

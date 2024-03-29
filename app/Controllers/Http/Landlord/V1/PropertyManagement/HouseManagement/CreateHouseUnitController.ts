@@ -7,6 +7,7 @@ import {
   HOUSE_UNIT_CREATE_SUCCESSFUL,
   NULL_OBJECT,
   SOMETHING_WENT_WRONG,
+  SUCCESS,
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
@@ -105,7 +106,7 @@ export default class CreateHouseUnitController {
       }
 
       return response.created({
-        status: ERROR,
+        status: SUCCESS,
         status_code: this.created,
         message: HOUSE_UNIT_CREATE_SUCCESSFUL,
         results: mutatedResults,
