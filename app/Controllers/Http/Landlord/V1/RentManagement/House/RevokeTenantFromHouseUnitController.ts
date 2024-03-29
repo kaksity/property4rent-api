@@ -14,7 +14,9 @@ import {
   TENANT_ACCOUNT_NOT_FOUND,
   TENANT_HOUSE_RENT_REVOKED_SUCCESSFULLY,
 } from 'App/Helpers/Messages/SystemMessage'
+import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
+import { SEND_REVOKE_TENANT_FROM_HOUSE_UNIT_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 
 export default class RevokeTenantFromHouseUnitController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -122,6 +124,14 @@ export default class RevokeTenantFromHouseUnitController {
       })
 
       await dbTransaction.commit()
+
+      await QueueClient.addJobToQueue({
+        jobIdentifier: SEND_REVOKE_TENANT_FROM_HOUSE_UNIT_NOTIFICATION_JOB,
+        jobPayload: {
+          tenantId: tenant.id,
+          houseUnitId: houseUnit.id,
+        },
+      })
 
       return response.ok({
         status: SUCCESS,

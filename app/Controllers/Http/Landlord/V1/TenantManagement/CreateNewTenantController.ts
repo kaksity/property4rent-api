@@ -8,7 +8,9 @@ import {
   TENANT_ACCOUNT_CREATED_SUCCESSFULLY,
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
+import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
+import { SEND_WELCOME_NEW_TENANT_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 import CreateTenantValidator from 'App/Validators/Landlord/V1/TenantManagement/CreateTenantValidator'
 
 export default class CreateNewTenantController {
@@ -62,6 +64,13 @@ export default class CreateNewTenantController {
         email: tenant.email,
         phone_number: tenant.phoneNumber,
       }
+
+      await QueueClient.addJobToQueue({
+        jobIdentifier: SEND_WELCOME_NEW_TENANT_NOTIFICATION_JOB,
+        jobPayload: {
+          tenantId: tenant.id,
+        },
+      })
 
       return response.created({
         status: SUCCESS,
