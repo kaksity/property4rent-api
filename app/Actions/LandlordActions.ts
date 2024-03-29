@@ -93,8 +93,12 @@ export default class LandlordActions {
   public static async listLandlords(
     listLandlordRecordOptions: ListLandlordRecordOptions
   ): Promise<{ landlordPayload: Landlord[]; paginationMeta?: any }> {
-    const { paginationOptions } = listLandlordRecordOptions
+    const { filterRecordOptions, paginationOptions } = listLandlordRecordOptions
     const landlordQuery = Landlord.query().orderBy('created_at', 'asc')
+
+    if (typeof filterRecordOptions?.hasActivatedAccount === 'boolean') {
+      landlordQuery.where('has_activated_account', filterRecordOptions.hasActivatedAccount)
+    }
 
     if (paginationOptions) {
       const landlords = await landlordQuery.paginate(

@@ -962,7 +962,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/luxon@^3.3.1", "@types/luxon@>= 1.26.0":
+"@types/luxon@^3.3.1", "@types/luxon@>= 1.26.0", "@types/luxon@~3.3.0":
   "integrity" "sha512-H9OXxv4EzJwE75aTPKpiGXJq+y4LFxjpsdgKwSmr503P5DkWc3AG7VAFYrFNVvqemT5DfgZJV9itYhqBHSGujA=="
   "resolved" "https://registry.npmjs.org/@types/luxon/-/luxon-3.3.4.tgz"
   "version" "3.3.4"
@@ -2103,6 +2103,14 @@
   "version" "4.9.0"
   dependencies:
     "luxon" "^3.2.1"
+
+"cron@^3.1.6":
+  "integrity" "sha512-cvFiQCeVzsA+QPM6fhjBtlKGij7tLLISnTSvFxVdnFGLdz+ZdXN37kNe0i2gefmdD17XuZA6n2uPVwzl4FxW/w=="
+  "resolved" "https://registry.npmjs.org/cron/-/cron-3.1.6.tgz"
+  "version" "3.1.6"
+  dependencies:
+    "@types/luxon" "~3.3.0"
+    "luxon" "~3.4.0"
 
 "cross-spawn@^7.0.2", "cross-spawn@^7.0.3":
   "integrity" "sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w=="
@@ -4086,7 +4094,7 @@
   "resolved" "https://registry.npmjs.org/lru-cache/-/lru-cache-8.0.5.tgz"
   "version" "8.0.5"
 
-"luxon@^3.0.4", "luxon@^3.2.1", "luxon@^3.3.0", "luxon@^3.4.1", "luxon@^3.4.4", "luxon@>= 1.26.0":
+"luxon@^3.0.4", "luxon@^3.2.1", "luxon@^3.3.0", "luxon@^3.4.1", "luxon@^3.4.4", "luxon@>= 1.26.0", "luxon@~3.4.0":
   "integrity" "sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA=="
   "resolved" "https://registry.npmjs.org/luxon/-/luxon-3.4.4.tgz"
   "version" "3.4.4"

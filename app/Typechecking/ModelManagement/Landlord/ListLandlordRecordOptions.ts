@@ -1,6 +1,8 @@
 import ListRecordsGeneric from 'App/Typechecking/GeneralPurpose/ListRecordsGeneric'
 
-type ListLandlordFilterPayloadOptions = {}
+type ListLandlordFilterPayloadOptions = {
+  hasActivatedAccount?: boolean
+}
 
 type ListLandlordRecordOptions = ListRecordsGeneric<ListLandlordFilterPayloadOptions>
 
