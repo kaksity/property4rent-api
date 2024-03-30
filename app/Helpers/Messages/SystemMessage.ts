@@ -58,3 +58,8 @@ export const TENANT_HOUSE_UNIT_RENT_LIST_FETCH_SUCCESSFUL =
 
 export const SEND_WELCOME_NEW_LANDLORD_EMAIL_SUBJECT = 'Welcome to Property4Rent'
 export const SEND_WELCOME_NEW_LANDLORD_EMAIL_TEMPLATE = 'emails/welcome_landlord_email_template'
+
+export const SEND_LANDLORD_ACCOUNT_ACTIVATION_EMAIL_SUBJECT =
+  'Landlord Account Activation - OTP Verification'
+export const SEND_LANDLORD_ACCOUNT_ACTIVATION_EMAIL_TEMPLATE =
+  'emails/landlord_account_activation_email_template'

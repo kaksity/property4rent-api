@@ -12,7 +12,10 @@ import {
 } from 'App/Helpers/Messages/SystemMessage'
 import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import { SEND_WELCOME_NEW_LANDLORD_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
+import {
+  SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
+  SEND_WELCOME_NEW_LANDLORD_NOTIFICATION_JOB,
+} from 'App/Typechecking/JobManagement/NotificationJobTypes'
 import CreateNewLandlordValidator from 'App/Validators/Landlord/V1/Onboarding/CreateNewLandlordValidator'
 import businessConfig from 'Config/businessConfig'
 
@@ -89,7 +92,12 @@ export default class CreateNewLandlordController {
         },
       })
 
-      // Send an account activation email
+      await QueueClient.addJobToQueue({
+        jobIdentifier: SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
+        jobPayload: {
+          landlordId: landlord.id,
+        },
+      })
 
       const mutatedLandlordPayload = {
         identifier: landlord.identifier,
@@ -97,7 +105,11 @@ export default class CreateNewLandlordController {
         last_name: landlord.lastName,
         email: landlord.email,
         phone_number: landlord.phoneNumber,
-        created_at: landlord.createdAt,
+        meta: {
+          has_activated_account: landlord.hasActivatedAccount,
+          has_verified_account: landlord.isAccountVerified,
+          created_at: landlord.createdAt,
+        },
       }
 
       return response.created({

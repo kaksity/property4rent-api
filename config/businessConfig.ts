@@ -10,6 +10,8 @@ const businessConfig = {
 
   defaultEmailName: Env.get('DEFAULT_EMAIL_NAME'),
 
+  defaultDateTimeFormat: Env.get('DEFAULT_DATE_TIME_FORMAT'),
+
   currentDateTime: DateTime.now(),
 }
 
