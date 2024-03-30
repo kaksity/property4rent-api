@@ -9,7 +9,9 @@ import {
   SUCCESS,
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
+import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
+import { SEND_LANDLORD_ACCOUNT_PASSWORD_RESET_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 import RequestPasswordResetOtpTokenValidator from 'App/Validators/Landlord/V1/PasswordManagement/ResetPassword/RequestPasswordResetOtpTokenValidator'
 import businessConfig from 'Config/businessConfig'
 
@@ -60,7 +62,12 @@ export default class RequestPasswordResetOtpTokenController {
         },
       })
 
-      // Send token via email address
+      await QueueClient.addJobToQueue({
+        jobIdentifier: SEND_LANDLORD_ACCOUNT_PASSWORD_RESET_NOTIFICATION_JOB,
+        jobPayload: {
+          landlordId: landlord!.id,
+        },
+      })
 
       return response.created({
         status_code: this.created,

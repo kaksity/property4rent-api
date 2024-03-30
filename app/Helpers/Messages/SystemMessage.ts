@@ -57,9 +57,15 @@ export const TENANT_HOUSE_UNIT_RENT_LIST_FETCH_SUCCESSFUL =
   'Tenant House rent retrieved successfully'
 
 export const SEND_WELCOME_NEW_LANDLORD_EMAIL_SUBJECT = 'Welcome to Property4Rent'
-export const SEND_WELCOME_NEW_LANDLORD_EMAIL_TEMPLATE = 'emails/welcome_landlord_email_template'
+export const SEND_WELCOME_NEW_LANDLORD_EMAIL_TEMPLATE =
+  'emails/landlord/welcome_landlord_email_template'
 
 export const SEND_LANDLORD_ACCOUNT_ACTIVATION_EMAIL_SUBJECT =
   'Landlord Account Activation - OTP Verification'
 export const SEND_LANDLORD_ACCOUNT_ACTIVATION_EMAIL_TEMPLATE =
-  'emails/landlord_account_activation_email_template'
+  'emails/landlord/landlord_account_activation_email_template'
+
+export const SEND_LANDLORD_ACCOUNT_PASSWORD_RESET_EMAIL_SUBJECT =
+  'Landlord Account - Password Reset OTP'
+export const SEND_LANDLORD_ACCOUNT_PASSWORD_RESET_EMAIL_TEMPLATE =
+  'emails/landlord/landlord_account_password_reset_email_template'
