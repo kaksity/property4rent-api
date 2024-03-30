@@ -55,3 +55,6 @@ export const TENANT_HOUSE_RENT_REVOKED_SUCCESSFULLY = 'Tenant House rent was rev
 export const HOUSE_UNIT_NOT_ASSIGNED_TO_TENANT = 'This house unit was not assigned to this tenant'
 export const TENANT_HOUSE_UNIT_RENT_LIST_FETCH_SUCCESSFUL =
   'Tenant House rent retrieved successfully'
+
+export const SEND_WELCOME_NEW_LANDLORD_EMAIL_SUBJECT = 'Welcome to Property4Rent'
+export const SEND_WELCOME_NEW_LANDLORD_EMAIL_TEMPLATE = 'emails/welcome_landlord_email_template'

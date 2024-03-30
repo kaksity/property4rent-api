@@ -6,7 +6,8 @@
     "@adonisjs/repl/build/commands",
     "adonis-sail/build/commands",
     "@adonisjs/lucid/build/commands",
-    "@rocketseat/adonis-bull/build/commands"
+    "@rocketseat/adonis-bull/build/commands",
+    "@adonisjs/mail/build/commands"
   ],
   "exceptionHandlerNamespace": "App/Exceptions/Handler",
   "aliases": {
@@ -21,7 +22,10 @@
     "@adonisjs/core",
     "@adonisjs/lucid",
     "@adonisjs/auth",
-    "@rocketseat/adonis-bull"
+    "@rocketseat/adonis-bull",
+    "@adonisjs/view",
+    "@adonisjs/mail",
+    "@adonisjs/redis"
   ],
   "aceProviders": ["@adonisjs/repl"],
   "tests": {
@@ -33,5 +37,11 @@
       }
     ]
   },
-  "testProviders": ["@japa/preset-adonis/TestsProvider"]
+  "testProviders": ["@japa/preset-adonis/TestsProvider"],
+  "metaFiles": [
+    {
+      "pattern": "resources/views/**/*.edge",
+      "reloadServer": false
+    }
+  ]
 }

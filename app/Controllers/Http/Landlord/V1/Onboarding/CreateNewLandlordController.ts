@@ -10,7 +10,9 @@ import {
   SUCCESS,
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
+import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
+import { SEND_WELCOME_NEW_LANDLORD_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 import CreateNewLandlordValidator from 'App/Validators/Landlord/V1/Onboarding/CreateNewLandlordValidator'
 import businessConfig from 'Config/businessConfig'
 
@@ -79,7 +81,13 @@ export default class CreateNewLandlordController {
       })
 
       await dbTransaction.commit()
-      // Send a welcome email
+
+      await QueueClient.addJobToQueue({
+        jobIdentifier: SEND_WELCOME_NEW_LANDLORD_NOTIFICATION_JOB,
+        jobPayload: {
+          landlordId: landlord.id,
+        },
+      })
 
       // Send an account activation email
 

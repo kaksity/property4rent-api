@@ -24,6 +24,8 @@ export default Env.rules({
 
   OTP_TOKEN_EXPIRATION_TIME_FRAME_IN_MINUTES: Env.schema.number(),
   ACCESS_TOKEN_EXPIRATION_TIME_FRAME_IN_MINUTES: Env.schema.number(),
+  DEFAULT_EMAIL_ADDRESS: Env.schema.string(),
+  DEFAULT_EMAIL_NAME: Env.schema.string(),
 
   DB_CONNECTION: Env.schema.string(),
   MYSQL_HOST: Env.schema.string(),
@@ -31,4 +33,14 @@ export default Env.rules({
   MYSQL_USER: Env.schema.string(),
   MYSQL_PASSWORD: Env.schema.string.optional(),
   MYSQL_DB_NAME: Env.schema.string(),
+
+  SMTP_HOST: Env.schema.string(),
+  SMTP_PORT: Env.schema.number(),
+  SMTP_USERNAME: Env.schema.string(),
+  SMTP_PASSWORD: Env.schema.string(),
+
+  REDIS_CONNECTION: Env.schema.string(),
+  REDIS_HOST: Env.schema.string(),
+  REDIS_PORT: Env.schema.number(),
+  REDIS_PASSWORD: Env.schema.string(),
 })

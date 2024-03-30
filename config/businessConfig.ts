@@ -6,6 +6,10 @@ const businessConfig = {
 
   otpTokenExpirationTimeFrameInMinutes: Env.get('OTP_TOKEN_EXPIRATION_TIME_FRAME_IN_MINUTES'),
 
+  defaultEmailAddress: Env.get('DEFAULT_EMAIL_ADDRESS'),
+
+  defaultEmailName: Env.get('DEFAULT_EMAIL_NAME'),
+
   currentDateTime: DateTime.now(),
 }
 

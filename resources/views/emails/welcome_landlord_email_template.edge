@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to [Your Property Management System]!</title>
+<style>
+  /* Add your custom styles here */
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    color: #333;
+  }
+
+  p {
+    color: #666;
+  }
+
+  .signature {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to {{ sentenceCase(env('DEFAULT_BUSINESS_NAME')) }}!</h1>
+    <p>Dear {{ recipientName }},</p>
+    <p>On behalf of the entire team at {{ sentenceCase(env('DEFAULT_BUSINESS_NAME')) }}, I want to extend a warm welcome to you! We are thrilled to have you join our platform and embark on this journey together.</p>
+    <p>As a landlord, you play a crucial role in the ecosystem of our property management system, and we are committed to providing you with the tools and support needed to streamline your experience and maximize your property's potential.</p>
+    <h2>What to Expect:</h2>
+    <ol>
+      <li><strong>Efficient Management:</strong> Our intuitive interface makes it easy for you to manage your properties, tenants, and rental agreements all in one place.</li>
+      <li><strong>Transparent Communication:</strong> We prioritize clear and open communication, facilitating seamless interactions between landlords and tenants.</li>
+      <li><strong>Data-Driven Insights:</strong> Gain valuable insights into your property's performance through analytics and reporting tools, allowing you to make informed decisions to optimize your investment.</li>
+      <li><strong>24/7 Support:</strong> Our dedicated support team is available round the clock to address any questions or concerns you may have along the way.</li>
+    </ol>
+    <p>We understand that managing rental properties can be challenging, but with {{ sentenceCase(env('DEFAULT_BUSINESS_NAME')) }}, we aim to simplify the process, saving you time and effort while maximizing your returns.</p>
+    <p>Please feel free to explore the features of our platform, and don't hesitate to reach out if you need any assistance or have any feedback. We are here to support you every step of the way.</p>
+    <p>Once again, welcome aboard! We are excited to partner with you on your journey as a landlord and look forward to helping you succeed.</p>
+    <div class="signature">
+      <p>Best regards,</p>
+      <p>
+        {{ sentenceCase(env('DEFAULT_EMAIL_NAME')) }}<br>
+        {{ sentenceCase(env('DEFAULT_BUSINESS_NAME')) }} Team
+      </p>
+    </div>
+  </div>
+</body>
+</html>
