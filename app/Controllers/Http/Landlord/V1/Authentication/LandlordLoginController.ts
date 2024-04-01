@@ -123,7 +123,6 @@ export default class LandlordLoginController {
         email: landlord!.email,
         phone_number: landlord!.phoneNumber,
         access_credentials: accessToken,
-
         meta: {
           created_at: landlord!.createdAt,
           last_login_date: landlord!.lastLoginDate ?? NOT_APPLICABLE,

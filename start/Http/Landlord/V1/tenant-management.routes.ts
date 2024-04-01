@@ -9,5 +9,6 @@ Route.group(function () {
   )
 })
   .middleware('auth:landlord')
+  .middleware('checkForCompleteLandlordAccountSetup')
   .prefix('api/v1/landlord/tenant-management')
   .namespace('App/Controllers/Http/Landlord/V1/TenantManagement')

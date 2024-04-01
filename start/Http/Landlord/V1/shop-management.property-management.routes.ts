@@ -26,4 +26,5 @@ Route.group(function () {
 })
   .prefix('api/v1/landlord/property-management/shop-management')
   .middleware('auth:landlord')
+  .middleware('checkForCompleteLandlordAccountSetup')
   .namespace('App/Controllers/Http/Landlord/V1/PropertyManagement/ShopManagement')

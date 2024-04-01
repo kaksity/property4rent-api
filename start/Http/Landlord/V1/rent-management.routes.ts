@@ -18,4 +18,5 @@ Route.group(function () {
 
 Route.group(function () {})
   .prefix('api/v1/landlord/rent-management/shop')
+  .middleware('checkForCompleteLandlordAccountSetup')
   .namespace('App/Controllers/Http/Landlord/V1/RentManagement/Shop')

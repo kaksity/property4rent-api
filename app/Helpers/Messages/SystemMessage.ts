@@ -82,3 +82,6 @@ export const SEND_TENANT_ACCOUNT_ACTIVATION_EMAIL_SUBJECT =
   'Tenant Account Activation - OTP Verification'
 export const SEND_TENANT_ACCOUNT_ACTIVATION_EMAIL_TEMPLATE =
   'emails/tenant/tenant_account_activation_email_template'
+
+export const LANDLORD_ACCOUNT_HAS_NOT_ACTIVATED_ACCOUNT = 'Landlord has not activated account'
+export const LANDLORD_ACCOUNT_IS_LOCKED = 'Landlord is locked. Please contact the admin'
