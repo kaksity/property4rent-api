@@ -6,6 +6,7 @@ const jobs = [
   'App/Jobs/Notifications/Landlord/SendWelcomeNewLandlordNotificationJob',
   'App/Jobs/Notifications/Landlord/SendLandlordAccountActivationNotificationJob',
   'App/Jobs/Notifications/Landlord/SendLandlordAccountPasswordResetNotificationJob',
+  'App/Jobs/Notifications/Tenant/SendTenantAccountPasswordResetNotificationJob',
 ]
 
 export default jobs

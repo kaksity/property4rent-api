@@ -12,6 +12,8 @@ import {
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import RequestPasswordResetOtpTokenValidator from 'App/Validators/Tenant/V1/PasswordManagement/ResetPassword/RequestPasswordResetOtpTokenValidator'
 import businessConfig from 'Config/businessConfig'
+import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
+import { SEND_TENANT_ACCOUNT_PASSWORD_RESET_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 
 export default class RequestPasswordResetOtpTokenController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -60,7 +62,12 @@ export default class RequestPasswordResetOtpTokenController {
         },
       })
 
-      // Send token via email address
+      await QueueClient.addJobToQueue({
+        jobIdentifier: SEND_TENANT_ACCOUNT_PASSWORD_RESET_NOTIFICATION_JOB,
+        jobPayload: {
+          tenantId: tenant!.id,
+        },
+      })
 
       return response.created({
         status_code: this.created,

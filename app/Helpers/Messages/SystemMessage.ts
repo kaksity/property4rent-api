@@ -69,3 +69,8 @@ export const SEND_LANDLORD_ACCOUNT_PASSWORD_RESET_EMAIL_SUBJECT =
   'Landlord Account - Password Reset OTP'
 export const SEND_LANDLORD_ACCOUNT_PASSWORD_RESET_EMAIL_TEMPLATE =
   'emails/landlord/landlord_account_password_reset_email_template'
+
+export const SEND_TENANT_ACCOUNT_PASSWORD_RESET_EMAIL_SUBJECT =
+  'Tenant Account - Password Reset OTP'
+export const SEND_TENANT_ACCOUNT_PASSWORD_RESET_EMAIL_TEMPLATE =
+  'emails/tenant/tenant_account_password_reset_email_template'
