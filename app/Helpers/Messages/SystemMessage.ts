@@ -74,3 +74,11 @@ export const SEND_TENANT_ACCOUNT_PASSWORD_RESET_EMAIL_SUBJECT =
   'Tenant Account - Password Reset OTP'
 export const SEND_TENANT_ACCOUNT_PASSWORD_RESET_EMAIL_TEMPLATE =
   'emails/tenant/tenant_account_password_reset_email_template'
+
+export const SEND_WELCOME_NEW_TENANT_EMAIL_SUBJECT = 'Welcome to Property4Rent'
+export const SEND_WELCOME_NEW_TENANT_EMAIL_TEMPLATE = 'emails/tenant/welcome_tenant_email_template'
+
+export const SEND_TENANT_ACCOUNT_ACTIVATION_EMAIL_SUBJECT =
+  'Tenant Account Activation - OTP Verification'
+export const SEND_TENANT_ACCOUNT_ACTIVATION_EMAIL_TEMPLATE =
+  'emails/tenant/tenant_account_activation_email_template'

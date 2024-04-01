@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to [Your Property Management System]!</title>
+<style>
+  /* Add your custom styles here */
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    color: #333;
+  }
+
+  p {
+    color: #666;
+  }
+
+  .credentials {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .credentials p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .signature {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to {{ sentenceCase(env('DEFAULT_BUSINESS_NAME')) }}!</h1>
+    <p>Dear {{ recipientName }},</p>
+    <p>Welcome to our platform! We're excited to have you on board as a tenant.</p>
+    <p>You have been invited by your landlord, {{ landlordName }}, to join our property management system. Below are your login credentials:</p>
+    <div class="credentials">
+      <p><strong>Username:</strong> {{ tenantEmail }} </p>
+      <p><strong>Password:</strong> {{ tenantPassword }}</p>
+    </div>
+    <p>Please use the provided credentials to log in to your account. We recommend changing your password after logging in for security purposes.</p>
+    <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+    <p>Once again, welcome to {{ sentenceCase(env('DEFAULT_BUSINESS_NAME')) }}! We look forward to providing you with a seamless renting experience.</p>
+    <div class="signature">
+      <p>Best regards,</p>
+      <p>
+        {{ sentenceCase(env('DEFAULT_EMAIL_NAME')) }}<br>
+        {{ sentenceCase(env('DEFAULT_BUSINESS_NAME')) }} Team
+      </p>
+    </div>
+  </div>
+</body>
+</html>

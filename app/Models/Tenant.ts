@@ -1,9 +1,12 @@
-import { beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import { beforeSave, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import AbstractModel from 'App/Models/AbstractModel'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { DateTime } from 'luxon'
 
 export default class Tenant extends AbstractModel {
+  @column()
+  public createdByLandlordId: number
+
   @column()
   public firstName: string
 
@@ -39,6 +42,11 @@ export default class Tenant extends AbstractModel {
 
   @column()
   public rememberMeToken: string | null
+
+  @belongsTo(() => Tenant, {
+    foreignKey: 'createdByLandlordId',
+  })
+  public createdByLandlord: BelongsTo<typeof Tenant>
 
   @beforeSave()
   public static async hashPassword(tenant: Tenant) {

@@ -41,7 +41,7 @@ export default class TenantActions {
    * @memberof TenantActions
    */
   public static async getTenantById(id: number): Promise<Tenant | null> {
-    return Tenant.query().where('id', id).first()
+    return Tenant.query().preload('createdByLandlord').where('id', id).first()
   }
 
   /**
@@ -53,7 +53,7 @@ export default class TenantActions {
    * @memberof TenantActions
    */
   public static async getTenantByIdentifier(identifier: string): Promise<Tenant | null> {
-    return Tenant.query().where('identifier', identifier).first()
+    return Tenant.query().preload('createdByLandlord').where('identifier', identifier).first()
   }
 
   /**
@@ -65,7 +65,7 @@ export default class TenantActions {
    * @memberof TenantActions
    */
   public static async getTenantByEmailAddress(emailAddress: string): Promise<Tenant | null> {
-    return Tenant.query().where('email', emailAddress).first()
+    return Tenant.query().preload('createdByLandlord').where('email', emailAddress).first()
   }
 
   /**
@@ -156,7 +156,7 @@ export default class TenantActions {
     listTenantRecordOptions: ListTenantRecordOptions
   ): Promise<{ tenantPayload: Tenant[]; paginationMeta?: any }> {
     const { paginationOptions } = listTenantRecordOptions
-    const tenantQuery = Tenant.query().orderBy('created_at', 'asc')
+    const tenantQuery = Tenant.query().preload('createdByLandlord').orderBy('created_at', 'asc')
 
     if (paginationOptions) {
       const tenants = await tenantQuery.paginate(paginationOptions.page, paginationOptions.limit)

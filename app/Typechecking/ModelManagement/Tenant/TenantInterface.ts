@@ -5,6 +5,8 @@ interface TenantInterface {
 
   identifier: string
 
+  createdByLandlordId: number
+
   firstName: string
 
   lastName: string
