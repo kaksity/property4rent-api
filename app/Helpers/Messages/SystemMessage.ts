@@ -85,3 +85,6 @@ export const SEND_TENANT_ACCOUNT_ACTIVATION_EMAIL_TEMPLATE =
 
 export const LANDLORD_ACCOUNT_HAS_NOT_ACTIVATED_ACCOUNT = 'Landlord has not activated account'
 export const LANDLORD_ACCOUNT_IS_LOCKED = 'Landlord is locked. Please contact the admin'
+
+export const TENANT_ACCOUNT_HAS_NOT_ACTIVATED_ACCOUNT = 'Tenant has not activated account'
+export const TENANT_ACCOUNT_IS_LOCKED = 'Tenant is locked. Please contact the admin'

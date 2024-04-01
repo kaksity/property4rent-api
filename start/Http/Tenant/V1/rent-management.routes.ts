@@ -10,4 +10,6 @@ Route.group(function () {
 
 Route.group(function () {})
   .prefix('api/v1/tenant/rent-management/shop')
+  .middleware('auth:tenant')
+  .middleware('checkForCompleteTenantAccountSetup')
   .namespace('App/Controllers/Http/Tenant/V1/RentManagement/Shop')
