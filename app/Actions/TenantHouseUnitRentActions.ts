@@ -214,6 +214,9 @@ export default class TenantHouseUnitRentActions {
   ): Promise<TenantHouseUnitRent | null> {
     const { houseUnitId, tenantId, landlordId } = getTenantHouseUnitRentDistinctRecordOptions
     return await TenantHouseUnitRent.query()
+      .preload('tenant')
+      .preload('houseUnit')
+      .preload('landlord')
       .where('house_unit_id', houseUnitId)
       .where('tenant_id', tenantId)
       .where('landlord_id', landlordId)

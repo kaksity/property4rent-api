@@ -135,6 +135,7 @@ export default class AssignTenantToHouseUnitController {
         jobPayload: {
           tenantId: tenant.id,
           houseUnitId: houseUnit.id,
+          landlordId: loggedInLandlord.id,
         },
       })
 

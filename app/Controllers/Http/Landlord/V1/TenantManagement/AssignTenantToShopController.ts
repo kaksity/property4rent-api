@@ -3,7 +3,7 @@ import ShopActions from 'App/Actions/ShopActions'
 import TenantActions from 'App/Actions/TenantActions'
 import { ERROR, SOMETHING_WENT_WRONG, VALIDATION_ERROR } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import AssignTenantToShopValidator from 'App/Validators/Landlord/V1/TenantManagement/AssignTenantToShopValidator'
+import AssignTenantToShopValidator from 'App/Validators/Landlord/V1/RentManagement/House/AssignTenantToHouseUnitValidator'
 
 export default class AssignTenantToShopController {
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY

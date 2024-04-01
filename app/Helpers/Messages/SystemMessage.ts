@@ -88,3 +88,8 @@ export const LANDLORD_ACCOUNT_IS_LOCKED = 'Landlord is locked. Please contact th
 
 export const TENANT_ACCOUNT_HAS_NOT_ACTIVATED_ACCOUNT = 'Tenant has not activated account'
 export const TENANT_ACCOUNT_IS_LOCKED = 'Tenant is locked. Please contact the admin'
+
+export const ASSIGN_TENANT_TO_HOUSE_UNIT_EMAIL_SUBJECT =
+  'House Unit Rental Confirmed: Important Details Inside!'
+export const ASSIGN_TENANT_TO_HOUSE_UNIT_EMAIL_EMAIL_TEMPLATE =
+  'emails/tenant/send_assign_tenant_to_house_unit_email_template'
