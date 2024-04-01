@@ -10,7 +10,6 @@ import {
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
-  ACCOUNT_VERIFICATION_IS_REQUIRED,
   ACCOUNT_IS_LOCKED,
   NOT_APPLICABLE,
 } from 'App/Helpers/Messages/SystemMessage'
@@ -18,6 +17,8 @@ import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import TenantLoginValidator from 'App/Validators/Tenant/V1/Authentication/TenantLoginValidator'
 import businessConfig from 'Config/businessConfig'
 import Database from '@ioc:Adonis/Lucid/Database'
+import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
+import { SEND_TENANT_ACCOUNT_ACTIVATION_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 
 export default class TenantLoginController {
   private badRequest = HttpStatusCodeEnum.BAD_REQUEST
@@ -80,12 +81,11 @@ export default class TenantLoginController {
           },
         })
 
-        // Send an email notification
-
-        return response.status(this.unauthorized).json({
-          status: ERROR,
-          status_code: this.unauthorized,
-          message: ACCOUNT_VERIFICATION_IS_REQUIRED,
+        await QueueClient.addJobToQueue({
+          jobIdentifier: SEND_TENANT_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
+          jobPayload: {
+            tenantId: tenant!.id,
+          },
         })
       }
 

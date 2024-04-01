@@ -96,6 +96,10 @@ export default class FetchTenantHouseUnitRentsController {
         pagination_meta: paginationMeta,
       })
     } catch (FetchTenantHouseUnitRentsControllerError) {
+      console.log(
+        'FetchTenantHouseUnitRentsControllerError => ',
+        FetchTenantHouseUnitRentsControllerError
+      )
       return response.internalServerError({
         status: ERROR,
         status_code: this.internalServerError,
