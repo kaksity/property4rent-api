@@ -1,24 +1,40 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import ShopUnitActions from 'App/Actions/ShopUnitActions'
 import ShopActions from 'App/Actions/ShopActions'
 import {
   ERROR,
   NOT_APPLICABLE,
-  NULL_OBJECT,
-  SHOP_FETCH_SUCCESSFUL,
-  SHOP_NOT_FOUND,
   SOMETHING_WENT_WRONG,
   SUCCESS,
+  VALIDATION_ERROR,
+  SHOP_NOT_FOUND,
+  NULL_OBJECT,
+  SHOP_UNIT_LIST_FETCH_SUCCESSFUL,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
+import FetchShopUnitValidator from 'App/Validators/Landlord/V1/PropertyManagement/ShopManagement/FetchShopUnitValidator'
 
-export default class FetchSingleShopController {
+export default class FetchShopUnitController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
-  private ok = HttpStatusCodeEnum.OK
+  private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
   private notFound = HttpStatusCodeEnum.NOT_FOUND
+  private ok = HttpStatusCodeEnum.OK
 
   public async handle({ request, auth, response }: HttpContextContract) {
     try {
+      try {
+        await request.validate(FetchShopUnitValidator)
+      } catch (validationError) {
+        return response.unprocessableEntity({
+          status: ERROR,
+          status_code: this.unprocessableEntity,
+          message: VALIDATION_ERROR,
+          results: validationError.messages,
+        })
+      }
       const { shopIdentifier } = request.params()
+
+      const { per_page: limit = 100, page = 1 } = request.qs()
 
       const loggedInLandlord = auth.use('landlord').user!
 
@@ -35,7 +51,7 @@ export default class FetchSingleShopController {
         })
       }
 
-      if (shop.landlord.id !== loggedInLandlord.id) {
+      if (shop.landlordId !== loggedInLandlord.id) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,
@@ -43,21 +59,17 @@ export default class FetchSingleShopController {
         })
       }
 
-      const mutatedShopUnitsResults = shop.units.map((shop) => {
-        return {
-          identifier: shop.identifier,
-          number_of_rooms: shop.numberOfRooms,
-          number_of_toilets: shop.numberOfToilets,
-          base_rent_amount: shop.baseRentAmount,
-          minimum_rent_amount: shop.minimumRentAmount,
-          maximum_rent_amount: shop.maximumRentAmount,
-          length: shop.length,
-          breadth: shop.breadth,
-          occupation_status: shop.occupationStatus,
-        }
+      const { shopUnitPayload: shopUnits, paginationMeta } = await ShopUnitActions.listShopUnits({
+        filterRecordOptions: {
+          shopId: shop.id,
+        },
+        paginationOptions: {
+          page,
+          limit,
+        },
       })
 
-      const mutatedResults = {
+      const mutatedShopResults = {
         identifier: shop.identifier,
         description: shop.description,
         location: {
@@ -71,20 +83,35 @@ export default class FetchSingleShopController {
           },
           area: shop.information.area || NOT_APPLICABLE,
           nearest_landmark: shop.information.nearestLandmark || NOT_APPLICABLE,
-          longitude: shop.information.longitude || NOT_APPLICABLE,
-          latitude: shop.information.latitude || NOT_APPLICABLE,
         },
-        shop_units: mutatedShopUnitsResults,
       }
+
+      const mutatedShopUnitsResults = shopUnits.map((shop) => {
+        return {
+          identifier: shop.identifier,
+          number_of_rooms: shop.numberOfRooms,
+          number_of_toilets: shop.numberOfToilets,
+          base_rent_amount: shop.baseRentAmount,
+          minimum_rent_amount: shop.minimumRentAmount,
+          maximum_rent_amount: shop.maximumRentAmount,
+          length: shop.length,
+          breadth: shop.breadth,
+          occupation_status: shop.occupationStatus,
+        }
+      })
 
       return response.ok({
         status: SUCCESS,
         status_code: this.ok,
-        message: SHOP_FETCH_SUCCESSFUL,
-        results: mutatedResults,
+        message: SHOP_UNIT_LIST_FETCH_SUCCESSFUL,
+        results: {
+          shop: mutatedShopResults,
+          shop_units: mutatedShopUnitsResults,
+        },
+        pagination_meta: paginationMeta,
       })
-    } catch (FetchSingleShopControllerError) {
-      console.log('FetchSingleShopControllerError.handle', FetchSingleShopControllerError)
+    } catch (FetchShopUnitControllerError) {
+      console.log('FetchShopUnitControllerError.handle', FetchShopUnitControllerError)
 
       return response.internalServerError({
         status: ERROR,

@@ -18,8 +18,6 @@ import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import { SEND_ASSIGN_TENANT_TO_HOUSE_UNIT_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 import AssignTenantToHouseUnitValidator from 'App/Validators/Landlord/V1/RentManagement/House/AssignTenantToHouseUnitValidator'
-import businessConfig from 'Config/businessConfig'
-import { DateTime } from 'luxon'
 
 export default class AssignTenantToHouseUnitController {
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY

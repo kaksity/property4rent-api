@@ -50,6 +50,15 @@ export const HOUSE_UNIT_UPDATE_SUCCESSFUL = 'House unit updated successfully'
 export const HOUSE_UNIT_ALREADY_ASSIGNED_TO_TENANT =
   'House unit has already been assigned to a tenant'
 export const HOUSE_UNIT_ALREADY_EMPTY = 'House unit is currently empty'
+
+export const SHOP_UNIT_CREATE_SUCCESSFUL = 'Shop unit created successfully'
+export const SHOP_UNIT_LIST_FETCH_SUCCESSFUL = 'Shop units retrieved successfully'
+export const SHOP_UNIT_NOT_FOUND = 'Shop unit does not exist'
+export const SHOP_UNIT_UPDATE_SUCCESSFUL = 'Shop unit updated successfully'
+export const SHOP_UNIT_ALREADY_ASSIGNED_TO_TENANT =
+  'Shop unit has already been assigned to a tenant'
+export const SHOP_UNIT_ALREADY_EMPTY = 'Shop unit is currently empty'
+
 export const TENANT_HOUSE_RENT_ASSIGNED_SUCCESSFULLY = 'Tenant House rent was assigned successfully'
 export const TENANT_HOUSE_RENT_REVOKED_SUCCESSFULLY = 'Tenant House rent was revoked successfully'
 export const HOUSE_UNIT_NOT_ASSIGNED_TO_TENANT = 'This house unit was not assigned to this tenant'

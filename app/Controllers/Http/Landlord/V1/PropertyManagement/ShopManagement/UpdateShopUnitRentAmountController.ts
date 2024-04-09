@@ -1,19 +1,20 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ShopActions from 'App/Actions/ShopActions'
-import ShopInformationActions from 'App/Actions/ShopInformationActions'
+import ShopUnitActions from 'App/Actions/ShopUnitActions'
 import {
   ERROR,
   NULL_OBJECT,
-  SHOP_UPDATE_SUCCESSFUL,
   SHOP_NOT_FOUND,
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
+  SHOP_UNIT_NOT_FOUND,
+  SHOP_UNIT_UPDATE_SUCCESSFUL,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import UpdateShopPossibleUseCasesValidator from 'App/Validators/Landlord/V1/PropertyManagement/ShopManagement/UpdateShopPossibleUseCasesValidator'
+import UpdateShopUnitRentAmountValidator from 'App/Validators/Landlord/V1/PropertyManagement/ShopManagement/UpdateShopUnitRentAmountValidator'
 
-export default class UpdateShopPossibleUseCasesController {
+export default class UpdateShopRentAmountController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
   private ok = HttpStatusCodeEnum.OK
   private notFound = HttpStatusCodeEnum.NOT_FOUND
@@ -22,7 +23,7 @@ export default class UpdateShopPossibleUseCasesController {
   public async handle({ request, auth, response }: HttpContextContract) {
     try {
       try {
-        await request.validate(UpdateShopPossibleUseCasesValidator)
+        await request.validate(UpdateShopUnitRentAmountValidator)
       } catch (validationError) {
         return response.unprocessableEntity({
           status: ERROR,
@@ -32,7 +33,7 @@ export default class UpdateShopPossibleUseCasesController {
         })
       }
 
-      const { shopIdentifier } = request.params()
+      const { shopIdentifier, shopUnitIdentifier } = request.params()
 
       const loggedInLandlord = auth.use('landlord').user!
 
@@ -49,7 +50,7 @@ export default class UpdateShopPossibleUseCasesController {
         })
       }
 
-      if (shop.landlord.id !== loggedInLandlord.id) {
+      if (shop.landlordId !== loggedInLandlord.id) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,
@@ -57,15 +58,34 @@ export default class UpdateShopPossibleUseCasesController {
         })
       }
 
-      const { possible_use_cases: possibleUseCases } = request.body()
+      const shopUnit = await ShopUnitActions.getShopUnitRecord({
+        identifierType: 'identifier',
+        identifier: shopUnitIdentifier,
+      })
 
-      await ShopInformationActions.updateShopInformationRecord({
+      if (shopUnit === NULL_OBJECT) {
+        return response.notFound({
+          status: ERROR,
+          status_code: this.notFound,
+          message: SHOP_UNIT_NOT_FOUND,
+        })
+      }
+
+      const {
+        minimum_rent_amount: minimumRentAmount,
+        base_rent_amount: baseRentAmount,
+        maximum_rent_amount: maximumRentAmount,
+      } = request.body()
+
+      await ShopUnitActions.updateShopUnitRecord({
         identifierOptions: {
-          identifierType: 'shopId',
-          identifier: shop.id,
+          identifierType: 'id',
+          identifier: shopUnit.id,
         },
         updatePayload: {
-          possibleUseCases: JSON.stringify(possibleUseCases),
+          minimumRentAmount,
+          maximumRentAmount,
+          baseRentAmount,
         },
         dbTransactionOptions: {
           useTransaction: false,
@@ -75,13 +95,10 @@ export default class UpdateShopPossibleUseCasesController {
       return response.ok({
         status: SUCCESS,
         status_code: this.ok,
-        message: SHOP_UPDATE_SUCCESSFUL,
+        message: SHOP_UNIT_UPDATE_SUCCESSFUL,
       })
-    } catch (UpdateShopPossibleUseCasesControllerError) {
-      console.log(
-        'UpdateShopPossibleUseCasesControllerError.handle',
-        UpdateShopPossibleUseCasesControllerError
-      )
+    } catch (UpdateShopRentAmountControllerError) {
+      console.log('UpdateShopRentAmountControllerError.handle', UpdateShopRentAmountControllerError)
 
       return response.internalServerError({
         status: ERROR,

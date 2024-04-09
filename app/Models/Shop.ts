@@ -1,7 +1,16 @@
-import { BelongsTo, HasOne, belongsTo, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BelongsTo,
+  HasMany,
+  HasOne,
+  belongsTo,
+  column,
+  hasMany,
+  hasOne,
+} from '@ioc:Adonis/Lucid/Orm'
 import AbstractModel from 'App/Models/AbstractModel'
 import ShopInformation from 'App/Models/ShopInformation'
 import Landlord from 'App/Models/Landlord'
+import ShopUnit from 'App/Models/ShopUnit'
 
 export default class Shop extends AbstractModel {
   @column()
@@ -22,4 +31,7 @@ export default class Shop extends AbstractModel {
     foreignKey: 'shopId',
   })
   public information: HasOne<typeof ShopInformation>
+
+  @hasMany(() => ShopUnit)
+  public units: HasMany<typeof ShopUnit>
 }

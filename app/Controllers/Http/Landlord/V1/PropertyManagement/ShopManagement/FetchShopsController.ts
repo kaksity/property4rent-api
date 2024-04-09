@@ -60,10 +60,8 @@ export default class FetchShopsController {
             area: shop.information.area || NOT_APPLICABLE,
             nearest_landmark: shop.information.nearestLandmark || NOT_APPLICABLE,
           },
-          rent_amount: {
-            base_rent_amount: shop.information.baseRentAmount,
-            minimum_rent_amount: shop.information.minimumRentAmount,
-            maximum_rent_amount: shop.information.maximumRentAmount,
+          shop_units_metrics: {
+            total_number_of_units: shop.units.length,
           },
         }
       })

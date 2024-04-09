@@ -1,17 +1,18 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ShopActions from 'App/Actions/ShopActions'
-import ShopInformationActions from 'App/Actions/ShopInformationActions'
+import ShopUnitActions from 'App/Actions/ShopUnitActions'
 import {
   ERROR,
   NULL_OBJECT,
-  SHOP_UPDATE_SUCCESSFUL,
   SHOP_NOT_FOUND,
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
+  SHOP_UNIT_NOT_FOUND,
+  SHOP_UNIT_UPDATE_SUCCESSFUL,
 } from 'App/Helpers/Messages/SystemMessage'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
-import UpdateShopSizeValidator from 'App/Validators/Landlord/V1/PropertyManagement/ShopManagement/UpdateShopSizeValidator'
+import UpdateShopUnitSizeValidator from 'App/Validators/Landlord/V1/PropertyManagement/ShopManagement/UpdateShopUnitSizeValidator'
 
 export default class UpdateShopSizeController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -22,7 +23,7 @@ export default class UpdateShopSizeController {
   public async handle({ request, auth, response }: HttpContextContract) {
     try {
       try {
-        await request.validate(UpdateShopSizeValidator)
+        await request.validate(UpdateShopUnitSizeValidator)
       } catch (validationError) {
         return response.unprocessableEntity({
           status: ERROR,
@@ -32,7 +33,7 @@ export default class UpdateShopSizeController {
         })
       }
 
-      const { shopIdentifier } = request.params()
+      const { shopIdentifier, shopUnitIdentifier } = request.params()
 
       const loggedInLandlord = auth.use('landlord').user!
 
@@ -49,7 +50,7 @@ export default class UpdateShopSizeController {
         })
       }
 
-      if (shop.landlord.id !== loggedInLandlord.id) {
+      if (shop.landlordId !== loggedInLandlord.id) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,
@@ -57,12 +58,25 @@ export default class UpdateShopSizeController {
         })
       }
 
+      const shopUnit = await ShopUnitActions.getShopUnitRecord({
+        identifierType: 'identifier',
+        identifier: shopUnitIdentifier,
+      })
+
+      if (shopUnit === NULL_OBJECT) {
+        return response.notFound({
+          status: ERROR,
+          status_code: this.notFound,
+          message: SHOP_UNIT_NOT_FOUND,
+        })
+      }
+
       const { length, breadth } = request.body()
 
-      await ShopInformationActions.updateShopInformationRecord({
+      await ShopUnitActions.updateShopUnitRecord({
         identifierOptions: {
-          identifierType: 'shopId',
-          identifier: shop.id,
+          identifierType: 'id',
+          identifier: shopUnit.id,
         },
         updatePayload: {
           length,
@@ -76,7 +90,7 @@ export default class UpdateShopSizeController {
       return response.ok({
         status: SUCCESS,
         status_code: this.ok,
-        message: SHOP_UPDATE_SUCCESSFUL,
+        message: SHOP_UNIT_UPDATE_SUCCESSFUL,
       })
     } catch (UpdateShopSizeControllerError) {
       console.log('UpdateShopSizeControllerError.handle', UpdateShopSizeControllerError)

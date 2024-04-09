@@ -27,6 +27,7 @@ export default class ShopActions {
   public static async getShopById(id: number): Promise<Shop | null> {
     return Shop.query()
       .preload('landlord')
+      .preload('units')
       .preload('information', (informationQuery) =>
         informationQuery.preload('lga').preload('state')
       )
@@ -37,6 +38,7 @@ export default class ShopActions {
   public static async getShopByIdentifier(identifier: string): Promise<Shop | null> {
     return Shop.query()
       .preload('landlord')
+      .preload('units')
       .preload('information', (informationQuery) =>
         informationQuery.preload('lga').preload('state')
       )
@@ -101,6 +103,7 @@ export default class ShopActions {
     const { paginationOptions, filterRecordOptions } = listShopRecordOptions
     const shopQuery = Shop.query()
       .preload('landlord')
+      .preload('units')
       .preload('information', (informationQuery) =>
         informationQuery.preload('state').preload('lga')
       )
