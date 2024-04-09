@@ -26,24 +26,6 @@ export default class ShopInformation extends AbstractModel {
   @column()
   public latitude: string
 
-  @column()
-  public length: number
-
-  @column()
-  public breadth: number
-
-  @column()
-  public baseRentAmount: number
-
-  @column()
-  public minimumRentAmount: number
-
-  @column()
-  public maximumRentAmount: number
-
-  @column()
-  public possibleUseCases: string
-
   @belongsTo(() => SettingsState, {
     foreignKey: 'stateId',
   })

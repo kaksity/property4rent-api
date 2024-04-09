@@ -19,18 +19,6 @@ interface ShopInformationInterface {
 
   latitude: string
 
-  length: number
-
-  breadth: number
-
-  baseRentAmount: number
-
-  minimumRentAmount: number
-
-  maximumRentAmount: number
-
-  possibleUseCases: string
-
   createdAt: DateTime
 
   updatedAt: DateTime
