@@ -93,3 +93,8 @@ export const ASSIGN_TENANT_TO_HOUSE_UNIT_EMAIL_SUBJECT =
   'House Unit Rental Confirmed: Important Details Inside!'
 export const ASSIGN_TENANT_TO_HOUSE_UNIT_EMAIL_EMAIL_TEMPLATE =
   'emails/tenant/send_assign_tenant_to_house_unit_email_template'
+
+export const REVOKE_TENANT_FROM_HOUSE_UNIT_EMAIL_SUBJECT =
+  'Notice: Revocation of House Unit Rental Agreement'
+export const REVOKE_TENANT_FROM_HOUSE_UNIT_EMAIL_EMAIL_TEMPLATE =
+  'emails/tenant/send_revoke_tenant_from_house_unit_email_template'

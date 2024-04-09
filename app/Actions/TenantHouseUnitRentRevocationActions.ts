@@ -4,6 +4,7 @@ import CreateTenantHouseUnitRentRevocationRecordOptions from 'App/Typechecking/M
 import DeleteTenantHouseUnitRentRevocationRecordOptions from 'App/Typechecking/ModelManagement/TenantHouseUnitRentRevocation/DeleteTenantHouseUnitRentRevocationRecordOptions'
 import ListTenantHouseUnitRentRevocationRecordOptions from 'App/Typechecking/ModelManagement/TenantHouseUnitRentRevocation/ListTenantHouseUnitRentRevocationRecordOptions'
 import UpdateTenantHouseUnitRentRevocationRecordOptions from 'App/Typechecking/ModelManagement/TenantHouseUnitRentRevocation/UpdateTenantHouseUnitRentRevocationRecordOptions'
+import GetTenantHouseUnitRentRevocationDistinctRecordOptions from 'App/Typechecking/ModelManagement/TenantHouseUnitRentRevocation/GetTenantHouseUnitRentRevocationDistinctRecordOptions'
 
 export default class TenantHouseUnitRentRevocationActions {
   /**
@@ -186,5 +187,28 @@ export default class TenantHouseUnitRentRevocationActions {
     return {
       tenantHouseUnitRentRevocationPayload: TenantHouseUnitRentRevocations,
     }
+  }
+
+  /**
+   * @description Method to get distinct house unit rent information
+   * @author DP
+   * @param {GetTenantHouseUnitRentRevocationDistinctRecordOptions} getTenantHouseUnitRentRevocationDistinctRecordOptions
+   * @return {*}  {(Promise<TenantHouseUnitRent | null>)}
+   * @memberof TenantHouseUnitRentRevocationActions
+   */
+  public static async getTenantHouseUnitRentRevocationDistinct(
+    getTenantHouseUnitRentRevocationDistinctRecordOptions: GetTenantHouseUnitRentRevocationDistinctRecordOptions
+  ): Promise<TenantHouseUnitRentRevocation | null> {
+    const { houseUnitId, tenantId, landlordId } =
+      getTenantHouseUnitRentRevocationDistinctRecordOptions
+    return await TenantHouseUnitRentRevocation.query()
+      .preload('tenant')
+      .preload('houseUnit')
+      .preload('landlord')
+      .where('house_unit_id', houseUnitId)
+      .where('tenant_id', tenantId)
+      .where('landlord_id', landlordId)
+      .orderBy('updated_at', 'desc')
+      .first()
   }
 }

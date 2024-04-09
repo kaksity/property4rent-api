@@ -3,6 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import HouseUnitActions from 'App/Actions/HouseUnitActions'
 import TenantActions from 'App/Actions/TenantActions'
 import TenantHouseUnitRentActions from 'App/Actions/TenantHouseUnitRentActions'
+import TenantHouseUnitRentRevocationActions from 'App/Actions/TenantHouseUnitRentRevocationActions'
 import {
   ERROR,
   HOUSE_UNIT_ALREADY_EMPTY,
@@ -13,22 +14,37 @@ import {
   SUCCESS,
   TENANT_ACCOUNT_NOT_FOUND,
   TENANT_HOUSE_RENT_REVOKED_SUCCESSFULLY,
+  VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
 import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import { SEND_REVOKE_TENANT_FROM_HOUSE_UNIT_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
+import RevokeTenantToHouseUnitValidator from 'App/Validators/Landlord/V1/RentManagement/House/RevokeTenantToHouseUnitValidator'
 
 export default class RevokeTenantFromHouseUnitController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
   private notFound = HttpStatusCodeEnum.NOT_FOUND
   private ok = HttpStatusCodeEnum.OK
   private badRequest = HttpStatusCodeEnum.BAD_REQUEST
+  private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
 
   public async handle({ request, auth, response }: HttpContextContract) {
     const dbTransaction = await Database.transaction()
     try {
-      const { houseUnitIdentifier, tenantIdentifier } = request.params()
+      try {
+        await request.validate(RevokeTenantToHouseUnitValidator)
+      } catch (validationError) {
+        await dbTransaction.rollback()
+        return response.unprocessableEntity({
+          status: ERROR,
+          status_code: this.unprocessableEntity,
+          message: VALIDATION_ERROR,
+          results: validationError.messages,
+        })
+      }
 
+      const { houseUnitIdentifier, tenantIdentifier } = request.params()
+      const { reason } = request.body()
       const loggedInLandlord = auth.use('landlord').user!
 
       const houseUnit = await HouseUnitActions.getHouseUnitRecord({
@@ -123,6 +139,20 @@ export default class RevokeTenantFromHouseUnitController {
         },
       })
 
+      await TenantHouseUnitRentRevocationActions.createTenantHouseUnitRentRevocationRecord({
+        createPayload: {
+          houseUnitId: houseUnit.id,
+          tenantId: tenant.id,
+          landlordId: loggedInLandlord.id,
+          reason,
+          status: 'approved',
+        },
+        dbTransactionOptions: {
+          useTransaction: true,
+          dbTransaction,
+        },
+      })
+
       await dbTransaction.commit()
 
       await QueueClient.addJobToQueue({
@@ -130,6 +160,7 @@ export default class RevokeTenantFromHouseUnitController {
         jobPayload: {
           tenantId: tenant.id,
           houseUnitId: houseUnit.id,
+          landlordId: loggedInLandlord.id,
         },
       })
 
