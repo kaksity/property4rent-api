@@ -12,6 +12,8 @@ const businessConfig = {
 
   defaultDateTimeFormat: Env.get('DEFAULT_DATE_TIME_FORMAT'),
 
+  defaultDateFormat: Env.get('DEFAULT_DATE_FORMAT'),
+
   currentDateTime: DateTime.now(),
 }
 

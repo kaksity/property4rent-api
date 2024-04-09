@@ -56,7 +56,7 @@ export default class SendAssignTenantToHouseUnitNotificationJob implements JobCo
       dataPayload: {
         recipientName: tenantHouseUnitRent.tenant.firstName,
         landlordName: `${tenantHouseUnitRent.landlord.firstName} ${tenantHouseUnitRent.landlord.lastName}`,
-        paidRentAmount: formattedPaidRentAmount,
+        paidRentAmount: `N${formattedPaidRentAmount}`,
         startRentDate: tenantHouseUnitRent.startRentDate, // .toFormat(businessConfig.defaultDateTimeFormat),
         endRentDate: tenantHouseUnitRent.endRentDate, // .toFormat(businessConfig.defaultDateTimeFormat),
       },

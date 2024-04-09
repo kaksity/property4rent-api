@@ -18,6 +18,8 @@ import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import { SEND_ASSIGN_TENANT_TO_HOUSE_UNIT_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 import AssignTenantToHouseUnitValidator from 'App/Validators/Landlord/V1/RentManagement/House/AssignTenantToHouseUnitValidator'
+import businessConfig from 'Config/businessConfig'
+import { DateTime } from 'luxon'
 
 export default class AssignTenantToHouseUnitController {
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
@@ -44,7 +46,7 @@ export default class AssignTenantToHouseUnitController {
       const {
         start_rent_date: startRentDate,
         end_rent_date: endRentDate,
-        paidRentAmount,
+        paid_rent_amount: paidRentAmount,
       } = request.body()
 
       const { houseUnitIdentifier, tenantIdentifier } = request.params()
@@ -145,6 +147,10 @@ export default class AssignTenantToHouseUnitController {
         message: TENANT_HOUSE_RENT_ASSIGNED_SUCCESSFULLY,
       })
     } catch (AssignTenantToHouseUnitControllerError) {
+      console.log(
+        'AssignTenantToHouseUnitControllerError => ',
+        AssignTenantToHouseUnitControllerError
+      )
       await dbTransaction.rollback()
       return response.internalServerError({
         status: ERROR,

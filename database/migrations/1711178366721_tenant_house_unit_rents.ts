@@ -12,8 +12,8 @@ export default class extends BaseSchema {
       table.integer('house_unit_id').index()
       table.bigInteger('house_rent_amount').defaultTo(0)
       table.bigInteger('paid_rent_amount').defaultTo(0)
-      table.date('start_rent_date')
-      table.date('end_rent_date')
+      table.timestamp('start_rent_date')
+      table.timestamp('end_rent_date')
       table.enum('rent_status', ['active', 'inactive', 'expired']).defaultTo('active')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
