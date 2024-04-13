@@ -1,0 +1,13 @@
+import UpdateRecordGeneric from 'App/Typechecking/GeneralPurpose/UpdateRecordGeneric'
+import TenantShopUnitRentRevocationInterface from 'App/Typechecking/ModelManagement/TenantShopUnitRentRevocation/TenantShopUnitRentRevocationInterface'
+import TenantShopUnitRentRevocationRecordIdentifierOptions from 'App/Typechecking/ModelManagement/TenantShopUnitRentRevocation/TenantShopUnitRentRevocationRecordIdentifierOptions'
+
+type UpdateTenantShopUnitRentRevocationPayloadOptions =
+  Partial<TenantShopUnitRentRevocationInterface>
+
+type UpdateTenantShopUnitRentRevocationRecordOptions = UpdateRecordGeneric<
+  UpdateTenantShopUnitRentRevocationPayloadOptions,
+  TenantShopUnitRentRevocationRecordIdentifierOptions
+>
+
+export default UpdateTenantShopUnitRentRevocationRecordOptions

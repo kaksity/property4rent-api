@@ -1,0 +1,7 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import TenantShopUnitRentRevocationRecordIdentifierOptions from 'App/Typechecking/ModelManagement/TenantShopUnitRentRevocation/TenantShopUnitRentRevocationRecordIdentifierOptions'
+
+type DeleteTenantShopUnitRentRevocationRecordOptions =
+  DeleteRecordGeneric<TenantShopUnitRentRevocationRecordIdentifierOptions>
+
+export default DeleteTenantShopUnitRentRevocationRecordOptions

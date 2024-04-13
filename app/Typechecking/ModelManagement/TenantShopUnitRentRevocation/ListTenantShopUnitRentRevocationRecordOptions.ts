@@ -1,0 +1,8 @@
+import ListRecordsGeneric from 'App/Typechecking/GeneralPurpose/ListRecordsGeneric'
+
+type ListTenantShopUnitRentRevocationFilterPayloadOptions = {}
+
+type ListTenantShopUnitRentRevocationRecordOptions =
+  ListRecordsGeneric<ListTenantShopUnitRentRevocationFilterPayloadOptions>
+
+export default ListTenantShopUnitRentRevocationRecordOptions
