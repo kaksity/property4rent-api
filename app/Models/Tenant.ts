@@ -5,7 +5,7 @@ import { DateTime } from 'luxon'
 
 export default class Tenant extends AbstractModel {
   @column()
-  public createdByLandlordId: number
+  public createdByLandlordId: number | null
 
   @column()
   public firstName: string
