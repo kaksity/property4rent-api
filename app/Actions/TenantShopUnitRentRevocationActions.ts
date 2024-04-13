@@ -193,7 +193,7 @@ export default class TenantShopUnitRentRevocationActions {
    * @description Method to get distinct shop unit rent information
    * @author DP
    * @param {GetTenantShopUnitRentRevocationDistinctRecordOptions} getTenantShopUnitRentRevocationDistinctRecordOptions
-   * @return {*}  {(Promise<TenantshopUnitRent | null>)}
+   * @return {*}  {(Promise<TenantShopUnitRent | null>)}
    * @memberof TenantShopUnitRentRevocationActions
    */
   public static async getTenantShopUnitRentRevocationDistinct(

@@ -61,9 +61,13 @@ export const SHOP_UNIT_ALREADY_EMPTY = 'Shop unit is currently empty'
 
 export const TENANT_HOUSE_RENT_ASSIGNED_SUCCESSFULLY = 'Tenant House rent was assigned successfully'
 export const TENANT_HOUSE_RENT_REVOKED_SUCCESSFULLY = 'Tenant House rent was revoked successfully'
+export const TENANT_SHOP_RENT_REVOKED_SUCCESSFULLY = 'Tenant shop rent was revoked successfully'
 export const HOUSE_UNIT_NOT_ASSIGNED_TO_TENANT = 'This house unit was not assigned to this tenant'
+export const SHOP_UNIT_NOT_ASSIGNED_TO_TENANT = 'This shop unit was not assigned to this tenant'
 export const TENANT_HOUSE_UNIT_RENT_LIST_FETCH_SUCCESSFUL =
   'Tenant House rent retrieved successfully'
+
+export const TENANT_SHOP_UNIT_RENT_LIST_FETCH_SUCCESSFUL = 'Tenant shop rent retrieved successfully'
 
 export const SEND_WELCOME_NEW_LANDLORD_EMAIL_SUBJECT = 'Welcome to Property4Rent'
 export const SEND_WELCOME_NEW_LANDLORD_EMAIL_TEMPLATE =
@@ -100,10 +104,22 @@ export const TENANT_ACCOUNT_IS_LOCKED = 'Tenant is locked. Please contact the ad
 
 export const ASSIGN_TENANT_TO_HOUSE_UNIT_EMAIL_SUBJECT =
   'House Unit Rental Confirmed: Important Details Inside!'
+
+export const ASSIGN_TENANT_TO_SHOP_UNIT_EMAIL_SUBJECT =
+  'Shop Unit Rental Confirmed: Important Details Inside!'
+
 export const ASSIGN_TENANT_TO_HOUSE_UNIT_EMAIL_EMAIL_TEMPLATE =
   'emails/tenant/send_assign_tenant_to_house_unit_email_template'
+
+export const ASSIGN_TENANT_TO_SHOP_UNIT_EMAIL_EMAIL_TEMPLATE =
+  'emails/tenant/send_assign_tenant_to_shop_unit_email_template'
 
 export const REVOKE_TENANT_FROM_HOUSE_UNIT_EMAIL_SUBJECT =
   'Notice: Revocation of House Unit Rental Agreement'
 export const REVOKE_TENANT_FROM_HOUSE_UNIT_EMAIL_EMAIL_TEMPLATE =
   'emails/tenant/send_revoke_tenant_from_house_unit_email_template'
+
+export const REVOKE_TENANT_FROM_SHOP_UNIT_EMAIL_SUBJECT =
+  'Notice: Revocation of Shop Unit Rental Agreement'
+export const REVOKE_TENANT_FROM_SHOP_UNIT_EMAIL_EMAIL_TEMPLATE =
+  'emails/tenant/send_revoke_tenant_from_shop_unit_email_template'
