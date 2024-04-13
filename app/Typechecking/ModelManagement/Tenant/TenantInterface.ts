@@ -5,7 +5,7 @@ interface TenantInterface {
 
   identifier: string
 
-  createdByLandlordId: number
+  createdByLandlordId: number | null
 
   firstName: string
 
