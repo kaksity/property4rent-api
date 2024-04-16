@@ -1,0 +1,7 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import SubscriptionPlanRecordIdentifierOptions from 'App/Typechecking/ModelManagement/SubscriptionPlan/SubscriptionPlanRecordIdentifierOptions'
+
+type DeleteSubscriptionPlanRecordOptions =
+  DeleteRecordGeneric<SubscriptionPlanRecordIdentifierOptions>
+
+export default DeleteSubscriptionPlanRecordOptions

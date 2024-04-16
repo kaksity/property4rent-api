@@ -1,0 +1,12 @@
+import UpdateRecordGeneric from 'App/Typechecking/GeneralPurpose/UpdateRecordGeneric'
+import SubscriptionPlanInterface from 'App/Typechecking/ModelManagement/SubscriptionPlan/SubscriptionPlanInterface'
+import SubscriptionPlanRecordIdentifierOptions from 'App/Typechecking/ModelManagement/SubscriptionPlan/SubscriptionPlanRecordIdentifierOptions'
+
+type UpdateSubscriptionPlanPayloadOptions = Partial<SubscriptionPlanInterface>
+
+type UpdateSubscriptionPlanRecordOptions = UpdateRecordGeneric<
+  UpdateSubscriptionPlanPayloadOptions,
+  SubscriptionPlanRecordIdentifierOptions
+>
+
+export default UpdateSubscriptionPlanRecordOptions
