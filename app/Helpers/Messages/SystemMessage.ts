@@ -31,6 +31,7 @@ export const TENANT_ACCOUNT_UPDATE_SUCCESSFUL = 'Tenant account updated successf
 export const OLD_PASSWORD_SUPPLIED_IS_NOT_CORRECT = 'Old password supplied is not valid'
 export const PASSWORD_CHANGED_SUCCESSFULLY = 'Password was updated successfully'
 export const STATE_LIST_SUCCESSFUL = 'States retrieved successfully'
+export const SUBSCRIPTION_PLAN_LIST_SUCCESSFUL = 'Subscription plans retrieved successfully'
 export const LGA_LIST_FETCH_SUCCESSFUL = 'Lgas retrieved successfully'
 export const STATE_DOES_NOT_EXIST = 'State does not exist'
 export const SHOP_LIST_FETCH_SUCCESSFUL = 'Shops retrieved successfully'
