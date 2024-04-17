@@ -32,7 +32,7 @@ export default class CreateShopUnitController {
         })
       }
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const { shopIdentifier } = request.params()
 

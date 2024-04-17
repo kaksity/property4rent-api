@@ -40,6 +40,6 @@ Route.group(function () {
   ).as('landlord.v1.property-management.house-management.update-house-unit-size')
 })
   .prefix('api/v1/landlord/property-management/house-management')
-  .middleware('auth:landlord')
-  .middleware('checkForCompleteLandlordAccountSetup')
+  .middleware('auth:landlordTeamMember')
+  .middleware('checkForCompleteLandlordTeamMemberAccountSetup')
   .namespace('App/Controllers/Http/Landlord/V1/PropertyManagement/HouseManagement')

@@ -49,7 +49,7 @@ export default class AssignTenantToShopUnitController {
 
       const { shopUnitIdentifier, tenantIdentifier } = request.params()
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const shopUnit = await ShopUnitActions.getShopUnitRecord({
         identifierType: 'identifier',

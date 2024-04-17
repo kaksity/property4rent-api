@@ -35,7 +35,7 @@ export default class UpdateShopSizeController {
 
       const { shopIdentifier, shopUnitIdentifier } = request.params()
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const shop = await ShopActions.getShopRecord({
         identifierType: 'identifier',

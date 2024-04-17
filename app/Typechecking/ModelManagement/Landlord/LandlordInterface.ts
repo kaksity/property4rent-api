@@ -1,33 +1,11 @@
-import { DateTime } from 'luxon'
-
 interface LandlordInterface {
-  id: number
+  name: string
 
-  identifier: string
+  mutatedName: string
 
-  firstName: string
+  address: string
 
-  lastName: string
-
-  phoneNumber: string
-
-  hasActivatedAccount: boolean
-
-  isAccountLocked: boolean
-
-  isAccountVerified: boolean
-
-  lastLoginDate: DateTime
-
-  email: string
-
-  password: string
-
-  createdAt: DateTime
-
-  updatedAt: DateTime
-
-  deletedAt: DateTime
+  subscriptionPlanId: number
 }
 
 export default LandlordInterface

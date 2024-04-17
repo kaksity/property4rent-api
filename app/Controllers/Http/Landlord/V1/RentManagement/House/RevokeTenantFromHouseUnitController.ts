@@ -45,7 +45,7 @@ export default class RevokeTenantFromHouseUnitController {
 
       const { houseUnitIdentifier, tenantIdentifier } = request.params()
       const { reason } = request.body()
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const houseUnit = await HouseUnitActions.getHouseUnitRecord({
         identifierType: 'identifier',

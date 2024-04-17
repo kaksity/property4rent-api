@@ -20,7 +20,7 @@ export default class FetchSingleHouseController {
     try {
       const { houseIdentifier } = request.params()
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const house = await HouseActions.getHouseRecord({
         identifierType: 'identifier',

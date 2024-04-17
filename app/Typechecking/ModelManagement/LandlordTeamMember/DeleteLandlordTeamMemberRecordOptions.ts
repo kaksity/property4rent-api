@@ -1,0 +1,7 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import LandlordTeamMemberRecordIdentifierOptions from 'App/Typechecking/ModelManagement/LandlordTeamMember/LandlordTeamMemberRecordIdentifierOptions'
+
+type DeleteLandlordTeamMemberRecordOptions =
+  DeleteRecordGeneric<LandlordTeamMemberRecordIdentifierOptions>
+
+export default DeleteLandlordTeamMemberRecordOptions

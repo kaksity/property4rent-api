@@ -3,7 +3,7 @@ import LandlordInterface from 'App/Typechecking/ModelManagement/Landlord/Landlor
 
 type CreateLandlordPayloadOptions = Pick<
   LandlordInterface,
-  'email' | 'firstName' | 'lastName' | 'password' | 'phoneNumber'
+  'name' | 'mutatedName' | 'address' | 'subscriptionPlanId'
 >
 
 type CreateLandlordRecordOptions = CreateNewRecordGeneric<CreateLandlordPayloadOptions>

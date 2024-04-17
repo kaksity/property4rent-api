@@ -46,7 +46,7 @@ export default class RevokeTenantFromShopUnitController {
       const { shopUnitIdentifier, tenantIdentifier } = request.params()
 
       const { reason } = request.body()
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const shopUnit = await ShopUnitActions.getShopUnitRecord({
         identifierType: 'identifier',

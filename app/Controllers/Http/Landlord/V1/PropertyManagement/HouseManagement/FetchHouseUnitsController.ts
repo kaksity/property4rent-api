@@ -36,7 +36,7 @@ export default class FetchHouseUnitsController {
 
       const { per_page: limit = 100, page = 1 } = request.qs()
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const house = await HouseActions.getHouseRecord({
         identifierType: 'identifier',

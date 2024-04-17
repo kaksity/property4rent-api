@@ -38,6 +38,6 @@ Route.group(function () {
   ).as('landlord.v1.property-management.shop-management.update-shop-unit-size')
 })
   .prefix('api/v1/landlord/property-management/shop-management')
-  .middleware('auth:landlord')
-  .middleware('checkForCompleteLandlordAccountSetup')
+  .middleware('auth:landlordTeamMember')
+  .middleware('checkForCompleteLandlordTeamMemberAccountSetup')
   .namespace('App/Controllers/Http/Landlord/V1/PropertyManagement/ShopManagement')

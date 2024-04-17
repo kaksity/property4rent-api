@@ -32,7 +32,7 @@ export default class ChangePasswordController {
 
       const { old_password: oldPassword, new_password: newPassword } = request.body()
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const isOldPasswordSuppliedCorrect = await Hash.verify(loggedInLandlord.password, oldPassword)
       if (isOldPasswordSuppliedCorrect === false) {

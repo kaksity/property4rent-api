@@ -97,7 +97,7 @@ export default class LandlordLoginController {
         })
       }
 
-      await auth.use('landlord').revoke()
+      await auth.use('landlordTeamMember').revoke()
 
       await LandlordActions.updateLandlordRecord({
         identifierOptions: {
@@ -112,7 +112,7 @@ export default class LandlordLoginController {
         },
       })
 
-      const accessToken = await auth.use('landlord').attempt(email, password, {
+      const accessToken = await auth.use('landlordTeamMember').attempt(email, password, {
         expiresIn: `${businessConfig.accessTokenExpirationTimeFrameInMinutes} minutes`,
       })
 

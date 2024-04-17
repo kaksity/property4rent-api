@@ -32,7 +32,7 @@ export default class CreateHouseUnitController {
         })
       }
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const { houseIdentifier } = request.params()
 

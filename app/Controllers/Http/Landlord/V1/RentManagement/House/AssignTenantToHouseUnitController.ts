@@ -49,7 +49,7 @@ export default class AssignTenantToHouseUnitController {
 
       const { houseUnitIdentifier, tenantIdentifier } = request.params()
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const houseUnit = await HouseUnitActions.getHouseUnitRecord({
         identifierType: 'identifier',

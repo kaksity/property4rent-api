@@ -8,7 +8,7 @@ Route.group(function () {
     'landlord.v1.tenant-management.get-tenant-by-email-address'
   )
 })
-  .middleware('auth:landlord')
-  .middleware('checkForCompleteLandlordAccountSetup')
+  .middleware('auth:landlordTeamMember')
+  .middleware('checkForCompleteLandlordTeamMemberAccountSetup')
   .prefix('api/v1/landlord/tenant-management')
   .namespace('App/Controllers/Http/Landlord/V1/TenantManagement')

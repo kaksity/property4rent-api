@@ -1,0 +1,12 @@
+import UpdateRecordGeneric from 'App/Typechecking/GeneralPurpose/UpdateRecordGeneric'
+import LandlordTeamMemberInterface from 'App/Typechecking/ModelManagement/LandlordTeamMember/LandlordTeamMemberInterface'
+import LandlordTeamMemberRecordIdentifierOptions from 'App/Typechecking/ModelManagement/LandlordTeamMember/LandlordTeamMemberRecordIdentifierOptions'
+
+type UpdateLandlordTeamMemberPayloadOptions = Partial<LandlordTeamMemberInterface>
+
+type UpdateLandlordTeamMemberRecordOptions = UpdateRecordGeneric<
+  UpdateLandlordTeamMemberPayloadOptions,
+  LandlordTeamMemberRecordIdentifierOptions
+>
+
+export default UpdateLandlordTeamMemberRecordOptions

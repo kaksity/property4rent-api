@@ -1,6 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import LandlordActions from 'App/Actions/LandlordActions'
+import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
+import SubscriptionPlanActions from 'App/Actions/SubscriptionPlanActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import generateRandomString from 'App/Helpers/Functions/generateRandomString'
 import {
@@ -18,6 +20,7 @@ import {
 } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 import CreateNewLandlordValidator from 'App/Validators/Landlord/V1/Onboarding/CreateNewLandlordValidator'
 import businessConfig from 'Config/businessConfig'
+import mutateOrganizationName from 'App/Helpers/Functions/mutateOrganizationName'
 
 export default class CreateNewLandlordController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -45,15 +48,39 @@ export default class CreateNewLandlordController {
         phone_number: phoneNumber,
         email,
         password,
+        organization_name: organizationName,
+        organization_address: organizationAddress,
+        subscription_plan_identifier: subscriptionPlanIdentifier,
       } = request.body()
 
+      const subscriptionPlan = await SubscriptionPlanActions.getSubscriptionPlanRecord({
+        identifierType: 'identifier',
+        identifier: subscriptionPlanIdentifier,
+      })
+
+      const mutatedName = mutateOrganizationName(organizationName)
+
       const landlord = await LandlordActions.createLandlordRecord({
+        createPayload: {
+          name: organizationName,
+          address: organizationAddress,
+          mutatedName,
+          subscriptionPlanId: subscriptionPlan!.id,
+        },
+        dbTransactionOptions: {
+          useTransaction: true,
+          dbTransaction,
+        },
+      })
+
+      const landlordTeamMember = await LandlordTeamMemberActions.createLandlordTeamMemberRecord({
         createPayload: {
           firstName,
           lastName,
           phoneNumber,
           email,
           password,
+          landlordId: landlord.id,
         },
         dbTransactionOptions: {
           useTransaction: true,
@@ -95,20 +122,20 @@ export default class CreateNewLandlordController {
       await QueueClient.addJobToQueue({
         jobIdentifier: SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
         jobPayload: {
-          landlordId: landlord.id,
+          landlordTeamMemberId: landlordTeamMember.id,
         },
       })
 
       const mutatedLandlordPayload = {
-        identifier: landlord.identifier,
-        first_name: landlord.firstName,
-        last_name: landlord.lastName,
-        email: landlord.email,
-        phone_number: landlord.phoneNumber,
+        identifier: landlordTeamMember.identifier,
+        first_name: landlordTeamMember.firstName,
+        last_name: landlordTeamMember.lastName,
+        email: landlordTeamMember.email,
+        phone_number: landlordTeamMember.phoneNumber,
         meta: {
-          has_activated_account: landlord.hasActivatedAccount,
-          has_verified_account: landlord.isAccountVerified,
-          created_at: landlord.createdAt,
+          has_activated_account: landlordTeamMember.hasActivatedAccount,
+          has_verified_account: landlordTeamMember.isAccountVerified,
+          created_at: landlordTeamMember.createdAt,
         },
       }
 

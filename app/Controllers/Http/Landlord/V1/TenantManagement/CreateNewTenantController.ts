@@ -52,7 +52,7 @@ export default class CreateNewTenantController {
         isCapitalized: false,
       })
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const tenant = await TenantActions.createTenantRecord({
         createPayload: {

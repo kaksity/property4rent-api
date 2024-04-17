@@ -174,7 +174,7 @@ const authConfig: AuthConfig = {
         model: () => import('App/Models/Admin'),
       },
     },
-    landlord: {
+    landlordTeamMember: {
       driver: 'oat',
 
       /*
@@ -194,7 +194,7 @@ const authConfig: AuthConfig = {
         type: 'api',
         driver: 'database',
         table: 'landlord_api_tokens',
-        foreignKey: 'landlord_id',
+        foreignKey: 'landlord_team_member_id',
       },
 
       provider: {
@@ -242,7 +242,7 @@ const authConfig: AuthConfig = {
         | that time.
         |
         */
-        model: () => import('App/Models/Landlord'),
+        model: () => import('App/Models/LandlordTeamMember'),
       },
     },
     tenant: {

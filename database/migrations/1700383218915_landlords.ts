@@ -7,17 +7,10 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('identifier').index()
-      table.string('first_name').notNullable()
-      table.string('last_name').notNullable()
-      table.string('phone_number', 20).notNullable()
-      table.string('email', 255).notNullable().unique()
-      table.string('password', 180).notNullable()
-      table.boolean('has_activated_account').defaultTo(false)
-      table.boolean('is_account_locked').defaultTo(false)
-      table.boolean('is_account_verified').defaultTo(false)
-      table.timestamp('last_login_date', { useTz: true }).nullable()
-
-      table.string('remember_me_token').nullable()
+      table.integer('subscription_plan_id').index()
+      table.string('name')
+      table.string('mutated_name')
+      table.string('address')
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL
        */

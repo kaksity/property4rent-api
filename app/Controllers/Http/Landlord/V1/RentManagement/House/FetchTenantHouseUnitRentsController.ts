@@ -29,7 +29,7 @@ export default class FetchTenantHouseUnitRentsController {
         })
       }
 
-      const loggedInLandlord = auth.use('landlord').user!
+      const loggedInLandlord = auth.use('landlordTeamMember').user!
 
       const {
         per_page: limit = 100,
