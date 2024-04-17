@@ -1,5 +1,5 @@
 import { JobContract } from '@ioc:Rocketseat/Bull'
-import LandlordActions from 'App/Actions/LandlordActions'
+import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
 import JobQueueException from 'App/Exceptions/JobQueueException'
 import {
   NULL_OBJECT,
@@ -26,15 +26,17 @@ export default class SendWelcomeNewLandlordNotificationJob implements JobContrac
   public key = SEND_WELCOME_NEW_LANDLORD_NOTIFICATION_JOB
 
   public async handle(job) {
-    const { landlordId } = job.data
+    const { landlordTeamMemberId } = job.data
 
-    const landlord = await LandlordActions.getLandlordRecord({
+    const landlordTeamMember = await LandlordTeamMemberActions.getLandlordTeamMemberRecord({
       identifierType: 'id',
-      identifier: landlordId,
+      identifier: landlordTeamMemberId,
     })
 
-    if (landlord === NULL_OBJECT) {
-      throw new JobQueueException(`Landlord with id ${landlordId} does not exists`)
+    if (landlordTeamMember === NULL_OBJECT) {
+      throw new JobQueueException(
+        `Landlord Team Member with id ${landlordTeamMemberId} does not exists`
+      )
     }
 
     await MailClient.send({
@@ -43,11 +45,11 @@ export default class SendWelcomeNewLandlordNotificationJob implements JobContrac
         name: businessConfig.defaultEmailName,
       },
       recipient: {
-        email: landlord.email,
-        name: landlord.firstName,
+        email: landlordTeamMember.email,
+        name: landlordTeamMember.firstName,
       },
       dataPayload: {
-        recipientName: landlord.firstName,
+        recipientName: landlordTeamMember.firstName,
       },
       subject: SEND_WELCOME_NEW_LANDLORD_EMAIL_SUBJECT,
       template: SEND_WELCOME_NEW_LANDLORD_EMAIL_TEMPLATE,

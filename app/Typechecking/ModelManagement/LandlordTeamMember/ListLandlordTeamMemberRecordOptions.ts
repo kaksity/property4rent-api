@@ -2,6 +2,7 @@ import ListRecordsGeneric from 'App/Typechecking/GeneralPurpose/ListRecordsGener
 
 type ListLandlordTeamMemberFilterPayloadOptions = {
   hasActivatedAccount?: boolean
+  landlordId?: number
 }
 
 type ListLandlordTeamMemberRecordOptions =

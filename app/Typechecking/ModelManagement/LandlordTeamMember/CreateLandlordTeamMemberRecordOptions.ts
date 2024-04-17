@@ -3,7 +3,7 @@ import LandlordTeamMemberInterface from 'App/Typechecking/ModelManagement/Landlo
 
 type CreateLandlordTeamMemberPayloadOptions = Pick<
   LandlordTeamMemberInterface,
-  'email' | 'firstName' | 'lastName' | 'password' | 'phoneNumber' | 'landlordId'
+  'email' | 'firstName' | 'lastName' | 'password' | 'phoneNumber' | 'landlordId' | 'role'
 >
 
 type CreateLandlordTeamMemberRecordOptions =

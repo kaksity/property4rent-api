@@ -81,6 +81,7 @@ export default class CreateNewLandlordController {
           email,
           password,
           landlordId: landlord.id,
+          role: 'owner',
         },
         dbTransactionOptions: {
           useTransaction: true,
@@ -88,7 +89,7 @@ export default class CreateNewLandlordController {
         },
       })
 
-      await OtpTokenActions.revokeOtpTokens(landlord.id)
+      await OtpTokenActions.revokeOtpTokens(landlordTeamMember.id)
 
       const token = generateRandomString({
         length: 8,
@@ -97,7 +98,7 @@ export default class CreateNewLandlordController {
 
       await OtpTokenActions.createOtpTokenRecord({
         createPayload: {
-          authorId: landlord.id,
+          authorId: landlordTeamMember.id,
           purpose: 'account-activation',
           expiresAt: businessConfig.currentDateTime.plus({
             minutes: businessConfig.otpTokenExpirationTimeFrameInMinutes,
@@ -115,7 +116,7 @@ export default class CreateNewLandlordController {
       await QueueClient.addJobToQueue({
         jobIdentifier: SEND_WELCOME_NEW_LANDLORD_NOTIFICATION_JOB,
         jobPayload: {
-          landlordId: landlord.id,
+          landlordTeamMemberId: landlordTeamMember.id,
         },
       })
 

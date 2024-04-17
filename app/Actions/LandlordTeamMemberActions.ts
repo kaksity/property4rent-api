@@ -25,19 +25,19 @@ export default class LandlordTeamMemberActions {
   }
 
   public static async getLandlordTeamMemberById(id: number): Promise<LandlordTeamMember | null> {
-    return LandlordTeamMember.query().where('id', id).first()
+    return LandlordTeamMember.query().preload('landlord').where('id', id).first()
   }
 
   public static async getLandlordTeamMemberByIdentifier(
     identifier: string
   ): Promise<LandlordTeamMember | null> {
-    return LandlordTeamMember.query().where('identifier', identifier).first()
+    return LandlordTeamMember.query().preload('landlord').where('identifier', identifier).first()
   }
 
   public static async getLandlordTeamMemberByEmailAddress(
     emailAddress: string
   ): Promise<LandlordTeamMember | null> {
-    return LandlordTeamMember.query().where('email', emailAddress).first()
+    return LandlordTeamMember.query().preload('landlord').where('email', emailAddress).first()
   }
 
   public static async getLandlordTeamMemberRecord(
@@ -99,13 +99,19 @@ export default class LandlordTeamMemberActions {
     listLandlordTeamMemberRecordOptions: ListLandlordTeamMemberRecordOptions
   ): Promise<{ landlordTeamMemberPayload: LandlordTeamMember[]; paginationMeta?: any }> {
     const { filterRecordOptions, paginationOptions } = listLandlordTeamMemberRecordOptions
-    const landlordTeamMemberQuery = LandlordTeamMember.query().orderBy('created_at', 'asc')
+    const landlordTeamMemberQuery = LandlordTeamMember.query()
+      .preload('landlord')
+      .orderBy('created_at', 'asc')
 
     if (typeof filterRecordOptions?.hasActivatedAccount === 'boolean') {
       landlordTeamMemberQuery.where(
         'has_activated_account',
         filterRecordOptions.hasActivatedAccount
       )
+    }
+
+    if (filterRecordOptions?.landlordId) {
+      landlordTeamMemberQuery.where('landlord_id', filterRecordOptions.landlordId)
     }
 
     if (paginationOptions) {

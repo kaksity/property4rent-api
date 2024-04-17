@@ -1,5 +1,5 @@
 import { JobContract } from '@ioc:Rocketseat/Bull'
-import LandlordActions from 'App/Actions/LandlordActions'
+import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import JobQueueException from 'App/Exceptions/JobQueueException'
 import {
@@ -27,20 +27,22 @@ export default class SendLandlordAccountActivationNotificationJob implements Job
   public key = SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB
 
   public async handle(job) {
-    const { landlordId } = job.data
+    const { landlordTeamMemberId } = job.data
 
-    const landlord = await LandlordActions.getLandlordRecord({
+    const landlordTeamMember = await LandlordTeamMemberActions.getLandlordTeamMemberRecord({
       identifierType: 'id',
-      identifier: landlordId,
+      identifier: landlordTeamMemberId,
     })
 
-    if (landlord === NULL_OBJECT) {
-      throw new JobQueueException(`Landlord with id ${landlordId} does not exists`)
+    if (landlordTeamMember === NULL_OBJECT) {
+      throw new JobQueueException(
+        `Landlord Team Member with id ${landlordTeamMemberId} does not exists`
+      )
     }
 
     const otpToken = await OtpTokenActions.getOtpTokenRecord({
       identifierType: 'author',
-      identifier: landlord.id,
+      identifier: landlordTeamMember.id,
     })
 
     if (otpToken === NULL_OBJECT || otpToken.purpose !== 'account-activation') {
@@ -53,11 +55,11 @@ export default class SendLandlordAccountActivationNotificationJob implements Job
         name: businessConfig.defaultEmailName,
       },
       recipient: {
-        email: landlord.email,
-        name: landlord.firstName,
+        email: landlordTeamMember.email,
+        name: landlordTeamMember.firstName,
       },
       dataPayload: {
-        recipientName: landlord.firstName,
+        recipientName: landlordTeamMember.firstName,
         otpToken: otpToken.token,
         expirationDateTime: otpToken.expiresAt.toFormat(businessConfig.defaultDateTimeFormat),
       },

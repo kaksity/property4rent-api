@@ -19,6 +19,8 @@ interface LandlordTeamMemberInterface {
 
   isAccountVerified: boolean
 
+  role: 'owner' | 'member'
+
   lastLoginDate: DateTime
 
   email: string
