@@ -20,7 +20,7 @@ export default class FetchSingleHouseController {
     try {
       const { houseIdentifier } = request.params()
 
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const house = await HouseActions.getHouseRecord({
         identifierType: 'identifier',
@@ -35,7 +35,7 @@ export default class FetchSingleHouseController {
         })
       }
 
-      if (house.landlord.id !== loggedInLandlord.id) {
+      if (house.landlord.id !== loggedInLandlordTeamMember.landlordId) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,

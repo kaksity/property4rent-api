@@ -32,7 +32,7 @@ export default class CreateHouseUnitController {
         })
       }
 
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const { houseIdentifier } = request.params()
 
@@ -62,7 +62,7 @@ export default class CreateHouseUnitController {
         })
       }
 
-      if (house.landlordId !== loggedInLandlord.id) {
+      if (house.landlordId !== loggedInLandlordTeamMember.landlordId) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,
