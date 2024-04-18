@@ -1,5 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import LandlordActions from 'App/Actions/LandlordActions'
+import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import generateRandomString from 'App/Helpers/Functions/generateRandomString'
 import {
@@ -35,12 +35,12 @@ export default class RequestPasswordResetOtpTokenController {
 
       const { email } = request.body()
 
-      const landlord = await LandlordActions.getLandlordRecord({
+      const landlordTeamMember = await LandlordTeamMemberActions.getLandlordTeamMemberRecord({
         identifierType: 'email',
         identifier: email,
       })
 
-      await OtpTokenActions.revokeOtpTokens(landlord!.id)
+      await OtpTokenActions.revokeOtpTokens(landlordTeamMember!.id)
 
       const token = generateRandomString({
         charset: 'numeric',
@@ -50,7 +50,7 @@ export default class RequestPasswordResetOtpTokenController {
 
       await OtpTokenActions.createOtpTokenRecord({
         createPayload: {
-          authorId: landlord!.id,
+          authorId: landlordTeamMember!.id,
           purpose: 'reset-password',
           expiresAt: businessConfig.currentDateTime.plus({
             minutes: businessConfig.otpTokenExpirationTimeFrameInMinutes,
@@ -65,7 +65,7 @@ export default class RequestPasswordResetOtpTokenController {
       await QueueClient.addJobToQueue({
         jobIdentifier: SEND_LANDLORD_ACCOUNT_PASSWORD_RESET_NOTIFICATION_JOB,
         jobPayload: {
-          landlordId: landlord!.id,
+          landlordTeamMemberId: landlordTeamMember!.id,
         },
       })
 

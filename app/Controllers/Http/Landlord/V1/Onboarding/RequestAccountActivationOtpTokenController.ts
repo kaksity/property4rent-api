@@ -1,5 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import LandlordActions from 'App/Actions/LandlordActions'
+import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import generateRandomString from 'App/Helpers/Functions/generateRandomString'
 import {
@@ -10,7 +10,9 @@ import {
   VALIDATION_ERROR,
   ACCOUNT_ALREADY_ACTIVATED,
 } from 'App/Helpers/Messages/SystemMessage'
+import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
+import { SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 import RequestAccountActivationOtpTokenValidator from 'App/Validators/Landlord/V1/Onboarding/RequestAccountActivationOtpTokenValidator'
 import businessConfig from 'Config/businessConfig'
 
@@ -35,12 +37,12 @@ export default class RequestAccountActivationOtpTokenController {
 
       const { email } = request.body()
 
-      const landlord = await LandlordActions.getLandlordRecord({
+      const landlordTeamMember = await LandlordTeamMemberActions.getLandlordTeamMemberRecord({
         identifierType: 'email',
         identifier: email,
       })
 
-      if (landlord!.hasActivatedAccount === 'Yes') {
+      if (landlordTeamMember!.hasActivatedAccount === 'Yes') {
         return response.ok({
           status: SUCCESS,
           status_code: this.ok,
@@ -48,7 +50,7 @@ export default class RequestAccountActivationOtpTokenController {
         })
       }
 
-      await OtpTokenActions.revokeOtpTokens(landlord!.id)
+      await OtpTokenActions.revokeOtpTokens(landlordTeamMember!.id)
 
       const token = generateRandomString({
         charset: 'numeric',
@@ -58,7 +60,7 @@ export default class RequestAccountActivationOtpTokenController {
 
       await OtpTokenActions.createOtpTokenRecord({
         createPayload: {
-          authorId: landlord!.id,
+          authorId: landlordTeamMember!.id,
           purpose: 'account-activation',
           expiresAt: businessConfig.currentDateTime.plus({
             minutes: businessConfig.otpTokenExpirationTimeFrameInMinutes,
@@ -70,7 +72,12 @@ export default class RequestAccountActivationOtpTokenController {
         },
       })
 
-      // Send token via email address
+      await QueueClient.addJobToQueue({
+        jobIdentifier: SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
+        jobPayload: {
+          landlordTeamMemberId: landlordTeamMember!.id,
+        },
+      })
 
       return response.created({
         status_code: this.created,

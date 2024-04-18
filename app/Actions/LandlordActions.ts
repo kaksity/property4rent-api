@@ -32,10 +32,6 @@ export default class LandlordActions {
     return Landlord.query().where('identifier', identifier).first()
   }
 
-  public static async getLandlordByEmailAddress(emailAddress: string): Promise<Landlord | null> {
-    return Landlord.query().where('email', emailAddress).first()
-  }
-
   public static async getLandlordRecord(
     LandlordRecordIdentifierOptions: LandlordRecordIdentifierOptions
   ): Promise<Landlord | null> {
@@ -44,7 +40,6 @@ export default class LandlordActions {
     const GetLandlordRecord: Record<string, Function> = {
       id: async () => await this.getLandlordById(Number(identifier)),
       identifier: async () => await this.getLandlordByIdentifier(String(identifier)),
-      email: async () => await this.getLandlordByEmailAddress(String(identifier)),
     }
 
     return GetLandlordRecord[identifierType]()

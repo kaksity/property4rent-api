@@ -10,7 +10,7 @@ import {
 import Hash from '@ioc:Adonis/Core/Hash'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import ChangePasswordValidator from 'App/Validators/Landlord/V1/PasswordManagement/ChangePassword/ChangePasswordValidator'
-import LandlordActions from 'App/Actions/LandlordActions'
+import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
 export default class ChangePasswordController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
   private ok = HttpStatusCodeEnum.OK
@@ -32,9 +32,12 @@ export default class ChangePasswordController {
 
       const { old_password: oldPassword, new_password: newPassword } = request.body()
 
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
-      const isOldPasswordSuppliedCorrect = await Hash.verify(loggedInLandlord.password, oldPassword)
+      const isOldPasswordSuppliedCorrect = await Hash.verify(
+        loggedInLandlordTeamMember.password,
+        oldPassword
+      )
       if (isOldPasswordSuppliedCorrect === false) {
         return response.badRequest({
           status: ERROR,
@@ -43,10 +46,10 @@ export default class ChangePasswordController {
         })
       }
 
-      await LandlordActions.updateLandlordRecord({
+      await LandlordTeamMemberActions.updateLandlordTeamMemberRecord({
         identifierOptions: {
           identifierType: 'id',
-          identifier: loggedInLandlord.id,
+          identifier: loggedInLandlordTeamMember.id,
         },
         updatePayload: {
           password: newPassword,

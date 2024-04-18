@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
-import LandlordActions from 'App/Actions/LandlordActions'
+import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import {
   ERROR,
@@ -38,7 +38,7 @@ export default class VerifyPasswordResetOtpTokenController {
 
       const { email, token, password } = request.body()
 
-      const landlord = await LandlordActions.getLandlordRecord({
+      const landlordTeamMember = await LandlordTeamMemberActions.getLandlordTeamMemberRecord({
         identifierType: 'email',
         identifier: email,
       })
@@ -48,7 +48,7 @@ export default class VerifyPasswordResetOtpTokenController {
         identifier: token,
       })
 
-      if (otpToken?.authorId !== landlord?.id) {
+      if (otpToken?.authorId !== landlordTeamMember?.id) {
         await dbTransaction.rollback()
         return response.badRequest({
           status: ERROR,
@@ -90,10 +90,10 @@ export default class VerifyPasswordResetOtpTokenController {
         },
       })
 
-      await LandlordActions.updateLandlordRecord({
+      await LandlordTeamMemberActions.updateLandlordTeamMemberRecord({
         identifierOptions: {
           identifierType: 'id',
-          identifier: landlord!.id,
+          identifier: landlordTeamMember!.id,
         },
         updatePayload: {
           password,

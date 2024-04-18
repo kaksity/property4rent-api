@@ -14,7 +14,7 @@ export default class CreateNewLandlordValidator {
     email: schema.string({ trim: true, escape: true }, [
       rules.email(),
       rules.unique({
-        table: 'landlords',
+        table: 'landlord_team_members',
         column: 'email',
       }),
     ]),

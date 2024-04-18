@@ -1,6 +1,6 @@
 type LandlordRecordIdentifierOptions =
   | {
-      identifierType: 'identifier' | 'email'
+      identifierType: 'identifier'
       identifier: string
     }
   | {
