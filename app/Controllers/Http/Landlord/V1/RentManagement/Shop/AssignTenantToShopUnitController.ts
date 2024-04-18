@@ -49,7 +49,7 @@ export default class AssignTenantToShopUnitController {
 
       const { shopUnitIdentifier, tenantIdentifier } = request.params()
 
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const shopUnit = await ShopUnitActions.getShopUnitRecord({
         identifierType: 'identifier',
@@ -65,7 +65,7 @@ export default class AssignTenantToShopUnitController {
         })
       }
 
-      if (shopUnit.shop.landlordId !== loggedInLandlord.id) {
+      if (shopUnit.shop.landlordId !== loggedInLandlordTeamMember.landlordId) {
         await dbTransaction.rollback()
         return response.notFound({
           status: ERROR,
@@ -106,7 +106,7 @@ export default class AssignTenantToShopUnitController {
           endRentDate,
           paidRentAmount,
           rentStatus: 'active',
-          landlordId: loggedInLandlord.id,
+          landlordId: loggedInLandlordTeamMember.landlordId,
         },
         dbTransactionOptions: {
           useTransaction: true,
@@ -135,7 +135,7 @@ export default class AssignTenantToShopUnitController {
         jobPayload: {
           tenantId: tenant.id,
           shopUnitId: shopUnit.id,
-          landlordId: loggedInLandlord.id,
+          landlordId: loggedInLandlordTeamMember.landlordId,
         },
       })
 

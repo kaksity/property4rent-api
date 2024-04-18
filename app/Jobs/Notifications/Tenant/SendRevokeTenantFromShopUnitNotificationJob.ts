@@ -50,7 +50,7 @@ export default class SendRevokeTenantFromShopUnitNotificationJob implements JobC
       },
       dataPayload: {
         recipientName: tenantShopUnitRentRevocation.tenant.firstName,
-        landlordName: `${tenantShopUnitRentRevocation.landlord.firstName} ${tenantShopUnitRentRevocation.landlord.lastName}`,
+        landlordName: tenantShopUnitRentRevocation.landlord.name,
         revocationReason: tenantShopUnitRentRevocation.reason,
       },
       subject: REVOKE_TENANT_FROM_SHOP_UNIT_EMAIL_SUBJECT,

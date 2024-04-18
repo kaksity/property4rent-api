@@ -46,7 +46,7 @@ export default class RevokeTenantFromShopUnitController {
       const { shopUnitIdentifier, tenantIdentifier } = request.params()
 
       const { reason } = request.body()
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const shopUnit = await ShopUnitActions.getShopUnitRecord({
         identifierType: 'identifier',
@@ -62,7 +62,7 @@ export default class RevokeTenantFromShopUnitController {
         })
       }
 
-      if (shopUnit.shop.landlordId !== loggedInLandlord.id) {
+      if (shopUnit.shop.landlordId !== loggedInLandlordTeamMember.landlordId) {
         await dbTransaction.rollback()
         return response.notFound({
           status: ERROR,
@@ -97,7 +97,7 @@ export default class RevokeTenantFromShopUnitController {
       const tenantShopUnitRent = await TenantShopUnitRentActions.getTenantShopUnitRentDistinct({
         tenantId: tenant.id,
         shopUnitId: shopUnit.id,
-        landlordId: loggedInLandlord.id,
+        landlordId: loggedInLandlordTeamMember.landlordId,
       })
 
       if (tenantShopUnitRent === NULL_OBJECT) {
@@ -144,7 +144,7 @@ export default class RevokeTenantFromShopUnitController {
         createPayload: {
           shopUnitId: shopUnit.id,
           tenantId: tenant.id,
-          landlordId: loggedInLandlord.id,
+          landlordId: loggedInLandlordTeamMember.landlordId,
           reason,
           status: 'approved',
         },
@@ -161,7 +161,7 @@ export default class RevokeTenantFromShopUnitController {
         jobPayload: {
           tenantId: tenant.id,
           shopUnitId: shopUnit.id,
-          landlordId: loggedInLandlord.id,
+          landlordId: loggedInLandlordTeamMember.landlordId,
         },
       })
 
