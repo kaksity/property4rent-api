@@ -1,0 +1,6 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import LandlordWalletRecordIdentifierOptions from 'App/Typechecking/ModelManagement/LandlordWallet/LandlordWalletRecordIdentifierOptions'
+
+type DeleteLandlordWalletRecordOptions = DeleteRecordGeneric<LandlordWalletRecordIdentifierOptions>
+
+export default DeleteLandlordWalletRecordOptions

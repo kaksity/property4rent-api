@@ -1,0 +1,12 @@
+import UpdateRecordGeneric from 'App/Typechecking/GeneralPurpose/UpdateRecordGeneric'
+import LandlordWalletInterface from 'App/Typechecking/ModelManagement/LandlordWallet/LandlordWalletInterface'
+import LandlordWalletRecordIdentifierOptions from 'App/Typechecking/ModelManagement/LandlordWallet/LandlordWalletRecordIdentifierOptions'
+
+type UpdateLandlordWalletPayloadOptions = Partial<LandlordWalletInterface>
+
+type UpdateLandlordWalletRecordOptions = UpdateRecordGeneric<
+  UpdateLandlordWalletPayloadOptions,
+  LandlordWalletRecordIdentifierOptions
+>
+
+export default UpdateLandlordWalletRecordOptions
