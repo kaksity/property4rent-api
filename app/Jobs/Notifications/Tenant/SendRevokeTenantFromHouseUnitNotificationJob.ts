@@ -50,7 +50,7 @@ export default class SendRevokeTenantFromHouseUnitNotificationJob implements Job
       },
       dataPayload: {
         recipientName: tenantHouseUnitRentRevocation.tenant.firstName,
-        landlordName: `${tenantHouseUnitRentRevocation.landlord.firstName} ${tenantHouseUnitRentRevocation.landlord.lastName}`,
+        landlordName: tenantHouseUnitRentRevocation.landlord.name,
         revocationReason: tenantHouseUnitRentRevocation.reason,
       },
       subject: REVOKE_TENANT_FROM_HOUSE_UNIT_EMAIL_SUBJECT,

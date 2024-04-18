@@ -29,7 +29,7 @@ export default class FetchTenantHouseUnitRentsController {
         })
       }
 
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const {
         per_page: limit = 100,
@@ -55,7 +55,7 @@ export default class FetchTenantHouseUnitRentsController {
             houseUnitId: houseUnit?.id,
             tenantId: tenant?.id,
             rentStatus,
-            landlordId: loggedInLandlord.id,
+            landlordId: loggedInLandlordTeamMember.landlordId,
           },
           paginationOptions: {
             page,
@@ -73,8 +73,8 @@ export default class FetchTenantHouseUnitRentsController {
           },
           landlord: {
             identifier: tenantHouseUnitRent.landlord.identifier,
-            first_name: tenantHouseUnitRent.landlord.firstName,
-            last_name: tenantHouseUnitRent.landlord.lastName,
+            name: tenantHouseUnitRent.landlord.name,
+            address: tenantHouseUnitRent.landlord.address,
           },
           house: {
             identifier: tenantHouseUnitRent.houseUnit.house.identifier,

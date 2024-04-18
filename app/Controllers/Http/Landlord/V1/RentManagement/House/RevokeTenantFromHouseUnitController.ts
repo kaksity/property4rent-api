@@ -19,7 +19,7 @@ import {
 import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import { SEND_REVOKE_TENANT_FROM_HOUSE_UNIT_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
-import RevokeTenantToHouseUnitValidator from 'App/Validators/Landlord/V1/RentManagement/House/RevokeTenantToHouseUnitValidator'
+import RevokeTenantFromHouseUnitValidator from 'App/Validators/Landlord/V1/RentManagement/House/RevokeTenantFromHouseUnitValidator'
 
 export default class RevokeTenantFromHouseUnitController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -32,7 +32,7 @@ export default class RevokeTenantFromHouseUnitController {
     const dbTransaction = await Database.transaction()
     try {
       try {
-        await request.validate(RevokeTenantToHouseUnitValidator)
+        await request.validate(RevokeTenantFromHouseUnitValidator)
       } catch (validationError) {
         await dbTransaction.rollback()
         return response.unprocessableEntity({
@@ -45,7 +45,8 @@ export default class RevokeTenantFromHouseUnitController {
 
       const { houseUnitIdentifier, tenantIdentifier } = request.params()
       const { reason } = request.body()
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const houseUnit = await HouseUnitActions.getHouseUnitRecord({
         identifierType: 'identifier',
@@ -61,7 +62,7 @@ export default class RevokeTenantFromHouseUnitController {
         })
       }
 
-      if (houseUnit.house.landlordId !== loggedInLandlord.id) {
+      if (houseUnit.house.landlordId !== loggedInLandlordTeamMember.landlordId) {
         await dbTransaction.rollback()
         return response.notFound({
           status: ERROR,
@@ -96,7 +97,7 @@ export default class RevokeTenantFromHouseUnitController {
       const tenantHouseUnitRent = await TenantHouseUnitRentActions.getTenantHouseUnitRentDistinct({
         tenantId: tenant.id,
         houseUnitId: houseUnit.id,
-        landlordId: loggedInLandlord.id,
+        landlordId: loggedInLandlordTeamMember.landlordId,
       })
 
       if (tenantHouseUnitRent === NULL_OBJECT) {
@@ -143,7 +144,7 @@ export default class RevokeTenantFromHouseUnitController {
         createPayload: {
           houseUnitId: houseUnit.id,
           tenantId: tenant.id,
-          landlordId: loggedInLandlord.id,
+          landlordId: loggedInLandlordTeamMember.landlordId,
           reason,
           status: 'approved',
         },
@@ -160,7 +161,7 @@ export default class RevokeTenantFromHouseUnitController {
         jobPayload: {
           tenantId: tenant.id,
           houseUnitId: houseUnit.id,
-          landlordId: loggedInLandlord.id,
+          landlordId: loggedInLandlordTeamMember.landlordId,
         },
       })
 

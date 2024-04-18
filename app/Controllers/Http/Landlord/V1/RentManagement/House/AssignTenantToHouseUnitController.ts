@@ -49,7 +49,7 @@ export default class AssignTenantToHouseUnitController {
 
       const { houseUnitIdentifier, tenantIdentifier } = request.params()
 
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const houseUnit = await HouseUnitActions.getHouseUnitRecord({
         identifierType: 'identifier',
@@ -65,7 +65,7 @@ export default class AssignTenantToHouseUnitController {
         })
       }
 
-      if (houseUnit.house.landlordId !== loggedInLandlord.id) {
+      if (houseUnit.house.landlordId !== loggedInLandlordTeamMember.landlordId) {
         await dbTransaction.rollback()
         return response.notFound({
           status: ERROR,
@@ -106,7 +106,7 @@ export default class AssignTenantToHouseUnitController {
           endRentDate,
           paidRentAmount,
           rentStatus: 'active',
-          landlordId: loggedInLandlord.id,
+          landlordId: loggedInLandlordTeamMember.landlordId,
         },
         dbTransactionOptions: {
           useTransaction: true,
@@ -135,7 +135,7 @@ export default class AssignTenantToHouseUnitController {
         jobPayload: {
           tenantId: tenant.id,
           houseUnitId: houseUnit.id,
-          landlordId: loggedInLandlord.id,
+          landlordId: loggedInLandlordTeamMember.landlordId,
         },
       })
 
