@@ -1,7 +1,6 @@
 import Database from '@ioc:Adonis/Lucid/Database'
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
 import LandlordActions from 'App/Actions/LandlordActions'
-import { NULL_OBJECT } from 'App/Helpers/Messages/SystemMessage'
 import Tenant from 'App/Models/Tenant'
 
 export default class extends BaseSeeder {
@@ -13,21 +12,6 @@ export default class extends BaseSeeder {
       identifier: 1,
     })
 
-    if (landlord === NULL_OBJECT) {
-      landlord = await LandlordActions.createLandlordRecord({
-        createPayload: {
-          firstName: 'Yusuf',
-          lastName: 'Musa',
-          phoneNumber: '09012325678',
-          email: 'yusuf.musa@example.com',
-          password,
-        },
-        dbTransactionOptions: {
-          useTransaction: false,
-        },
-      })
-    }
-
     const tenants = [
       {
         firstName: 'Chinedu',
@@ -36,7 +20,7 @@ export default class extends BaseSeeder {
         email: 'chinedu.okoro@example.com',
         hasActivatedAccount: true,
         password,
-        createdByLandlordId: landlord.id,
+        createdByLandlordId: landlord!.id,
       },
       {
         firstName: 'Aisha',
@@ -45,7 +29,7 @@ export default class extends BaseSeeder {
         email: 'aisha.abubakar@example.com',
         hasActivatedAccount: true,
         password,
-        createdByLandlordId: landlord.id,
+        createdByLandlordId: landlord!.id,
       },
       {
         firstName: 'Tunde',
@@ -54,7 +38,7 @@ export default class extends BaseSeeder {
         email: 'tunde.okafor@example.com',
         hasActivatedAccount: true,
         password,
-        createdByLandlordId: landlord.id,
+        createdByLandlordId: landlord!.id,
       },
       {
         firstName: 'Fatima',
@@ -63,7 +47,7 @@ export default class extends BaseSeeder {
         email: 'fatima.bello@example.com',
         hasActivatedAccount: true,
         password,
-        createdByLandlordId: landlord.id,
+        createdByLandlordId: landlord!.id,
       },
       {
         firstName: 'Kunle',
@@ -72,7 +56,7 @@ export default class extends BaseSeeder {
         email: 'kunle.adams@example.com',
         hasActivatedAccount: true,
         password,
-        createdByLandlordId: landlord.id,
+        createdByLandlordId: landlord!.id,
       },
     ]
 

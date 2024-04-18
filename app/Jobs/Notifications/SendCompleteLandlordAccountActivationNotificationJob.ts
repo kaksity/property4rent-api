@@ -16,8 +16,9 @@ import { SEND_COMPLETE_LANDLORD_ACCOUNT_ACTIVATION_REMINDER_NOTIFICATION_JOB } f
 export default class SendCompleteLandlordAccountActivationNotificationJob implements JobContract {
   public key = SEND_COMPLETE_LANDLORD_ACCOUNT_ACTIVATION_REMINDER_NOTIFICATION_JOB
 
-  public async handle(job) {
-    const { landlordId } = job.data
+  public async handle() {
+    // public async handle(job) {
+    // const { landlordId } = job.data
     //Send the email notification
   }
 }

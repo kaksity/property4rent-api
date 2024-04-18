@@ -22,7 +22,7 @@ import { redisConfig } from '@adonisjs/redis/build/config'
 | Make sure to check `contracts/redis.ts` file for defining extra connections
 */
 export default redisConfig({
-  connection: Env.get('REDIS_CONNECTION'),
+  connection: 'local' ?? Env.get('REDIS_CONNECTION'),
 
   connections: {
     /*

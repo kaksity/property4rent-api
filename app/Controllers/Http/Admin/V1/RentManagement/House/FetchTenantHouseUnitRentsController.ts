@@ -8,7 +8,7 @@ import {
   VALIDATION_ERROR,
 } from 'App/Helpers/Messages/SystemMessage'
 import TenantHouseUnitRentActions from 'App/Actions/TenantHouseUnitRentActions'
-import FetchTenantHouseRentsValidator from 'App/Validators/Admin/V1/RentManagement/FetchTenantHouseRentsValidator'
+import FetchTenantHouseRentsValidator from 'App/Validators/Admin/V1/RentManagement/House/FetchTenantHouseRentsValidator'
 import HouseUnitActions from 'App/Actions/HouseUnitActions'
 import TenantActions from 'App/Actions/TenantActions'
 import LandlordActions from 'App/Actions/LandlordActions'
@@ -79,8 +79,8 @@ export default class FetchTenantHouseUnitRentsController {
           },
           landlord: {
             identifier: tenantHouseUnitRent.landlord.identifier,
-            first_name: tenantHouseUnitRent.landlord.firstName,
-            last_name: tenantHouseUnitRent.landlord.lastName,
+            name: tenantHouseUnitRent.landlord.name,
+            address: tenantHouseUnitRent.landlord.address,
           },
           house: {
             identifier: tenantHouseUnitRent.houseUnit.house.identifier,

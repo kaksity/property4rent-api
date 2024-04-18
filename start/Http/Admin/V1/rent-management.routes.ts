@@ -8,6 +8,10 @@ Route.group(function () {
   .prefix('api/v1/admin/rent-management/house')
   .namespace('App/Controllers/Http/Admin/V1/RentManagement/House')
 
-Route.group(function () {})
+Route.group(function () {
+  Route.post('fetch/tenants/shop-units/rents', 'FetchTenantShopUnitRentsController').as(
+    'admin.v1.rent-management.shop.fetch-tenant-shop-unit-rents'
+  )
+})
   .prefix('api/v1/admin/rent-management/shop')
   .namespace('App/Controllers/Http/Admin/V1/RentManagement/Shop')
