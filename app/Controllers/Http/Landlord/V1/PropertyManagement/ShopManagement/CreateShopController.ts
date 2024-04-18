@@ -34,12 +34,12 @@ export default class CreateShopController {
 
       const { description } = request.body()
 
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const shop = await ShopActions.createShopRecord({
         createPayload: {
           description,
-          landlordId: loggedInLandlord.id,
+          landlordId: loggedInLandlordTeamMember.landlordId,
         },
         dbTransactionOptions: {
           useTransaction: true,

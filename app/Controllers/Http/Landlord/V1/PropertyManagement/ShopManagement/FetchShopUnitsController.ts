@@ -36,7 +36,7 @@ export default class FetchShopUnitController {
 
       const { per_page: limit = 100, page = 1 } = request.qs()
 
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const shop = await ShopActions.getShopRecord({
         identifierType: 'identifier',
@@ -51,7 +51,7 @@ export default class FetchShopUnitController {
         })
       }
 
-      if (shop.landlordId !== loggedInLandlord.id) {
+      if (shop.landlordId !== loggedInLandlordTeamMember.landlordId) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,

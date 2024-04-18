@@ -32,7 +32,7 @@ export default class CreateShopUnitController {
         })
       }
 
-      const loggedInLandlord = auth.use('landlordTeamMember').user!
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const { shopIdentifier } = request.params()
 
@@ -60,7 +60,7 @@ export default class CreateShopUnitController {
         })
       }
 
-      if (shop.landlordId !== loggedInLandlord.id) {
+      if (shop.landlordId !== loggedInLandlordTeamMember.landlordId) {
         return response.notFound({
           status: ERROR,
           status_code: this.notFound,
