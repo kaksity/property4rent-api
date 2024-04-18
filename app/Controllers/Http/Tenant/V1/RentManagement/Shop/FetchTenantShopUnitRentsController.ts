@@ -65,8 +65,8 @@ export default class FetchTenantShopUnitRentsController {
           },
           landlord: {
             identifier: tenantShopUnitRent.landlord.identifier,
-            first_name: tenantShopUnitRent.landlord.firstName,
-            last_name: tenantShopUnitRent.landlord.lastName,
+            name: tenantShopUnitRent.landlord.name,
+            address: tenantShopUnitRent.landlord.address,
           },
           house: {
             identifier: tenantShopUnitRent.shopUnit.shop.identifier,
