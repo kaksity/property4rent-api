@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import LandlordActions from 'App/Actions/LandlordActions'
+import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
 import {
   ERROR,
   LANDLORD_ACCOUNT_NOT_FOUND,
@@ -31,18 +32,15 @@ export default class UnlockLandlordAccountController {
         })
       }
 
-      await LandlordActions.updateLandlordRecord({
+      await LandlordTeamMemberActions.unlockLandlordTeamMemberAccounts({
         identifierOptions: {
-          identifierType: 'id',
-          identifier: landlord.id,
-        },
-        updatePayload: {
-          isAccountLocked: false,
+          landlordId: landlord.id,
         },
         dbTransactionOptions: {
           useTransaction: false,
         },
       })
+
       return response.ok({
         status: SUCCESS,
         status_code: this.ok,

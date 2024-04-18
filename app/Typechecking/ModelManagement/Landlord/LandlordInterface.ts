@@ -9,9 +9,9 @@ interface LandlordInterface {
 
   subscriptionPlanId: number
 
-  isSubscription: boolean
+  isSubscriptionPlanActive: boolean | string
 
-  hasPaidSubscriptionFee: boolean
+  hasPaidSubscriptionFee: boolean | string
 
   startSubscriptionDate: DateTime
 

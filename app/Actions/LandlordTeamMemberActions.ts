@@ -4,6 +4,9 @@ import CreateLandlordTeamMemberRecordOptions from 'App/Typechecking/ModelManagem
 import DeleteLandlordTeamMemberRecordOptions from 'App/Typechecking/ModelManagement/LandlordTeamMember/DeleteLandlordTeamMemberRecordOptions'
 import ListLandlordTeamMemberRecordOptions from 'App/Typechecking/ModelManagement/LandlordTeamMember/ListLandlordTeamMemberRecordOptions'
 import UpdateLandlordTeamMemberRecordOptions from 'App/Typechecking/ModelManagement/LandlordTeamMember/UpdateLandlordTeamMemberRecordOptions'
+import LockLandlordTeamMembersAccountRecordOptions from 'App/Typechecking/ModelManagement/LandlordTeamMember/LockLandlordTeamMembersAccountRecordOptions'
+import UnlockLandlordTeamMembersAccountRecordOptions from 'App/Typechecking/ModelManagement/LandlordTeamMember/UnlockLandlordTeamMembersAccountRecordOptions'
+import VerifyLandlordTeamMembersAccountRecordOptions from 'App/Typechecking/ModelManagement/LandlordTeamMember/VerifyLandlordTeamMembersAccountRecordOptions'
 
 export default class LandlordTeamMemberActions {
   public static async createLandlordTeamMemberRecord(
@@ -129,5 +132,76 @@ export default class LandlordTeamMemberActions {
     return {
       landlordTeamMemberPayload: landlordTeamMembers,
     }
+  }
+
+  /**
+   * @description Method to lock landlord team members accounts
+   * @author DP
+   * @static
+   * @param {LockLandlordTeamMembersAccountRecordOptions} lockLandlordTeamMembersAccountRecordOptions
+   * @memberof LandlordTeamMemberActions
+   */
+  public static async lockLandlordTeamMemberAccounts(
+    lockLandlordTeamMembersAccountRecordOptions: LockLandlordTeamMembersAccountRecordOptions
+  ) {
+    const { dbTransactionOptions, identifierOptions } = lockLandlordTeamMembersAccountRecordOptions
+
+    const lockLandlordTeamMemberQuery = LandlordTeamMember.query()
+
+    if (dbTransactionOptions.useTransaction) {
+      lockLandlordTeamMemberQuery.useTransaction(dbTransactionOptions.dbTransaction)
+    }
+
+    await lockLandlordTeamMemberQuery
+      .update('is_account_locked', true)
+      .where('landlord_id', identifierOptions.landlordId)
+  }
+
+  /**
+   * @description Method to unlock landlord team members accounts
+   * @author DP
+   * @static
+   * @param {UnlockLandlordTeamMembersAccountRecordOptions} unlockLandlordTeamMembersAccountRecordOptions
+   * @memberof LandlordTeamMemberActions
+   */
+  public static async unlockLandlordTeamMemberAccounts(
+    unlockLandlordTeamMembersAccountRecordOptions: UnlockLandlordTeamMembersAccountRecordOptions
+  ) {
+    const { dbTransactionOptions, identifierOptions } =
+      unlockLandlordTeamMembersAccountRecordOptions
+
+    const unlockLandlordTeamMemberQuery = LandlordTeamMember.query()
+
+    if (dbTransactionOptions.useTransaction) {
+      unlockLandlordTeamMemberQuery.useTransaction(dbTransactionOptions.dbTransaction)
+    }
+
+    await unlockLandlordTeamMemberQuery
+      .update('is_account_locked', false)
+      .where('landlord_id', identifierOptions.landlordId)
+  }
+
+  /**
+   * @description Method to verify landlord team members accounts
+   * @author DP
+   * @static
+   * @param {VerifyLandlordTeamMembersAccountRecordOptions} verifyLandlordTeamMembersAccountRecordOptions
+   * @memberof LandlordTeamMemberActions
+   */
+  public static async verifyLandlordTeamMemberAccounts(
+    verifyLandlordTeamMembersAccountRecordOptions: VerifyLandlordTeamMembersAccountRecordOptions
+  ) {
+    const { dbTransactionOptions, identifierOptions } =
+      verifyLandlordTeamMembersAccountRecordOptions
+
+    const verifyLandlordTeamMemberQuery = LandlordTeamMember.query()
+
+    if (dbTransactionOptions.useTransaction) {
+      verifyLandlordTeamMemberQuery.useTransaction(dbTransactionOptions.dbTransaction)
+    }
+
+    await verifyLandlordTeamMemberQuery
+      .update('is_account_locked', false)
+      .where('landlord_id', identifierOptions.landlordId)
   }
 }

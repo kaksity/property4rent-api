@@ -32,18 +32,43 @@ export default class FetchSingleLandlordAccountController {
         })
       }
 
+      const mutatedLandlordTeamMemberResults = landlord.landlordTeamMembers.map(
+        (landlordTeamMember) => {
+          return {
+            identifier: landlordTeamMember.identifier,
+            first_name: landlordTeamMember.firstName,
+            last_name: landlordTeamMember.lastName,
+            email: landlordTeamMember.email,
+            phone_number: landlordTeamMember.phoneNumber,
+            meta: {
+              last_login_date: landlordTeamMember.lastLoginDate ?? NOT_APPLICABLE,
+              has_activated_account: landlordTeamMember.hasActivatedAccount,
+              is_account_verified: landlordTeamMember.isAccountVerified,
+              is_account_locked: landlordTeamMember.isAccountLocked,
+            },
+          }
+        }
+      )
+
+      const mutatedSubscriptionPlanResults = {
+        identifier: landlord.subscriptionPlan.identifier,
+        name: landlord.subscriptionPlan.name,
+        price: landlord.subscriptionPlan.price,
+        duration: landlord.subscriptionPlan.duration,
+        duration_type: landlord.subscriptionPlan.durationType,
+      }
+
       const mutatedResults = {
         identifier: landlord.identifier,
-        first_name: landlord.firstName,
-        last_name: landlord.lastName,
-        email: landlord.email,
-        phone_number: landlord.phoneNumber,
-        meta: {
-          last_login_date: landlord.lastLoginDate ?? NOT_APPLICABLE,
-          has_activated_account: landlord.hasActivatedAccount,
-          is_account_verified: landlord.isAccountVerified,
-          is_account_locked: landlord.isAccountLocked,
-        },
+        name: landlord.name,
+        mutated_name: landlord.mutatedName,
+        address: landlord.address,
+        is_subscription_plan_active: landlord.isSubscriptionPlanActive,
+        subscription_plan: mutatedSubscriptionPlanResults,
+        has_paid_subscription_fee: landlord.hasPaidSubscriptionFee,
+        start_subscription_date: landlord.startSubscriptionDate,
+        end_subscription_date: landlord.endSubscriptionDate,
+        landlord_team_members: mutatedLandlordTeamMemberResults,
       }
 
       return response.ok({

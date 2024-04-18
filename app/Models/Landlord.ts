@@ -1,7 +1,8 @@
-import { column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { belongsTo, BelongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import AbstractModel from 'App/Models/AbstractModel'
 import { DateTime } from 'luxon'
 import LandlordTeamMember from 'App/Models/LandlordTeamMember'
+import SubscriptionPlan from 'App/Models/SubscriptionPlan'
 
 export default class Landlord extends AbstractModel {
   @column()
@@ -19,12 +20,12 @@ export default class Landlord extends AbstractModel {
   @column({
     consume: (value) => (value === 1 ? 'Yes' : 'No'),
   })
-  public isSubscription: boolean
+  public isSubscriptionPlanActive: boolean | string
 
   @column({
     consume: (value) => (value === 1 ? 'Yes' : 'No'),
   })
-  public hasPaidSubscriptionFee: boolean
+  public hasPaidSubscriptionFee: boolean | string
 
   @column()
   public startSubscriptionDate: DateTime
@@ -34,4 +35,7 @@ export default class Landlord extends AbstractModel {
 
   @hasMany(() => LandlordTeamMember)
   public landlordTeamMembers: HasMany<typeof LandlordTeamMember>
+
+  @belongsTo(() => SubscriptionPlan)
+  public subscriptionPlan: BelongsTo<typeof SubscriptionPlan>
 }

@@ -25,11 +25,19 @@ export default class LandlordActions {
   }
 
   public static async getLandlordById(id: number): Promise<Landlord | null> {
-    return Landlord.query().where('id', id).first()
+    return Landlord.query()
+      .preload('landlordTeamMembers')
+      .preload('subscriptionPlan')
+      .where('id', id)
+      .first()
   }
 
   public static async getLandlordByIdentifier(identifier: string): Promise<Landlord | null> {
-    return Landlord.query().where('identifier', identifier).first()
+    return Landlord.query()
+      .preload('landlordTeamMembers')
+      .preload('subscriptionPlan')
+      .where('identifier', identifier)
+      .first()
   }
 
   public static async getLandlordRecord(
@@ -89,7 +97,10 @@ export default class LandlordActions {
     listLandlordRecordOptions: ListLandlordRecordOptions
   ): Promise<{ landlordPayload: Landlord[]; paginationMeta?: any }> {
     const { filterRecordOptions, paginationOptions } = listLandlordRecordOptions
-    const landlordQuery = Landlord.query().orderBy('created_at', 'asc')
+    const landlordQuery = Landlord.query()
+      .preload('landlordTeamMembers')
+      .preload('subscriptionPlan')
+      .orderBy('created_at', 'asc')
 
     if (typeof filterRecordOptions?.hasActivatedAccount === 'boolean') {
       landlordQuery.where('has_activated_account', filterRecordOptions.hasActivatedAccount)

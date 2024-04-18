@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       table.string('name')
       table.string('mutated_name')
       table.string('address')
-      table.boolean('is_subscription').defaultTo(false)
+      table.boolean('is_subscription_plan_active').defaultTo(false)
       table.boolean('has_paid_subscription_fee').defaultTo(false)
       table.date('start_subscription_date').nullable()
       table.date('end_subscription_date').nullable()

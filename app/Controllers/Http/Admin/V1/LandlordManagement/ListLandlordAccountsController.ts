@@ -3,7 +3,6 @@ import LandlordActions from 'App/Actions/LandlordActions'
 import {
   ERROR,
   LANDLORD_ACCOUNT_LIST_SUCCESSFUL,
-  NOT_APPLICABLE,
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
@@ -38,20 +37,28 @@ export default class ListLandlordAccountsController {
       })
 
       const mutatedResults = landlords.map((landlord) => {
+        const mutatedSubscriptionPlanResults = {
+          identifier: landlord.subscriptionPlan.identifier,
+          name: landlord.subscriptionPlan.name,
+          price: landlord.subscriptionPlan.price,
+          duration: landlord.subscriptionPlan.duration,
+          duration_type: landlord.subscriptionPlan.durationType,
+        }
+
         return {
           identifier: landlord.identifier,
-          first_name: landlord.firstName,
-          last_name: landlord.lastName,
-          email: landlord.email,
-          phone_number: landlord.phoneNumber,
-          meta: {
-            last_login_date: landlord.lastLoginDate ?? NOT_APPLICABLE,
-            has_activated_account: landlord.hasActivatedAccount,
-            is_account_verified: landlord.isAccountVerified,
-            is_account_locked: landlord.isAccountLocked,
-          },
+          name: landlord.name,
+          mutated_name: landlord.mutatedName,
+          address: landlord.address,
+          is_subscription_plan_active: landlord.isSubscriptionPlanActive,
+          subscription_plan: mutatedSubscriptionPlanResults,
+          has_paid_subscription_fee: landlord.hasPaidSubscriptionFee,
+          start_subscription_date: landlord.startSubscriptionDate,
+          end_subscription_date: landlord.endSubscriptionDate,
+          number_of_landlord_team_members: landlord.landlordTeamMembers.length,
         }
       })
+
       return response.ok({
         status: SUCCESS,
         status_code: this.ok,
