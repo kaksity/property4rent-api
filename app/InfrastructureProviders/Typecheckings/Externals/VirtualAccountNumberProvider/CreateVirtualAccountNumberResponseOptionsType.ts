@@ -1,14 +1,14 @@
 type CreateVirtualAccountNumberResponseOptionsType = {
-    virtualAccountInformation: {
-        accountNumber: string,
+  virtualAccountInformation: {
+    accountNumber: string
 
-        accountName: string,
+    accountName: string
 
-        transactionRef: string,
+    transactionRef: string
 
-        bankName: string
-      } | null,
-      infrastructureResults: any,
+    bankName: string
+  } | null
+  infrastructureResults: any
 }
 
 export default CreateVirtualAccountNumberResponseOptionsType

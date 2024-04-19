@@ -1,5 +1,5 @@
 type CreateVirtualAccountNumberOptionsType = {
-    accountName: string
+  accountName: string
 }
 
 export default CreateVirtualAccountNumberOptionsType

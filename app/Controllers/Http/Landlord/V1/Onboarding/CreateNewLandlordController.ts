@@ -117,8 +117,8 @@ export default class CreateNewLandlordController {
       await QueueClient.addJobToQueue({
         jobIdentifier: COMPLETE_LANDLORD_WALLET_SETUP_JOB,
         jobPayload: {
-          landlordId: landlord.id
-        }
+          landlordId: landlord.id,
+        },
       })
 
       await QueueClient.addJobToQueue({

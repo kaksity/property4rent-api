@@ -3,10 +3,7 @@ import ApplicationSettingsAction from 'App/Actions/ApplicationSettingsActions'
 import LandlordActions from 'App/Actions/LandlordActions'
 import LandlordWalletActions from 'App/Actions/LandlordWalletActions'
 import JobQueueException from 'App/Exceptions/JobQueueException'
-import {
-  NULL_OBJECT,
-  SERVICE_PROVIDER_DOES_NOT_EXIST,
-} from 'App/Helpers/Messages/SystemMessage'
+import { NULL_OBJECT, SERVICE_PROVIDER_DOES_NOT_EXIST } from 'App/Helpers/Messages/SystemMessage'
 import VirtualAccountNumberProviderFactory from 'App/InfrastructureProviders/Factories/VirtualAccountNumberProviderFactory'
 import VirtualAccountNumberProviderInterface from 'App/InfrastructureProviders/Typecheckings/Externals/VirtualAccountNumberProvider/VirtualAccountNumberProviderInterface'
 import { COMPLETE_LANDLORD_WALLET_SETUP_JOB } from 'App/Typechecking/JobManagement/FinanceJobTypes'
@@ -32,18 +29,16 @@ export default class CompleteLandlordWalletSetupJob implements JobContract {
 
     const landlord = await LandlordActions.getLandlordRecord({
       identifierType: 'id',
-      identifier: landlordId
+      identifier: landlordId,
     })
 
     if (landlord === NULL_OBJECT) {
-      throw new JobQueueException(
-        `Landlord with id ${landlordId} does not exists`
-      )
+      throw new JobQueueException(`Landlord with id ${landlordId} does not exists`)
     }
 
     const landlordWallet = await LandlordWalletActions.getLandlordWalletRecord({
       identifierType: 'landlordId',
-      identifier: landlord.id
+      identifier: landlord.id,
     })
 
     if (landlordWallet !== NULL_OBJECT) {
@@ -52,18 +47,26 @@ export default class CompleteLandlordWalletSetupJob implements JobContract {
 
     const applicationSettings = await ApplicationSettingsAction.getApplicationSettings()
 
-    const virtualAccountNumberProvider = new VirtualAccountNumberProviderFactory(virtualAccountNumberConfig.currentVirtualAccountNumber).build()
+    const virtualAccountNumberProvider = new VirtualAccountNumberProviderFactory(
+      virtualAccountNumberConfig.currentVirtualAccountNumber
+    ).build()
 
     if (virtualAccountNumberProvider === SERVICE_PROVIDER_DOES_NOT_EXIST) {
-      throw new JobQueueException('Could not complete landlord wallet setup. Unable to initialize provider')
+      throw new JobQueueException(
+        'Could not complete landlord wallet setup. Unable to initialize provider'
+      )
     }
 
-    const { virtualAccountInformation } =  await (virtualAccountNumberProvider as VirtualAccountNumberProviderInterface).generateVirtualAccountNumber({
-      accountName: landlord.name
+    const { virtualAccountInformation } = await (
+      virtualAccountNumberProvider as VirtualAccountNumberProviderInterface
+    ).generateVirtualAccountNumber({
+      accountName: landlord.name,
     })
 
     if (virtualAccountInformation === NULL_OBJECT) {
-      throw new JobQueueException('Could not complete landlord wallet setup. Unable to create virtual account number')
+      throw new JobQueueException(
+        'Could not complete landlord wallet setup. Unable to create virtual account number'
+      )
     }
 
     await LandlordWalletActions.createLandlordWalletRecord({
@@ -75,11 +78,11 @@ export default class CompleteLandlordWalletSetupJob implements JobContract {
         totalOutflow: 0,
         providerAccountName: virtualAccountInformation.accountName,
         providerAccountNumber: virtualAccountInformation.accountNumber,
-        providerBankName: virtualAccountInformation.bankName
+        providerBankName: virtualAccountInformation.bankName,
       },
       dbTransactionOptions: {
-        useTransaction: false
-      }
+        useTransaction: false,
+      },
     })
   }
 }

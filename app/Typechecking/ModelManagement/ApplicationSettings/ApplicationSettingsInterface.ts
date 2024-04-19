@@ -1,17 +1,17 @@
 import { DateTime } from 'luxon'
 
 interface ApplicationSettingsInterface {
-    id: number
+  id: number
 
-    identifier: string
+  identifier: string
 
-    initialLandlordWalletBalance: number
+  initialLandlordWalletBalance: number
 
-    createdAt: DateTime
+  createdAt: DateTime
 
-    updatedAt: DateTime
+  updatedAt: DateTime
 
-    deletedAt: DateTime
+  deletedAt: DateTime
 }
 
 export default ApplicationSettingsInterface

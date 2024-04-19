@@ -2,7 +2,9 @@ import CreateVirtualAccountNumberOptionsType from 'App/InfrastructureProviders/T
 import CreateVirtualAccountNumberResponseOptionsType from 'App/InfrastructureProviders/Typecheckings/Externals/VirtualAccountNumberProvider/CreateVirtualAccountNumberResponseOptionsType'
 
 interface VirtualAccountNumberProviderInterface {
-    generateVirtualAccountNumber(createVirtualAccountNumberOptionsType: CreateVirtualAccountNumberOptionsType): Promise<CreateVirtualAccountNumberResponseOptionsType>
+  generateVirtualAccountNumber(
+    createVirtualAccountNumberOptionsType: CreateVirtualAccountNumberOptionsType
+  ): Promise<CreateVirtualAccountNumberResponseOptionsType>
 }
 
 export default VirtualAccountNumberProviderInterface

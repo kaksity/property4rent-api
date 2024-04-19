@@ -125,18 +125,18 @@ export default class LandlordWalletActions {
     }
   }
 
-/**
- * @description Method to generate landlord wallet account number
- * @author DP
- * @static
- * @return {*}  {string}
- * @memberof LandlordWalletActions
- */
-public static generateLandlordWalletAccountNumber(): string {
+  /**
+   * @description Method to generate landlord wallet account number
+   * @author DP
+   * @static
+   * @return {*}  {string}
+   * @memberof LandlordWalletActions
+   */
+  public static generateLandlordWalletAccountNumber(): string {
     const randomNumber = generateRandomString({
       isCapitalized: true,
       charset: 'numeric',
-      length: 10
+      length: 10,
     })
 
     return `LAN${randomNumber}`
