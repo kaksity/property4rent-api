@@ -3,7 +3,7 @@ import LandlordWalletInterface from 'App/Typechecking/ModelManagement/LandlordWa
 
 type CreateLandlordWalletPayloadOptions = Pick<
   LandlordWalletInterface,
-  'landlordId' | 'walletAccountNumber' | 'walletBalance' | 'totalInflow' | 'totalOutflow'
+  'landlordId' | 'walletAccountNumber' | 'walletBalance' | 'totalInflow' | 'totalOutflow' | 'providerAccountName' | 'providerBankName' | 'providerAccountNumber'
 >
 
 type CreateLandlordWalletRecordOptions = CreateNewRecordGeneric<CreateLandlordWalletPayloadOptions>

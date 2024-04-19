@@ -4,6 +4,7 @@ import CreateLandlordWalletRecordOptions from 'App/Typechecking/ModelManagement/
 import DeleteLandlordWalletRecordOptions from 'App/Typechecking/ModelManagement/LandlordWallet/DeleteLandlordWalletRecordOptions'
 import ListLandlordWalletRecordOptions from 'App/Typechecking/ModelManagement/LandlordWallet/ListLandlordWalletRecordOptions'
 import UpdateLandlordWalletRecordOptions from 'App/Typechecking/ModelManagement/LandlordWallet/UpdateLandlordWalletRecordOptions'
+import generateRandomString from 'App/Helpers/Functions/generateRandomString'
 
 export default class LandlordWalletActions {
   public static async createLandlordWalletRecord(
@@ -122,5 +123,22 @@ export default class LandlordWalletActions {
     return {
       landlordWalletPayload: landlordWallets,
     }
+  }
+
+/**
+ * @description Method to generate landlord wallet account number
+ * @author DP
+ * @static
+ * @return {*}  {string}
+ * @memberof LandlordWalletActions
+ */
+public static generateLandlordWalletAccountNumber(): string {
+    const randomNumber = generateRandomString({
+      isCapitalized: true,
+      charset: 'numeric',
+      length: 10
+    })
+
+    return `LAN${randomNumber}`
   }
 }

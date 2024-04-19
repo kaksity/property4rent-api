@@ -5,7 +5,7 @@ export const SOMETHING_WENT_WRONG = 'Something went wrong. Try again'
 export const NOT_APPLICABLE = 'N/A'
 export const NULL_OBJECT = null
 export const INVALID_CREDENTIALS = 'Invalid Credentials'
-
+export const SERVICE_PROVIDER_DOES_NOT_EXIST = 'Service provider does not exist'
 export const ADMIN_AUTHENTICATION_SUCCESSFUL = 'Admin authentication successful'
 export const OTP_TOKEN_SUPPLIED_IS_NOT_VALID = 'Otp token is not valid'
 export const OTP_TOKEN_SUPPLIED_HAS_EXPIRED = 'Otp token has expired'

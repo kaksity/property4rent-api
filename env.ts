@@ -46,4 +46,9 @@ export default Env.rules({
   REDIS_HOST: Env.schema.string(),
   REDIS_PORT: Env.schema.number(),
   REDIS_PASSWORD: Env.schema.string(),
+
+  CURRENT_VIRTUAL_ACCOUNT_NUMBER_PROVIDER: Env.schema.string(),
+  PROVIDUS_VIRTUAL_ACCOUNT_NUMBER_PROVIDER_ENDPOINT: Env.schema.string(),
+  PROVIDUS_VIRTUAL_ACCOUNT_NUMBER_PROVIDER_X_AUTH_SIGNATURE: Env.schema.string(),
+  PROVIDUS_VIRTUAL_ACCOUNT_NUMBER_PROVIDER_CLIENT_ID: Env.schema.string(),
 })

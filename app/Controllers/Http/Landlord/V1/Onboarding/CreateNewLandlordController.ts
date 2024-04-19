@@ -21,6 +21,7 @@ import {
 import CreateNewLandlordValidator from 'App/Validators/Landlord/V1/Onboarding/CreateNewLandlordValidator'
 import businessConfig from 'Config/businessConfig'
 import mutateOrganizationName from 'App/Helpers/Functions/mutateOrganizationName'
+import { COMPLETE_LANDLORD_WALLET_SETUP_JOB } from 'App/Typechecking/JobManagement/FinanceJobTypes'
 
 export default class CreateNewLandlordController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -112,6 +113,13 @@ export default class CreateNewLandlordController {
       })
 
       await dbTransaction.commit()
+
+      await QueueClient.addJobToQueue({
+        jobIdentifier: COMPLETE_LANDLORD_WALLET_SETUP_JOB,
+        jobPayload: {
+          landlordId: landlord.id
+        }
+      })
 
       await QueueClient.addJobToQueue({
         jobIdentifier: SEND_WELCOME_NEW_LANDLORD_NOTIFICATION_JOB,
