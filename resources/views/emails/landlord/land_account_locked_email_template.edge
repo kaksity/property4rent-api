@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Locked Notification</title>
+<style>
+  /* Add your custom styles here */
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    color: #333;
+  }
+
+  p {
+    color: #666;
+  }
+
+  .message {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .message p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .signature {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Account Locked Notification</h1>
+    <p>Dear {{ recipientName }},</p>
+    <p>We regret to inform you that your account has been locked due to security reasons. This may have occurred because of multiple failed login attempts or suspicious activity.</p>
+    <div class="message">
+      <p>Please contact our support team immediately to resolve this issue and regain access to your account.</p>
+    </div>
+    <p>We apologize for any inconvenience this may cause and appreciate your understanding in ensuring the security of our platform.</p>
+    <div class="signature">
+      <p>Best regards,</p>
+      <p>
+        {{ sentenceCase(env('COMPANY_NAME')) }} Team
+      </p>
+    </div>
+  </div>
+</body>
+</html>

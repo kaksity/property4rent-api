@@ -4,6 +4,8 @@ const jobs = [
   'App/Jobs/Notifications/Landlord/SendLandlordAccountActivationNotificationJob',
   'App/Jobs/Notifications/Landlord/SendLandlordAccountPasswordResetNotificationJob',
   'App/Jobs/Notifications/Landlord/SendNewLandlordInviteNotificationJob',
+  'App/Jobs/Notifications/Landlord/SendLandlordAccountLockedNotificationJob',
+  'App/Jobs/Notifications/Landlord/SendLandlordAccountUnlockedNotificationJob',
   'App/Jobs/Notifications/Tenant/SendWelcomeNewTenantNotificationJob',
   'App/Jobs/Notifications/Tenant/SendTenantAccountPasswordResetNotificationJob',
   'App/Jobs/Notifications/Tenant/SendTenantAccountActivationNotificationJob',

@@ -11,6 +11,14 @@ Route.group(function () {
   Route.post('create/team-member', 'CreateNewLandlordTeamMemberController').as(
     'landlord.v1.team-management.create-new-landlord-team-member'
   )
+  Route.post(
+    'lock/team-member/:landlordTeamMemberIdentifier',
+    'LockLandlordTeamMemberController'
+  ).as('landlord.v1.team-management.lock-landlord-team-member-account')
+  Route.post(
+    'unlock/team-member/:landlordTeamMemberIdentifier',
+    'UnlockLandlordTeamMemberController'
+  ).as('landlord.v1.team-management.unlock-landlord-team-member-account')
 })
   .middleware('auth:landlordTeamMember')
   .middleware('checkForCompleteLandlordTeamMemberAccountSetup')
