@@ -44,4 +44,6 @@ Server.middleware.registerNamed({
     import('App/Middleware/CheckForCompleteLandlordTeamMemberAccountSetup'),
   checkForCompleteTenantAccountSetup: () =>
     import('App/Middleware/CheckForCompleteTenantAccountSetup'),
+  checkForOwnerLandlordTeamMemberAccount: () =>
+    import('App/Middleware/CheckForOwnerLandlordTeamMemberAccount'),
 })
