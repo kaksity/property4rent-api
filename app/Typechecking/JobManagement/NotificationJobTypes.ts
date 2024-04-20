@@ -4,6 +4,8 @@ export const SEND_WELCOME_NEW_LANDLORD_NOTIFICATION_JOB =
   'mq-job::landlord::notification::send-welcome-new-landlord-notification-job'
 export const SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB =
   'mq-job::landlord::notification::send-landlord-account-activation-notification-job'
+export const SEND_NEW_LANDLORD_INVITE_NOTIFICATION_JOB =
+  'mq-job::landlord::notification::send-new-landlord-invite-notification-job'
 export const SEND_LANDLORD_ACCOUNT_PASSWORD_RESET_NOTIFICATION_JOB =
   'mq-job::landlord::notification::send-landlord-account-password-reset-notification-job'
 export const SEND_ASSIGN_TENANT_TO_HOUSE_UNIT_NOTIFICATION_JOB =

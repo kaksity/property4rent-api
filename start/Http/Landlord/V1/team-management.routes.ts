@@ -8,6 +8,9 @@ Route.group(function () {
     'fetch/team-member/:landlordTeamMemberIdentifier',
     'FetchSingleLandlordTeamMemberController'
   ).as('landlord.v1.team-management.fetch-single-team-member')
+  Route.post('create/team-member', 'CreateNewLandlordTeamMemberController').as(
+    'landlord.v1.team-management.create-new-landlord-team-member'
+  )
 })
   .middleware('auth:landlordTeamMember')
   .middleware('checkForCompleteLandlordTeamMemberAccountSetup')

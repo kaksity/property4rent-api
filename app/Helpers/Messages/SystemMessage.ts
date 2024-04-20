@@ -74,6 +74,8 @@ export const LANDLORD_TEAM_MEMBERS_LIST_FETCH_SUCCESSFULLY =
   'Landlord team members retrieved successfully'
 export const LANDLORD_TEAM_MEMBER_FETCH_SUCCESSFULLY = 'Landlord team member retrieved successfully'
 export const LANDLORD_TEAM_MEMBER_NOT_FOUND = 'Landlord team member does not exist'
+export const LANDLORD_TEAM_INVITE_SENT_SUCCESSFULLY =
+  'Landlord team member invite was sent successfully'
 
 export const TENANT_SHOP_UNIT_RENT_LIST_FETCH_SUCCESSFUL = 'Tenant shop rent retrieved successfully'
 
@@ -85,6 +87,10 @@ export const SEND_LANDLORD_ACCOUNT_ACTIVATION_EMAIL_SUBJECT =
   'Landlord Account Activation - OTP Verification'
 export const SEND_LANDLORD_ACCOUNT_ACTIVATION_EMAIL_TEMPLATE =
   'emails/landlord/landlord_account_activation_email_template'
+
+export const SEND_NEW_LANDLORD_INVITE_EMAIL_SUBJECT = 'Invitation to Join the Landlord Team'
+export const SEND_NEW_LANDLORD_INVITE_EMAIL_TEMPLATE =
+  'emails/landlord/send_new_landlord_invite_email_template'
 
 export const SEND_LANDLORD_ACCOUNT_PASSWORD_RESET_EMAIL_SUBJECT =
   'Landlord Account - Password Reset OTP'

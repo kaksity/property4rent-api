@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landlord Team Member Invitation</title>
+<style>
+  /* Add your custom styles here */
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    color: #333;
+  }
+
+  p {
+    color: #666;
+  }
+
+  .credentials {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .credentials p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .signature {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Landlord Team Member Invitation</h1>
+    <p>Dear {{ recipientName }},</p>
+    <p>You have been invited by {{ landlordName }} to join the the team team. Below are your login credentials:</p>
+    <div class="credentials">
+      <p>Email: <strong>{{ landlordTeamMemberEmail }}</strong></p>
+      <p>Role: <strong>{{ landlordTeamMemberRole }}</strong></p>
+      <p>Password: <strong>{{ landlordTeamMemberPassword }}</strong></p>
+    </div>
+    <p>Please keep your credentials secure and do not share them with anyone. You can log in to your account using the provided email and password.</p>
+    <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+    <div class="signature">
+      <p>Best regards,</p>
+      <p>
+        {{ sentenceCase(env('PROPERTY_MANAGEMENT_COMPANY')) }} Team
+      </p>
+    </div>
+  </div>
+</body>
+</html>
