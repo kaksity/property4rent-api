@@ -70,6 +70,11 @@ export const SHOP_UNIT_NOT_ASSIGNED_TO_TENANT = 'This shop unit was not assigned
 export const TENANT_HOUSE_UNIT_RENT_LIST_FETCH_SUCCESSFUL =
   'Tenant House rent retrieved successfully'
 
+export const LANDLORD_TEAM_MEMBERS_LIST_FETCH_SUCCESSFULLY =
+  'Landlord team members retrieved successfully'
+export const LANDLORD_TEAM_MEMBER_FETCH_SUCCESSFULLY = 'Landlord team member retrieved successfully'
+export const LANDLORD_TEAM_MEMBER_NOT_FOUND = 'Landlord team member does not exist'
+
 export const TENANT_SHOP_UNIT_RENT_LIST_FETCH_SUCCESSFUL = 'Tenant shop rent retrieved successfully'
 
 export const SEND_WELCOME_NEW_LANDLORD_EMAIL_SUBJECT = 'Welcome to Property4Rent'
