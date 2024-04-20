@@ -12,6 +12,7 @@ import {
 } from 'App/Helpers/Messages/SystemMessage'
 import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
+import { COMPLETE_TENANT_WALLET_SETUP_JOB } from 'App/Typechecking/JobManagement/FinanceJobTypes'
 import {
   SEND_TENANT_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
   SEND_WELCOME_NEW_TENANT_NOTIFICATION_JOB,
@@ -109,6 +110,13 @@ export default class CreateNewTenantController {
 
       await QueueClient.addJobToQueue({
         jobIdentifier: SEND_TENANT_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
+        jobPayload: {
+          tenantId: tenant.id,
+        },
+      })
+
+      await QueueClient.addJobToQueue({
+        jobIdentifier: COMPLETE_TENANT_WALLET_SETUP_JOB,
         jobPayload: {
           tenantId: tenant.id,
         },

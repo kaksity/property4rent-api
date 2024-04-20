@@ -1,0 +1,12 @@
+import UpdateRecordGeneric from 'App/Typechecking/GeneralPurpose/UpdateRecordGeneric'
+import TenantWalletInterface from 'App/Typechecking/ModelManagement/TenantWallet/TenantWalletInterface'
+import TenantWalletRecordIdentifierOptions from 'App/Typechecking/ModelManagement/TenantWallet/TenantWalletRecordIdentifierOptions'
+
+type UpdateTenantWalletPayloadOptions = Partial<TenantWalletInterface>
+
+type UpdateTenantWalletRecordOptions = UpdateRecordGeneric<
+  UpdateTenantWalletPayloadOptions,
+  TenantWalletRecordIdentifierOptions
+>
+
+export default UpdateTenantWalletRecordOptions

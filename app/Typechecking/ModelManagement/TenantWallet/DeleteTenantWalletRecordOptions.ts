@@ -1,0 +1,6 @@
+import DeleteRecordGeneric from 'App/Typechecking/GeneralPurpose/DeleteRecordGeneric'
+import TenantWalletRecordIdentifierOptions from 'App/Typechecking/ModelManagement/TenantWallet/TenantWalletRecordIdentifierOptions'
+
+type DeleteTenantWalletRecordOptions = DeleteRecordGeneric<TenantWalletRecordIdentifierOptions>
+
+export default DeleteTenantWalletRecordOptions

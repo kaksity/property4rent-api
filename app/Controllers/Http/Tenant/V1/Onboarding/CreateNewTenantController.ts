@@ -15,6 +15,7 @@ import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import { SEND_TENANT_ACCOUNT_ACTIVATION_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
 import CreateNewTenantValidator from 'App/Validators/Tenant/V1/Onboarding/CreateNewTenantValidator'
 import businessConfig from 'Config/businessConfig'
+import { COMPLETE_TENANT_WALLET_SETUP_JOB } from 'App/Typechecking/JobManagement/FinanceJobTypes'
 
 export default class CreateNewTenantController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
@@ -85,6 +86,13 @@ export default class CreateNewTenantController {
 
       await QueueClient.addJobToQueue({
         jobIdentifier: SEND_TENANT_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
+        jobPayload: {
+          tenantId: tenant.id,
+        },
+      })
+
+      await QueueClient.addJobToQueue({
+        jobIdentifier: COMPLETE_TENANT_WALLET_SETUP_JOB,
         jobPayload: {
           tenantId: tenant.id,
         },

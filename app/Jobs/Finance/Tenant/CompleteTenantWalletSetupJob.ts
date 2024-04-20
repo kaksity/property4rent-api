@@ -1,10 +1,10 @@
 import { JobContract } from '@ioc:Rocketseat/Bull'
 import ApplicationSettingsAction from 'App/Actions/ApplicationSettingsActions'
-import LandlordActions from 'App/Actions/LandlordActions'
-import LandlordWalletActions from 'App/Actions/LandlordWalletActions'
+import TenantActions from 'App/Actions/TenantActions'
+import TenantWalletActions from 'App/Actions/TenantWalletActions'
 import JobQueueException from 'App/Exceptions/JobQueueException'
 import { NULL_OBJECT } from 'App/Helpers/Messages/SystemMessage'
-import { COMPLETE_LANDLORD_WALLET_SETUP_JOB } from 'App/Typechecking/JobManagement/FinanceJobTypes'
+import { COMPLETE_TENANT_WALLET_SETUP_JOB } from 'App/Typechecking/JobManagement/FinanceJobTypes'
 
 /*
 |--------------------------------------------------------------------------
@@ -18,28 +18,28 @@ import { COMPLETE_LANDLORD_WALLET_SETUP_JOB } from 'App/Typechecking/JobManageme
 | https://docs.bullmq.io/
 */
 
-export default class CompleteLandlordWalletSetupJob implements JobContract {
-  public key = COMPLETE_LANDLORD_WALLET_SETUP_JOB
+export default class CompleteTenantWalletSetupJob implements JobContract {
+  public key = COMPLETE_TENANT_WALLET_SETUP_JOB
 
   public async handle(job) {
-    const { landlordId } = job.data
+    const { tenantId } = job.data
 
-    const landlord = await LandlordActions.getLandlordRecord({
+    const tenant = await TenantActions.getTenantRecord({
       identifierType: 'id',
-      identifier: landlordId,
+      identifier: tenantId,
     })
 
-    if (landlord === NULL_OBJECT) {
-      throw new JobQueueException(`Landlord with id ${landlordId} does not exists`)
+    if (tenant === NULL_OBJECT) {
+      throw new JobQueueException(`Tenant with id ${tenantId} does not exists`)
     }
 
-    const landlordWallet = await LandlordWalletActions.getLandlordWalletRecord({
-      identifierType: 'landlordId',
-      identifier: landlord.id,
+    const tenantWallet = await TenantWalletActions.getTenantWalletRecord({
+      identifierType: 'tenantId',
+      identifier: tenant.id,
     })
 
-    if (landlordWallet !== NULL_OBJECT) {
-      throw new JobQueueException('Landlord wallet account was already setup')
+    if (tenantWallet !== NULL_OBJECT) {
+      throw new JobQueueException('Tenant wallet account was already setup')
     }
 
     const applicationSettings = await ApplicationSettingsAction.getApplicationSettings()
@@ -66,12 +66,12 @@ export default class CompleteLandlordWalletSetupJob implements JobContract {
     //   )
     // }
 
-    await LandlordWalletActions.createLandlordWalletRecord({
+    await TenantWalletActions.createTenantWalletRecord({
       createPayload: {
-        landlordId: landlord.id,
-        walletAccountNumber: LandlordWalletActions.generateLandlordWalletAccountNumber(),
-        walletBalance: applicationSettings.initialLandlordWalletBalance,
-        totalInflow: applicationSettings.initialLandlordWalletBalance,
+        tenantId: tenant.id,
+        walletAccountNumber: TenantWalletActions.generateTenantWalletAccountNumber(),
+        walletBalance: applicationSettings.initialTenantWalletBalance,
+        totalInflow: applicationSettings.initialTenantWalletBalance,
         totalOutflow: 0,
         providerAccountName: null,
         providerAccountNumber: null,

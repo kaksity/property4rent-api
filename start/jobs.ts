@@ -10,6 +10,8 @@ const jobs = [
   'App/Jobs/Notifications/Tenant/SendAssignTenantToShopUnitNotificationJob',
   'App/Jobs/Notifications/Tenant/SendRevokeTenantFromHouseUnitNotificationJob',
   'App/Jobs/Notifications/Tenant/SendRevokeTenantFromShopUnitNotificationJob',
+  'App/Jobs/Finance/Landlord/CompleteLandlordWalletSetupJob',
+  'App/Jobs/Finance/Tenant/CompleteTenantWalletSetupJob',
 ]
 
 export default jobs
