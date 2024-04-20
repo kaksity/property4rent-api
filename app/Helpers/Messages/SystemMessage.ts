@@ -59,6 +59,8 @@ export const SHOP_UNIT_UPDATE_SUCCESSFUL = 'Shop unit updated successfully'
 export const SHOP_UNIT_ALREADY_ASSIGNED_TO_TENANT =
   'Shop unit has already been assigned to a tenant'
 export const SHOP_UNIT_ALREADY_EMPTY = 'Shop unit is currently empty'
+export const WALLET_DETAILS_FETCH_SUCCESSFUL = 'Wallet details retrieved successfully'
+export const SET_WALLET_PIN_SUCCESSFUL = 'Set wallet pin was successful'
 
 export const TENANT_HOUSE_RENT_ASSIGNED_SUCCESSFULLY = 'Tenant House rent was assigned successfully'
 export const TENANT_HOUSE_RENT_REVOKED_SUCCESSFULLY = 'Tenant House rent was revoked successfully'

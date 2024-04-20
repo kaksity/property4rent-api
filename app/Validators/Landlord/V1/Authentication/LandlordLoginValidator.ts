@@ -8,7 +8,7 @@ export default class LandlordLoginValidator {
     email: schema.string({ trim: true, escape: true }, [
       rules.email(),
       rules.exists({
-        table: 'landlords',
+        table: 'landlord_team_members',
         column: 'email',
       }),
     ]),
