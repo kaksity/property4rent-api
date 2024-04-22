@@ -61,6 +61,7 @@ export default class FetchLandlordTeamMembersController {
           first_name: landlordTeamMember.firstName,
           last_name: landlordTeamMember.lastName,
           email: landlordTeamMember.email,
+          role: landlordTeamMember.role,
           last_login_date: landlordTeamMember.lastLoginDate,
         }
       })
