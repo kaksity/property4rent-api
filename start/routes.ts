@@ -1,6 +1,8 @@
 import './Http'
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', function ({ view }) {
-  return view.render('emails/welcome_landlord_email_template')
+Route.get('/', function ({ response }) {
+  return response.ok({
+    message: 'Welcome to property4rent api',
+  })
 })
