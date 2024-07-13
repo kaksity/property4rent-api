@@ -2,7 +2,6 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import LandlordActions from 'App/Actions/LandlordActions'
 import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
-import SubscriptionPlanActions from 'App/Actions/SubscriptionPlanActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import generateRandomString from 'App/Helpers/Functions/generateRandomString'
 import {
@@ -51,13 +50,7 @@ export default class CreateNewLandlordController {
         password,
         organization_name: organizationName,
         organization_address: organizationAddress,
-        subscription_plan_identifier: subscriptionPlanIdentifier,
       } = request.body()
-
-      const subscriptionPlan = await SubscriptionPlanActions.getSubscriptionPlanRecord({
-        identifierType: 'identifier',
-        identifier: subscriptionPlanIdentifier,
-      })
 
       const mutatedName = mutateOrganizationName(organizationName)
 
@@ -66,7 +59,6 @@ export default class CreateNewLandlordController {
           name: organizationName,
           address: organizationAddress,
           mutatedName,
-          subscriptionPlanId: subscriptionPlan!.id,
         },
         dbTransactionOptions: {
           useTransaction: true,
@@ -135,16 +127,21 @@ export default class CreateNewLandlordController {
         },
       })
 
+      const existingLandlordMember = await LandlordTeamMemberActions.getLandlordTeamMemberRecord({
+        identifierType: 'id',
+        identifier: landlordTeamMember.id,
+      })
+
       const mutatedLandlordPayload = {
-        identifier: landlordTeamMember.identifier,
-        first_name: landlordTeamMember.firstName,
-        last_name: landlordTeamMember.lastName,
-        email: landlordTeamMember.email,
-        phone_number: landlordTeamMember.phoneNumber,
+        identifier: existingLandlordMember!.identifier,
+        first_name: existingLandlordMember!.firstName,
+        last_name: existingLandlordMember!.lastName,
+        email: existingLandlordMember!.email,
+        phone_number: existingLandlordMember!.phoneNumber,
         meta: {
-          has_activated_account: landlordTeamMember.hasActivatedAccount,
-          has_verified_account: landlordTeamMember.isAccountVerified,
-          created_at: landlordTeamMember.createdAt,
+          has_activated_account: existingLandlordMember!.hasActivatedAccount,
+          has_verified_account: existingLandlordMember!.isAccountVerified,
+          created_at: existingLandlordMember!.createdAt,
         },
       }
 

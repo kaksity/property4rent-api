@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('identifier').index()
-      table.integer('subscription_plan_id').index()
+      table.integer('subscription_plan_id').nullable().index()
       table.string('name')
       table.string('mutated_name')
       table.string('address')

@@ -96,6 +96,11 @@ export default class LandlordLoginController {
           status: ERROR,
           status_code: this.unauthorized,
           message: ACCOUNT_VERIFICATION_IS_REQUIRED,
+          meta: {
+            has_activated_account: landlordTeamMember!.hasActivatedAccount,
+            is_account_verified: landlordTeamMember!.isAccountVerified,
+            is_account_locked: landlordTeamMember!.isAccountLocked,
+          },
         })
       }
 

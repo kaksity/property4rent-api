@@ -24,12 +24,6 @@ export default class CreateNewLandlordValidator {
     ]),
     organization_name: schema.string({ trim: true, escape: true }),
     organization_address: schema.string({ trim: true, escape: true }),
-    subscription_plan_identifier: schema.string({ trim: true, escape: true }, [
-      rules.exists({
-        table: 'subscription_plans',
-        column: 'identifier',
-      }),
-    ]),
   })
 
   public messages: CustomMessages = {
@@ -46,7 +40,5 @@ export default class CreateNewLandlordValidator {
     'password.maxLength': 'Password must not exceed 20 characters',
     'organization_name.required': 'Organization name is required',
     'organization_address.required': 'Organization address is required',
-    'subscription_plan_identifier.required': 'Subscription plan is required',
-    'subscription_plan_identifier.exists': 'Subscription plan does not exists',
   }
 }
