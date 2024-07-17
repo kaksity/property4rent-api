@@ -11,7 +11,6 @@ import {
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
-  ACCOUNT_VERIFICATION_IS_REQUIRED,
   ACCOUNT_IS_LOCKED,
   NOT_APPLICABLE,
 } from 'App/Helpers/Messages/SystemMessage'
@@ -89,17 +88,6 @@ export default class LandlordLoginController {
           jobIdentifier: SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
           jobPayload: {
             landlordTeamMemberId: landlordTeamMember!.id,
-          },
-        })
-
-        return response.status(this.unauthorized).json({
-          status: ERROR,
-          status_code: this.unauthorized,
-          message: ACCOUNT_VERIFICATION_IS_REQUIRED,
-          meta: {
-            has_activated_account: landlordTeamMember!.hasActivatedAccount,
-            is_account_verified: landlordTeamMember!.isAccountVerified,
-            is_account_locked: landlordTeamMember!.isAccountLocked,
           },
         })
       }

@@ -1,5 +1,4 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import generateRandomString from 'App/Helpers/Functions/generateRandomString'
 import {
@@ -7,42 +6,24 @@ import {
   ERROR,
   SOMETHING_WENT_WRONG,
   SUCCESS,
-  VALIDATION_ERROR,
   ACCOUNT_ALREADY_ACTIVATED,
 } from 'App/Helpers/Messages/SystemMessage'
 import QueueClient from 'App/InfrastructureProviders/Internals/QueueClient'
 import HttpStatusCodeEnum from 'App/Typechecking/Enums/HttpStatusCodeEnum'
 import { SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB } from 'App/Typechecking/JobManagement/NotificationJobTypes'
-import RequestAccountActivationOtpTokenValidator from 'App/Validators/Landlord/V1/Onboarding/RequestAccountActivationOtpTokenValidator'
 import businessConfig from 'Config/businessConfig'
 
 export default class RequestAccountActivationOtpTokenController {
   private internalServerError = HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
-  private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
   private ok = HttpStatusCodeEnum.OK
   private created = HttpStatusCodeEnum.CREATED
 
-  public async handle({ request, response }: HttpContextContract) {
+  public async handle({ response, auth }: HttpContextContract) {
     try {
-      try {
-        await request.validate(RequestAccountActivationOtpTokenValidator)
-      } catch (validationError) {
-        return response.unprocessableEntity({
-          status: ERROR,
-          message: VALIDATION_ERROR,
-          status_code: this.unprocessableEntity,
-          results: validationError.messages,
-        })
-      }
 
-      const { email } = request.body()
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
-      const landlordTeamMember = await LandlordTeamMemberActions.getLandlordTeamMemberRecord({
-        identifierType: 'email',
-        identifier: email,
-      })
-
-      if (landlordTeamMember!.hasActivatedAccount === 'Yes') {
+      if (loggedInLandlordTeamMember.hasActivatedAccount === 'Yes') {
         return response.ok({
           status: SUCCESS,
           status_code: this.ok,
@@ -50,7 +31,7 @@ export default class RequestAccountActivationOtpTokenController {
         })
       }
 
-      await OtpTokenActions.revokeOtpTokens(landlordTeamMember!.id)
+      await OtpTokenActions.revokeOtpTokens(loggedInLandlordTeamMember.id)
 
       const token = generateRandomString({
         charset: 'numeric',
@@ -60,7 +41,7 @@ export default class RequestAccountActivationOtpTokenController {
 
       await OtpTokenActions.createOtpTokenRecord({
         createPayload: {
-          authorId: landlordTeamMember!.id,
+          authorId: loggedInLandlordTeamMember.id,
           purpose: 'account-activation',
           expiresAt: businessConfig.currentDateTime.plus({
             minutes: businessConfig.otpTokenExpirationTimeFrameInMinutes,
@@ -75,7 +56,7 @@ export default class RequestAccountActivationOtpTokenController {
       await QueueClient.addJobToQueue({
         jobIdentifier: SEND_LANDLORD_ACCOUNT_ACTIVATION_NOTIFICATION_JOB,
         jobPayload: {
-          landlordTeamMemberId: landlordTeamMember!.id,
+          landlordTeamMemberId: loggedInLandlordTeamMember.id,
         },
       })
 

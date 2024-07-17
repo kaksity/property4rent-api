@@ -4,6 +4,7 @@ import LandlordTeamMemberActions from 'App/Actions/LandlordTeamMemberActions'
 import OtpTokenActions from 'App/Actions/OtpTokenActions'
 import {
   ERROR,
+  NOT_APPLICABLE,
   OTP_TOKEN_SUPPLIED_HAS_EXPIRED,
   OTP_TOKEN_SUPPLIED_IS_NOT_VALID,
   SOMETHING_WENT_WRONG,
@@ -21,7 +22,7 @@ export default class VerifyAccountVerificationOtpTokenController {
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
   private ok = HttpStatusCodeEnum.OK
 
-  public async handle({ request, response }: HttpContextContract) {
+  public async handle({ request, response, auth }: HttpContextContract) {
     const dbTransaction = await Database.transaction()
     try {
       try {
@@ -36,19 +37,16 @@ export default class VerifyAccountVerificationOtpTokenController {
         })
       }
 
-      const { email, token } = request.body()
+      const { token } = request.body()
 
-      const landlordTeamMember = await LandlordTeamMemberActions.getLandlordTeamMemberRecord({
-        identifierType: 'email',
-        identifier: email,
-      })
+      const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
       const otpToken = await OtpTokenActions.getOtpTokenRecord({
         identifierType: 'token',
         identifier: token,
       })
 
-      if (otpToken?.authorId !== landlordTeamMember?.id) {
+      if (otpToken?.authorId !== loggedInLandlordTeamMember.id) {
         await dbTransaction.rollback()
         return response.badRequest({
           status: ERROR,
@@ -90,10 +88,10 @@ export default class VerifyAccountVerificationOtpTokenController {
         },
       })
 
-      await LandlordTeamMemberActions.updateLandlordTeamMemberRecord({
+      const updatedLoggedInLandlordTeamMember = await LandlordTeamMemberActions.updateLandlordTeamMemberRecord({
         identifierOptions: {
           identifierType: 'id',
-          identifier: landlordTeamMember!.id,
+          identifier: loggedInLandlordTeamMember.id,
         },
         updatePayload: {
           hasActivatedAccount: true,
@@ -105,10 +103,34 @@ export default class VerifyAccountVerificationOtpTokenController {
       })
 
       await dbTransaction.commit()
+
+      auth.use('landlordTeamMember').revoke()
+
+      const accessToken = await auth.use('landlordTeamMember').login(loggedInLandlordTeamMember, {
+        expiresIn: `${businessConfig.accessTokenExpirationTimeFrameInMinutes} minutes`,
+      })
+
+      const mutatedLandlordPayload = {
+        identifier: updatedLoggedInLandlordTeamMember!.identifier,
+        first_name: updatedLoggedInLandlordTeamMember!.firstName,
+        last_name: updatedLoggedInLandlordTeamMember!.lastName,
+        email: updatedLoggedInLandlordTeamMember!.email,
+        phone_number: updatedLoggedInLandlordTeamMember!.phoneNumber,
+        access_credentials: accessToken,
+        meta: {
+          created_at: updatedLoggedInLandlordTeamMember!.createdAt,
+          last_login_date: updatedLoggedInLandlordTeamMember!.lastLoginDate ?? NOT_APPLICABLE,
+          has_activated_account: updatedLoggedInLandlordTeamMember!.hasActivatedAccount,
+          is_account_verified: updatedLoggedInLandlordTeamMember!.isAccountVerified,
+          is_account_locked: updatedLoggedInLandlordTeamMember!.isAccountLocked,
+        },
+      }
+
       return response.ok({
         status_code: this.ok,
         status: SUCCESS,
         message: VERIFY_ACCOUNT_ACTIVATION_SUCCESSFUL,
+        results: mutatedLandlordPayload,
       })
     } catch (VerifyAccountVerificationOtpTokenControllerError) {
       await dbTransaction.rollback()

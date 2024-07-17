@@ -7,6 +7,8 @@ import generateRandomString from 'App/Helpers/Functions/generateRandomString'
 import {
   ERROR,
   LANDLORD_ACCOUNT_CREATED_SUCCESSFULLY,
+  NOT_APPLICABLE,
+  NULL_OBJECT,
   SOMETHING_WENT_WRONG,
   SUCCESS,
   VALIDATION_ERROR,
@@ -27,7 +29,7 @@ export default class CreateNewLandlordController {
   private unprocessableEntity = HttpStatusCodeEnum.UNPROCESSABLE_ENTITY
   private created = HttpStatusCodeEnum.CREATED
 
-  public async handle({ request, response }: HttpContextContract) {
+  public async handle({ request, response, auth }: HttpContextContract) {
     const dbTransaction = await Database.transaction()
     try {
       try {
@@ -132,16 +134,31 @@ export default class CreateNewLandlordController {
         identifier: landlordTeamMember.id,
       })
 
+      if(existingLandlordMember === NULL_OBJECT) {
+        return response.internalServerError({
+          status: ERROR,
+          status_code: this.internalServerError,
+          message: SOMETHING_WENT_WRONG,
+        })
+      }
+
+      const accessToken = await auth.use('landlordTeamMember').login(existingLandlordMember, {
+        expiresIn: `${businessConfig.accessTokenExpirationTimeFrameInMinutes} minutes`,
+      })
+
       const mutatedLandlordPayload = {
-        identifier: existingLandlordMember!.identifier,
-        first_name: existingLandlordMember!.firstName,
-        last_name: existingLandlordMember!.lastName,
-        email: existingLandlordMember!.email,
-        phone_number: existingLandlordMember!.phoneNumber,
+        identifier: existingLandlordMember.identifier,
+        first_name: existingLandlordMember.firstName,
+        last_name: existingLandlordMember.lastName,
+        email: existingLandlordMember.email,
+        phone_number: existingLandlordMember.phoneNumber,
+        access_credentials: accessToken,
         meta: {
-          has_activated_account: existingLandlordMember!.hasActivatedAccount,
-          has_verified_account: existingLandlordMember!.isAccountVerified,
-          created_at: existingLandlordMember!.createdAt,
+          created_at: existingLandlordMember.createdAt,
+          last_login_date: existingLandlordMember.lastLoginDate ?? NOT_APPLICABLE,
+          has_activated_account: existingLandlordMember.hasActivatedAccount,
+          is_account_verified: existingLandlordMember.isAccountVerified,
+          is_account_locked: existingLandlordMember.isAccountLocked,
         },
       }
 
