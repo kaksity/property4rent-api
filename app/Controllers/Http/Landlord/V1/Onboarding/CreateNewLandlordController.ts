@@ -134,7 +134,7 @@ export default class CreateNewLandlordController {
         identifier: landlordTeamMember.id,
       })
 
-      if(existingLandlordMember === NULL_OBJECT) {
+      if (existingLandlordMember === NULL_OBJECT) {
         return response.internalServerError({
           status: ERROR,
           status_code: this.internalServerError,
