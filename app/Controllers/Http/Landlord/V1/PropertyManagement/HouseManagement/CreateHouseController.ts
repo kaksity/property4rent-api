@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import HouseActions from 'App/Actions/HouseActions'
 import HouseInformationActions from 'App/Actions/HouseInformationActions'
+import SettingsLgaActions from 'App/Actions/SettingsLgaActions'
 import {
   ERROR,
   HOUSE_CREATE_SUCCESSFUL,
@@ -32,7 +33,14 @@ export default class CreateHouseController {
         })
       }
 
-      const { description } = request.body()
+      const {
+        description,
+        lga_identifier: lgaIdentifier,
+        area,
+        nearest_landmark: nearestLandmark,
+        longitude,
+        latitude,
+      } = request.body()
 
       const loggedInLandlordTeamMember = auth.use('landlordTeamMember').user!
 
@@ -47,9 +55,20 @@ export default class CreateHouseController {
         },
       })
 
+      const lga = await SettingsLgaActions.getSettingsLgaRecord({
+        identifierType: 'identifier',
+        identifier: lgaIdentifier,
+      })
+
       await HouseInformationActions.createHouseInformationRecord({
         createPayload: {
           houseId: house.id,
+          stateId: lga!.stateId,
+          lgaId: lga!.id,
+          area,
+          nearestLandmark,
+          longitude,
+          latitude,
         },
         dbTransactionOptions: {
           useTransaction: true,
